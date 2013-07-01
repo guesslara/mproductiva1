@@ -19,7 +19,7 @@ class catalogo{
 	
 	public function formcatalogos(){	
 		$prefijo="SAT_";
-		$excepciones_tablas=array("");
+		$excepciones_tablas=array("SAT_ACTIVIDAD","SAT_PROCESO","SAT_PROYECTO");
 	        $excepciones_campos=array("");
 		$largo_prefijo=strlen($prefijo);
 		//print($prefijo);
@@ -37,9 +37,13 @@ class catalogo{
 			//echo "conectado";
 			if ($result = mysql_query($Sql,$link)){
 				while($Rs = mysql_fetch_array($result)) {  				
-				       if (substr($Rs[0],0,$largo_prefijo)==$prefijo){
-				 	// Agrego la tabla al arreglo.
-					array_push($matriz_tablas,$Rs[0]);
+					if (substr($Rs[0],0,$largo_prefijo)==$prefijo){
+						// Agrego la tabla al arreglo.
+						if($Rs[0]!="SAT_ACTIVIDAD" && $Rs[0]!="SAT_PROCESO" && $Rs[0]!="SAT_PROYECTO"){
+						//echo "<script type='text/javascript'> alert('".$Rs[0]."'); </script>";
+					
+						array_push($matriz_tablas,$Rs[0]);
+						}
 				        }
 			        }
 		        }
