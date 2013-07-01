@@ -25,7 +25,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		redimensionar();
-		listarProyectos('<?=$_SESSION[$txtApp['session']['idUsuario']];?>','consulta');
+		listarProyectos('<?=$_SESSION[$txtApp['session']['idUsuario']];?>','consulta','Activo');
 		//mostrarFormMetrica(9);
 	});
 	

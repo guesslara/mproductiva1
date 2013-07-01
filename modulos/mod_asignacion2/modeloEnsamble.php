@@ -207,7 +207,7 @@
 				$sqlElimina="DELETE FROM ASIG_PRO WHERE id_empleado='".$no_empleado."' AND id_proyecto='".$idOrigen."'";
 				$resElimina=mysql_query($sqlElimina,$this->conectarBd());
 				if($resElimina){
-					echo "<script type='text/javascript'> alert('Registro Eliminado'); listarProyectos('".$idUsuario."','consulta'); </script>";
+					echo "<script type='text/javascript'> alert('Registro Eliminado'); listarProyectos('".$idUsuario."','consulta','Activo'); </script>";
 				}else{
 					echo "<script type='text/javascript'> alert('Error al eliminar el Registro'); </script>";
 				}
@@ -256,7 +256,7 @@
 				 $resAsig=mysql_query($sqlAsig,$this->conectarBd());
 				 if($resAsig){
 					echo "<br>Registro Guardado";
-					echo "<script type='text/javascript'> alert('Asignacion guardada'); cerrarVentana('ventanaDialogo'); listarProyectos('".$idUsuario."','consulta');</script>";
+					echo "<script type='text/javascript'> alert('Asignacion guardada'); cerrarVentana('ventanaDialogo'); listarProyectos('".$idUsuario."','consulta','Activo');</script>";
 				 }else{
 					    echo "<br>Error al Guardar la Asignacion";
 				 }
@@ -760,26 +760,30 @@
 			}			
 		}
 		
-		public function listarProyectos($idUsuario,$opProy){
-			if($opProy=='consulta'){
-				$sqlConsult="SELECT * FROM SAT_PROYECTO INNER JOIN SAT_PAIS ON SAT_PROYECTO.id_pais = SAT_PAIS.id_pais WHERE SAT_PROYECTO.status = 'Activo' ORDER BY id_proyecto DESC";	
-			}else{
-				$sqlConsult="SELECT * FROM SAT_PROYECTO INNER JOIN SAT_PAIS ON SAT_PROYECTO.id_pais = SAT_PAIS.id_pais ORDER BY id_proyecto DESC";
-			}
-			
+		public function listarProyectos($idUsuario,$opProy,$status){
+			$sqlConsult="SELECT * FROM SAT_PROYECTO INNER JOIN SAT_PAIS ON SAT_PROYECTO.id_pais = SAT_PAIS.id_pais WHERE SAT_PROYECTO.status = '".$status."' ORDER BY id_proyecto DESC";	
 			$resulta=@mysql_query($sqlConsult,$this->conectarBd()) or die(mysql_error());
 			if($idUsuario==1 && $opProy=="consulta"||$idUsuario==0 && $opProy=="consulta"){
 ?>
 			<div id="barraAPry" style="height: 36px;background: #666;padding: 3px;display:block;">
 				<div class="opcionesEnsamble" onclick="limpiaDivs('contenido12','contenido13');nuevoProyecto('<?=$idUsuario?>')" title="Nuevo">Nuevo Proyecto</div>				
-				<div class="opcionesEnsamble" onclick="limpiaDivs('contenido12','contenido13');listarProyectos('<?=$idUsuario?>','modifica');" title="Modificar">Modificar Proyecto</div>	
+				<div class="opcionesEnsamble" onclick="limpiaDivs('contenido12','contenido13');listarProyectos('<?=$idUsuario?>','modifica','<?=$status?>');" title="Modificar">Modificar Proyecto</div>	
+				<div class="filtro">
+					<select id="statusFiltroPy" name="statusFiltroPy" onchange="verProyectosS('<?=$idUsuario?>');" style="font-size:12px;">
+						<option value="<?=$status?>"><?=strtoupper($status).S?></option>
+						<?if($status=="Activo"){?>
+							<option value="Inactivo">INACTIVOS</option>
+						<?}else{?>
+							<option value="Activo">ACTIVOS</option>
+						<?}?>
+					</select></div>
 			</div><?}?>
 			<div id="tituloHacer" style="height:15px; width:98%;font-size:12px;text-align:center;margin-button:5px;clear:both;font-weight: bold;"><?=strtoupper($opProy);?> PROYECTOS</div>			
 			<div id="nuevoProyecto" style="border: 1px solid #CCC;margin: 3px;background: #f0f0f0;margin-bottom: 10px;"></div>	
 			<?
 			if($opProy=="modifica"){
 				?><div id="barraTer" style="height: 36px;background: #fff;padding: 3px;clear:both;">
-					<div class="opcionesEnsambleter" onclick="limpiaDivs('contenido12','contenido13');listarProyectos('<?=$idUsuario?>','consulta')" title="Consultar">Terminar Edición</div>	
+					<div class="opcionesEnsambleter" onclick="limpiaDivs('contenido12','contenido13');listarProyectos('<?=$idUsuario?>','consulta','<?=$status?>')" title="Consultar">Terminar Edición</div>	
 			</div>
 				<?
 			}
@@ -793,18 +797,19 @@
 					$resResp=mysql_query($sqlResp,$this->conectarBd());		
 					if($opProy=="consulta"){
 						$titleP="Ver procesos del proyecto";
-						$onclickP="listarProcesos('".$row["id_proyecto"]."','".$idUsuario."','consulta');";
+						$onclickP="listarProcesos('".$row["id_proyecto"]."','".$idUsuario."','consulta','Activo');";
 					}else{
 						$titleP="Modifica detalles del proceso";
-						$onclickP="formActPry('".$row["id_proyecto"]."','".$idUsuario."')";
+						$onclickP="formActPry('".$row["id_proyecto"]."','".$idUsuario."','".$status."')";
 					}
 ?>
 
-			      <div class="resultadosAvisos" style="height: auto;width: 98.5%;margin: 2px; background: <?=$color?>;" title="<?=$titleP?>" onclick="<?=$onclickP?>">
+			      <div class="resultadosAvisos" style="height: auto;width: 98.5%;margin: 2px; background: <?=$color?>; position:relative;" title="<?=$titleP?>" onclick="<?=$onclickP?>">
+			      	<?if($status=='Inactivo'){?><div class="nuevoStyle">Inactivo</div><?}?>
 				 <table border="0" cellpadding="1" cellspacing="1" width="98%" style="font-size: 10px;">
 					    <tr>
 						       <td width="10%" style="font-size: 12px;font-weight: bold;">Proyecto:</td>
-						       <td width="88%" style="font-size: 12px;font-weight: bold;"><?=$row["nom_proyecto"];?></td>
+						       <td width="78%" style="font-size: 12px;font-weight: bold;"><?=$row["nom_proyecto"];?></td>
 					    </tr>
 					    <tr>
 						       <td>Descripci&oacute;n:</td>
@@ -1201,12 +1206,12 @@
 			$newPry="INSERT INTO SAT_PROYECTO (nom_proyecto, descripcion, fecha_inicio, fecha_fin, status,id_pais,Observaciones) VALUES ('".$nomPry."','".$descPry."','".$fechaIni."','".$fechaFin."','".$stat."','".$pais."','".$obsPry."')";
 			$exeNewP=mysql_query($newPry,$this->conectarBd());
 			if($exeNewP==false){
-				?><script type="text/javascript">alert("No se pudo agregar Nuevo Proyecto intente mas tarde");cancelarCapturaProceso();listarProyectos('<?=$idUsuario?>','consulta');</script><?
+				?><script type="text/javascript">alert("No se pudo agregar Nuevo Proyecto intente mas tarde");cancelarCapturaProceso();listarProyectos('<?=$idUsuario?>','consulta','Activo');</script><?
 			}else{
-				?><script type="text/javascript">alert("Proyecto Agregado con exito");cancelarCapturaProceso();listarProyectos('<?=$idUsuario?>','consulta');</script><?				
+				?><script type="text/javascript">alert("Proyecto Agregado con exito");cancelarCapturaProceso();listarProyectos('<?=$idUsuario?>','consulta','Activo');</script><?				
 			}
 		}
-		public function formActPry($idProyecto,$idUsuario){
+		public function formActPry($idProyecto,$idUsuario,$statusFPry){
 			$modPry="SELECT * FROM SAT_PROYECTO WHERE id_proyecto='".$idProyecto."'";
 			$exePry=mysql_query($modPry,$this->conectarBd());
 			$fetPry=mysql_fetch_array($exePry);
@@ -1221,26 +1226,26 @@
 				</tr>
 				<tr>
 					<td>Fecha Inicio</td>
-					<td><input type="text" name="fechaInicioA" id="fechaInicioA" style="width:165px;" value="<?=$fetPry["fecha_inicio"]?>"readonly/><input type="button" id="lanzador1" value="..." />
+					<td><input type="text" name="fechaInicioA" id="fechaInicioA" style="width:165px;" value="<?=$fetPry["fecha_inicio"]?>"readonly/><input type="button" id="lanzador1A" value="..." />
 									    <!-- script que define y configura el calendario-->
 									    <script type="text/javascript">
 										    Calendar.setup({
-											    inputField     :    "fechaInicio",      // id del campo de texto
+											    inputField     :    "fechaInicioA",      // id del campo de texto
 											    ifFormat       :    "%Y-%m-%d",       // formato de la fecha, cuando se escriba en el campo de texto
-											    button         :    "lanzador1"   // el id del botón que lanzará el calendario
+											    button         :    "lanzador1A"   // el id del botón que lanzará el calendario
 										    });
 									    </script>
 						</td>
 				</tr>
 								<tr>
 					<td>Fecha Fin</td>
-					<td><input type="text" name="fechaFinA" id="fechaFinA" style="width:165px;" value="<?=$fetPry["fecha_fin"]?>"readonly/><input type="button" id="lanzador2" value="..." />
+					<td><input type="text" name="fechaFinA" id="fechaFinA" style="width:165px;" value="<?=$fetPry["fecha_fin"]?>"readonly/><input type="button" id="lanzador2A" value="..." />
 									    <!-- script que define y configura el calendario-->
 									    <script type="text/javascript">
 										    Calendar.setup({
-											    inputField     :    "fechaFin",      // id del campo de texto
+											    inputField     :    "fechaFinA",      // id del campo de texto
 											    ifFormat       :    "%Y-%m-%d",       // formato de la fecha, cuando se escriba en el campo de texto
-											    button         :    "lanzador2"   // el id del botón que lanzará el calendario
+											    button         :    "lanzador2A"   // el id del botón que lanzará el calendario
 										    });
 									    </script>
 						</td>
@@ -1284,7 +1289,7 @@
 				</tr>
 				<tr>
 					<td style="text-align: right" colspan=2>
-						<input type="button" onclick="cancelarCapturaProceso()" value="Cancelar"><input type="button" onclick="ActualizarProyecto('<?=$idProyecto?>','<?=$idUsuario;?>','<?=$fetPry['status']?>')" value="Actualizar Proyecto">
+						<input type="button" onclick="cancelarCapturaProceso()" value="Cancelar"><input type="button" onclick="ActualizarProyecto('<?=$idProyecto?>','<?=$idUsuario;?>','<?=$fetPry['status']?>','<?=$statusFPry?>')" value="Actualizar Proyecto">
 					</td>
 				</tr>
 				<tr>
@@ -1294,11 +1299,11 @@
 <?
 		}
 
-		public function ActualizarProyecto($nomPry,$descPry,$fechaIni,$fechaFin,$pais,$stat,$obsPry,$idUsuario,$idProyecto,$statActual){
+		public function ActualizarProyecto($nomPry,$descPry,$fechaIni,$fechaFin,$pais,$stat,$obsPry,$idUsuario,$idProyecto,$statActual,$statusFiltroPy){
 			$actPry="UPDATE SAT_PROYECTO SET nom_proyecto='".$nomPry."', descripcion='".$descPry."',fecha_inicio='".$fechaIni."',fecha_fin='".$fechaFin."',status='".$stat."',id_pais='".$pais."',observaciones='".$obsPry."' WHERE id_proyecto='".$idProyecto."'";
 			$exeActPry=mysql_query($actPry,$this->conectarBd());
 			if($exeActPry==false){
-				?><script type="text/javascript">alert("El proyecto no pudo ser actualizado");cancelarCapturaProceso();listarProyectos('<?=$idUsuario?>','consulta');</script><?
+				?><script type="text/javascript">alert("El proyecto no pudo ser actualizado");cancelarCapturaProceso();listarProyectos('<?=$idUsuario?>','consulta','<?=$statusFiltroPy?>');</script><?
 			}else{
 				if($statActual!=$stat){
 					if($stat=="Activo"){
@@ -1327,7 +1332,7 @@
 						}
 					
 				}
-				?><script type="text/javascript">alert("Proyecto modificado con exito");cancelarCapturaProceso();listarProyectos('<?=$idUsuario?>','consulta');</script><?				
+				?><script type="text/javascript">alert("Proyecto modificado con exito");cancelarCapturaProceso();listarProyectos('<?=$idUsuario?>','consulta','<?=$statusFiltroPy;?>');</script><?				
 			}
 		}
 		

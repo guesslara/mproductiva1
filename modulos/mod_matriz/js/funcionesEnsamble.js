@@ -98,7 +98,7 @@ function cambioAj(arrtxs,arrctxs,arrtodo,grupos){
 	pxm=(sumt/labxMes)*100;
 	$("#pxm").attr("value",Math.round(pxm)+" %");
 	cumpli=(pxm/meta)*100;
-	$("#cumpli").attr("value",Math.round(cumpli)+" %");
+	$("#cumpli").attr("value",cumpli+" %");
 	return 1;
 }
 function abrir(div,opcion){

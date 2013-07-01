@@ -77,7 +77,12 @@ function VALIDAR(tabla){
 			alert("Error: El campo ("+campos[i2]+") es obligatorio.");
 			return;
 		}
-		//alert(campos[i2]);		     
+		if(valores[1]==0 || valores[2]==0 || valores[6]==0){
+			alert("Error: Verifique los campos Dias laborales, Jornada laboral, Meta Productiva; deben ser mayores a 0");
+			return;
+		}
+		
+	
 		for (var j=0;j<valores[i2].length;j++){  // recorrido de string para buscar caracteres no validos en la cadena  
 			ubicacion = valores[i2].substring(j, j + 1)
 			//alert(valores[j]);		
@@ -87,16 +92,24 @@ function VALIDAR(tabla){
 				   
 			}else{  
 				alert("ERROR: No se acepta el caracter '" + ubicacion + "'.")  
-				return; 
-			}  
-		}
+				return;
+			}
+		
+		//acaba for valores
 		if (sql_valores==""){
 			sql_valores=campos[i2]+"|||"+valores[i2];
 		} else {
 			sql_valores+="@@@"+campos[i2]+"|||"+valores[i2];
+		
 		}
-                     
+	
+		}
 	}
+		
+                     
+	
+	//alert(sql_valores);
+	//exit;
 	//se recupera los numeros de los dias
 	//var numerosDias=$("#txtDiasSeleccionados").val();
 	//sql_valores=sql_valores+"@@@numerosDias|||"+numerosDias;
@@ -119,9 +132,7 @@ function calcular(){
 		return false;
 	}else{
 		aa=parseInt(a);
-		
 		bb=parseInt(b);
-		
 		cc=parseInt(c);
 		
 		dd=parseFloat(d);
@@ -240,7 +251,7 @@ function verificaMes(){
 	//ajaxApp("calendarioDiasSeleccionados","controladormes.php","action=verMesConfiguracion&mes="+mesVerificar,"POST");
 }
 function agregarDiasSeleccionados(){
-	var diasSel=""; var cuantosDias=0;
+	var diasSel=""; var cuant0osDias=0;
 	for (var i=0;i<document.frmAsignacionMes.elements.length;i++){
 		if (document.frmAsignacionMes.elements[i].type=="checkbox"){
 			if (document.frmAsignacionMes.elements[i].checked){

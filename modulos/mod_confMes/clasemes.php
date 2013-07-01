@@ -228,6 +228,8 @@ class mes{
 			($sql_campos=="")? $sql_campos=$campoX : $sql_campos.=",".$campoX;
 			($sql_valores=="")? $sql_valores=$valorX : $sql_valores.=",'".$valorX."'";
 		}
+		//print_r($valorX); 
+		//print_r($sql_valores); exit;
 		$sql_insertar="INSERT INTO $tab($sql_campos) VALUES ($sql_valores);";
 		//print_r($sql_insertar); exit;
 		$consulta=mysql_query($sql_insertar,$this->conectarBd());
@@ -235,9 +237,7 @@ class mes{
 			echo "<br><b>&nbsp;Registro Insertado Correctamente.</b>";
 			//$idL=mysql_insert_id($this->conectarBd());
 			//print($idL);
-			//exit;
-	       
-			 
+			//exit;	 
 		}
 		else {
 			echo "<br>&nbsp; Error SQL (".mysql_error($link).")<br><br><b>&nbsp;El Registro NO se Inserto.</b>";

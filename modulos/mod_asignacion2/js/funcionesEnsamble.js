@@ -18,8 +18,8 @@ function ajaxApp(divDestino,url,parametros,metodo){
 	error:function() { $("#"+divDestino).show().html('<center>Error: El servidor no responde. <br>Por favor intente mas tarde. </center>'); }
 	});
 }
-function listarProyectos(idUsuario,optProyecto){
-	ajaxApp("contenido11","controladorEnsamble.php","action=listarProyectos&idUsuario="+idUsuario+"&optProyecto="+optProyecto,"POST");
+function listarProyectos(idUsuario,optProyecto,status){
+	ajaxApp("contenido11","controladorEnsamble.php","action=listarProyectos&idUsuario="+idUsuario+"&optProyecto="+optProyecto+"&status="+status,"POST");
 }
 function listarProcesos(idProyecto,idUsuario,opt){
 	ajaxApp("contenido12","controladorEnsamble.php","action=listarProcesos&idProyecto="+idProyecto+"&idUsuario="+idUsuario+"&optPc="+opt,"POST");
@@ -392,14 +392,14 @@ function guardarProyecto(idUsuario){
 		ajaxApp("nuevoProyecto","controladorEnsamble.php","action=guardarProyecto&nombre="+nombre+"&descPry="+descPry+"&fechaInicio="+fechaInicio+"&fechaFin="+fechaFin+"&stat="+stat+"&pais="+pais+"&obsPry="+obsPry+"&idUsuario="+idUsuario,"POST");
 	}	
 }
-function formActPry(idProyecto,idUsuario){
+function formActPry(idProyecto,idUsuario,status){
 	$("#formularioOpciones").show();
 	$("#barraTitulo1VentanaDialogoCapturaFinal").hide();
 	$("#barraTitulo1VentanaDialogoValidacion2").show();
 	$("#contenidoFormularioOpciones").html("");	
-	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=formActPry&idProyecto="+idProyecto+"&idUsuario="+idUsuario,"POST");
+	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=formActPry&idProyecto="+idProyecto+"&idUsuario="+idUsuario+"&status="+status,"POST");
 }
-function ActualizarProyecto(idProyecto,idUsuario,statActual){
+function ActualizarProyecto(idProyecto,idUsuario,statActual,statusFiltroPry){
 	var nombre=$("#nomPryA").val();
 	var fechaInicio=$("#fechaInicioA").val();
 	var fechaFin=$("#fechaFinA").val();
@@ -410,6 +410,11 @@ function ActualizarProyecto(idProyecto,idUsuario,statActual){
 	if(nombre=="" || stat==""|| pais==""||descPry==""){
 		alert("Error debe llenar todos los campos");
 	}else{
-		ajaxApp("nuevoProyecto","controladorEnsamble.php","action=ActualizarProyecto&nombre="+nombre+"&descPry="+descPry+"&fechaInicio="+fechaInicio+"&fechaFin="+fechaFin+"&stat="+stat+"&pais="+pais+"&obsPry="+obsPry+"&idUsuario="+idUsuario+"&idProyecto="+idProyecto+"&statActual="+statActual,"POST");
+		ajaxApp("nuevoProyecto","controladorEnsamble.php","action=ActualizarProyecto&nombre="+nombre+"&descPry="+descPry+"&fechaInicio="+fechaInicio+"&fechaFin="+fechaFin+"&stat="+stat+"&pais="+pais+"&obsPry="+obsPry+"&idUsuario="+idUsuario+"&idProyecto="+idProyecto+"&statActual="+statActual+"&statusPY="+statusFiltroPry,"POST");
 	}	
+}
+function verProyectosS(idUsuario){
+	var statusFiltro=$("#statusFiltroPy").val();
+	var optProyecto='consulta';	
+	ajaxApp("contenido11","controladorEnsamble.php","action=listarProyectos&idUsuario="+idUsuario+"&optProyecto="+optProyecto+"&status="+statusFiltro,"POST");	
 }

@@ -4,7 +4,7 @@
 	//print_r($_POST);
 	switch($_POST['action']){
 		case "listarProyectos":
-			$objAsig->listarProyectos($_POST['idUsuario'],$_POST["optProyecto"]);	
+			$objAsig->listarProyectos($_POST['idUsuario'],$_POST["optProyecto"],$_POST["status"]);	
 		break;
 		case "listarProcesos":
 			$objAsig->listarProcesos($_POST["idProyecto"],$_POST["idUsuario"],$_POST["optPc"]);
@@ -103,10 +103,10 @@
 			$objAsig->guardarProyecto($_POST["nombre"],$_POST["descPry"],$_POST["fechaInicio"],$_POST["fechaFin"],$_POST["pais"],$_POST["stat"],$_POST["obsPry"],$_POST["idUsuario"]);
 		break;
 		case "formActPry":
-			$objAsig->formActPry($_POST["idProyecto"],$_POST["idUsuario"]);                                                                                                              
+			$objAsig->formActPry($_POST["idProyecto"],$_POST["idUsuario"],$_POST["status"]);                                                                                                              
 		break;
 		case "ActualizarProyecto":
-			$objAsig->ActualizarProyecto($_POST["nombre"],$_POST["descPry"],$_POST["fechaInicio"],$_POST["fechaFin"],$_POST["pais"],$_POST["stat"],$_POST["obsPry"],$_POST["idUsuario"],$_POST["idProyecto"],$_POST["statActual"]);
+			$objAsig->ActualizarProyecto($_POST["nombre"],$_POST["descPry"],$_POST["fechaInicio"],$_POST["fechaFin"],$_POST["pais"],$_POST["stat"],$_POST["obsPry"],$_POST["idUsuario"],$_POST["idProyecto"],$_POST["statActual"],$_POST["statusPY"]);
 		break;
 
 	}
