@@ -19,9 +19,12 @@ function ajaxApp(divDestino,url,parametros,metodo){
 	});
 }
 function listarProyectos(idUsuario,optProyecto,status){
+	$("#contenido12").html("");
+	$("#contenido13").html("");
 	ajaxApp("contenido11","controladorEnsamble.php","action=listarProyectos&idUsuario="+idUsuario+"&optProyecto="+optProyecto+"&status="+status,"POST");
 }
 function listarProcesos(idProyecto,idUsuario,opt,statusPrc){
+	$("#contenido13").html("");
 	ajaxApp("contenido12","controladorEnsamble.php","action=listarProcesos&idProyecto="+idProyecto+"&idUsuario="+idUsuario+"&optPc="+opt+"&statusPrc="+statusPrc,"POST");
 }
 function listarActividades(idProceso,opt,idUsuario,statusAc){
