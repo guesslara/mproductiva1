@@ -123,21 +123,21 @@ class mes{
 				Dias laborables:
 			    </td>
 			    <td>
-				<input type="text" name="dias_lab" id="dias_lab" value="0"  onkeyup="calcular();"class="<?=$clase_obligaria?>" style="width: 50px;">				
+				<input type="text" name="dias_lab" id="dias_lab" value="0"  onkeyup="calcular();" onblur="campoValor0(this);" class="<?=$clase_obligaria?>" style="width: 50px;">				
 			    </td>    
 			</tr>
 			<tr>
 			    <td>
-			    Jornada Laboral:</td><td> <input type="text" name="jorna_lab" id="jorna_lab" value="0"  onkeyup="calcular();"class="<?=$clase_obligaria?>" style="width: 50px;">    
+			    Jornada Laboral:</td><td> <input type="text" name="jorna_lab" id="jorna_lab" value="0"  onkeyup="calcular();"  onblur="campoValor0(this);"  class="<?=$clase_obligaria?>" style="width: 50px;">    
 			    </td>    
 			</tr>
 			<tr>
 			    <td>
-			    Dias Licencia:</td> <td><input type="text" name="dias_li" id="dias_li" value="0" onkeyup="calcular();" class="<?=$clase_obligaria?>" style="width: 50px;"></td>    
+			    Dias Licencia:</td> <td><input type="text" name="dias_li" id="dias_li" value="0" onkeyup="calcular();"  onblur="campoValor0(this);"  class="<?=$clase_obligaria?>" style="width: 50px;"></td>    
 			</tr>
 			<tr>
 			    <td>
-			    Tiempo Extra: </td><td><input type="text" name="tiem_ex" id="tiem_ex"  onkeyup="calcular();"  value="0" class="<?=$clase_obligaria?>" style="width: 50px;">    
+			    Tiempo Extra: </td><td><input type="text" name="tiem_ex" id="tiem_ex"  onkeyup="calcular();" onblur="campoValor0(this);" value="0"  class="<?=$clase_obligaria?>" style="width: 50px;">    
 			    </td>
 			</tr>
 			<tr>
@@ -206,7 +206,7 @@ class mes{
     }
      
     public function insertarasignacion($tab,$camvolor){
-     	         //print_r($camvolor);
+     	        //print_r($camvolor);
 		//exit;
 		$sql_campos="";
 		$sql_valores="";
@@ -440,7 +440,7 @@ class mes{
                     </tr>
                     <tr>
                     <td>
-                    Tiempo Extra: </td><td><input type="text" name="tiem_ex" id="tiem_ex"  class="<?=$clase_obligaria?>"  value="<?=$tiempo;?>"onkeyup="calcular();">    
+                    Tiempo Extra: </td><td><input type="text" name="tiem_ex" id="tiem_ex"  class="<?=$clase_obligaria?>" value="<?=$tiempo;?>"onkeyup="calcular();">    
                     </td>
                     </tr>
                     <tr>

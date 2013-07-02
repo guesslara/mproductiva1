@@ -99,7 +99,7 @@
 				}
 			}
 			echo "<br><br><div style='text-align:center;height:15px;padding:5px;'>Presione el boton Cerrar Ventana para Finalizar la Actualizaci&oacute;n</div><br><br>";
-			echo "<div style='text-align:center;height:15px;padding:5px;'><a href='#' onclick=\"cerrarVentana('formularioOpciones');listarActividades('".$idProceso."','consulta','".$idUsuario."')\" title='Cerrar ventana'>Cerrar Ventana</a></div>";
+			echo "<div style='text-align:center;height:15px;padding:5px;'><a href='#' onclick=\"cerrarVentana('formularioOpciones');listarActividades('".$idProceso."','consulta','".$idUsuario."','Activo')\" title='Cerrar ventana'>Cerrar Ventana</a></div>";
 		}		
 		public function mostrarFormMetrica($ultimoId,$id_proceso,$idUsuario){
 			$sqlNAct="SELECT * FROM SAT_ACTIVIDAD WHERE id_actividad='".$ultimoId."'";
@@ -215,7 +215,7 @@
 				$sqlElimina="DELETE FROM ASIG_PROC WHERE id_empleado='".$no_empleado."' AND id_proceso='".$idOrigen1."'";
 				$resElimina=mysql_query($sqlElimina,$this->conectarBd());
 				if($resElimina){
-					echo "<script type='text/javascript'> alert('Registro Eliminado'); listarProcesos('".$idOrigen."','".$idUsuario."','consulta'); </script>";
+					echo "<script type='text/javascript'> alert('Registro Eliminado'); listarProcesos('".$idOrigen."','".$idUsuario."','consulta','Activo'); </script>";
 				}else{
 					echo "<script type='text/javascript'> alert('Error al eliminar el Registro'); </script>";
 				}
@@ -223,7 +223,7 @@
 				$sqlElimina="DELETE FROM ASIG_ACT WHERE id_empleado='".$no_empleado."' AND id_actividad='".$idOrigen1."'";
 				$resElimina=mysql_query($sqlElimina,$this->conectarBd());
 				if($resElimina){
-					echo "<script type='text/javascript'> alert('Registro Eliminado'); listarActividades('".$idOrigen."','consulta','".$idUsuario."'); </script>";
+					echo "<script type='text/javascript'> alert('Registro Eliminado'); listarActividades('".$idOrigen."','consulta','".$idUsuario."','Activo'); </script>";
 				}else{
 					echo "<script type='text/javascript'> alert('Error al eliminar el Registro'); </script>";
 				}
@@ -238,7 +238,7 @@
 				 $resAsig=mysql_query($sqlAsig,$this->conectarBd());
 				 if($resAsig){
 					echo "<br>Registro Guardado";
-					echo "<script type='text/javascript'> alert('Asignacion guardada'); cerrarVentana('ventanaDialogo'); listarProcesos('".$parametroOpcional."','".$idUsuario."','consulta');</script>";
+					echo "<script type='text/javascript'> alert('Asignacion guardada'); cerrarVentana('ventanaDialogo'); listarProcesos('".$parametroOpcional."','".$idUsuario."','consulta','Activo');</script>";
 				 }else{
 					    echo "<br>Error al Guardar la Asignacion";
 				 }
@@ -247,7 +247,7 @@
 				 $resAsig=mysql_query($sqlAsig,$this->conectarBd());
 				 if($resAsig){
 					echo "<br>Registro Guardado"; //listarActividades(idProceso)
-					echo "<script type='text/javascript'> alert('Asignacion guardada'); cerrarVentana('ventanaDialogo'); listarActividades('".$parametroOpcional."','consulta','".$idUsuario."');</script>";
+					echo "<script type='text/javascript'> alert('Asignacion guardada'); cerrarVentana('ventanaDialogo'); listarActividades('".$parametroOpcional."','consulta','".$idUsuario."','Activo');</script>";
 				 }else{
 					    echo "<br>Error al Guardar la Asignacion";
 				 }
@@ -409,7 +409,7 @@
 						echo "<script type='text/javascript'> alert('Ocurrio un error al guardar el status con la Actividad');</script>";	
 					}
 				}
-				echo "<script type='text/javascript'> alert('Actividad Guardada'); listarActividades('".$id_proceso."','consulta','".$idUsuario."');</script>";	
+				echo "<script type='text/javascript'> alert('Actividad Guardada'); listarActividades('".$id_proceso."','consulta','".$idUsuario."','Activo');</script>";	
 			}else{
 				echo "<script type='text/javascript'> alert('Error al Guardar al Proceso'); </script>";	
 			}
@@ -509,7 +509,7 @@
 			$sql="INSERT INTO SAT_PROCESO (nom_proceso,status,id_proyecto,descripcion) VALUES ('".$nombre."','Activo','".$id_proyecto."','".$descripcion."')";
 			$res=mysql_query($sql,$this->conectarBd());
 			if($res){
-				echo "<script type='text/javascript'> alert('Proceso Guardado'); $('#formularioOpciones').hide(); listarProcesos('".$id_proyecto."','".$idUsuario."','consulta');</script>";	
+				echo "<script type='text/javascript'> alert('Proceso Guardado'); $('#formularioOpciones').hide(); listarProcesos('".$id_proyecto."','".$idUsuario."','consulta','Activo');</script>";	
 			}else{
 				echo "<script type='text/javascript'> alert('Error al Guardar al Proceso'); </script>";	
 			}
@@ -561,17 +561,25 @@
 			}
 		}	
 		
-		public function listarActividades($id_proceso,$opt,$idUsuario){
+		public function listarActividades($id_proceso,$opt,$idUsuario,$status){
 			$sqlProc="SELECT * FROM SAT_PROCESO WHERE id_proceso='".$id_proceso."'";
 			$resProc=mysql_query($sqlProc,$this->conectarBd());
 			$rowProc=mysql_fetch_array($resProc);
-			$status="Activo";
-
 ?>
 		<?if($idUsuario==1 && $opt=="consulta"||$idUsuario==0 && $opt=="consulta"){?>
 			<div id="barraA" style="height: 36px;background: #666;padding: 3px;">				
 				<div class="opcionesEnsamble" onclick="nuevaActividad('<?=$id_proceso;?>','<?=$idUsuario?>');" title="Nuevo">Nueva Actividad</div>				
-				<div class="opcionesEnsamble" onclick="listarActividades('<?=$id_proceso;?>','modifica','<?=$idUsuario?>')" title="Modifica Actividad">Modificar Actividad</div>				
+				<div class="opcionesEnsamble" onclick="listarActividades('<?=$id_proceso;?>','modifica','<?=$idUsuario?>','<?=$status?>')" title="Modifica Actividad">Modificar Actividad</div>				
+				<div class="filtro">
+					<select id="statusFiltroAc" name="statusFiltroAc" onchange="verActividades('<?=$id_proceso?>','<?=$opt?>','<?=$idUsuario?>');" style="font-size:12px;">
+						<option value="<?=$status?>"><?=strtoupper($status).S?></option>
+						<?if($status=="Activo"){?>
+							<option value="Inactivo">INACTIVOS</option>
+						<?}else{?>
+							<option value="Activo">ACTIVOS</option>
+						<?}?>
+					</select></div>
+				</div>
 			</div>
 			<?}?>
 			<input type="hidden" name="hdntxtAccion" id="hdntxtAccion" value="actividades">
@@ -581,19 +589,13 @@
 			<div style="height: 15px;padding: 5px;font-size: 12px;text-align: center;margin-bottom: 5px;"><strong><?=strtoupper($opt);?> ACTIVIDADES</strong></div>
 			<?if($opt=="modifica"){
 			?><div id="barraTer" style="height: 36px;background: #fff;padding: 3px;clear:both;">
-					<div class="opcionesEnsambleter" onclick="listarActividades('<?=$id_proceso;?>','consulta','<?=$idUsuario?>')" title="Consultar Actividad">Terminar Edición</div>	
+					<div class="opcionesEnsambleter" onclick="listarActividades('<?=$id_proceso;?>','consulta','<?=$idUsuario?>','<?=$status?>')" title="Consultar Actividad">Terminar Edición</div>	
 			</div>
 			<?}?>
 			<div id="nuevaActividad" style="border: 1px solid #CCC;margin: 3px;background: #f0f0f0;margin-bottom: 10px;"></div>
 			
 <?
-			//echo $sqlConsult="SELECT * FROM SAT_ACTIVIDAD where id_proceso='".$id_proceso."' AND status='".$status."'";
-			if($opt=="consulta"){
-				$sqlConsult="SELECT * FROM SAT_ACTIVIDAD INNER JOIN SAT_PRODUCTO ON SAT_ACTIVIDAD.id_producto = SAT_PRODUCTO.id_producto WHERE id_proceso = '".$id_proceso."' AND STATUS = '".$status."'";				
-			}
-			else{
-				$sqlConsult="SELECT * FROM SAT_ACTIVIDAD INNER JOIN SAT_PRODUCTO ON SAT_ACTIVIDAD.id_producto = SAT_PRODUCTO.id_producto WHERE id_proceso = '".$id_proceso."'";
-			}
+			$sqlConsult="SELECT * FROM SAT_ACTIVIDAD INNER JOIN SAT_PRODUCTO ON SAT_ACTIVIDAD.id_producto = SAT_PRODUCTO.id_producto WHERE id_proceso = '".$id_proceso."' AND SAT_ACTIVIDAD.STATUS = '".$status."'";		
 			$resulta=@mysql_query($sqlConsult,$this->conectarBd()) or die(mysql_error());
 			if(mysql_num_rows($resulta)==0){
 				   echo "<br>( 0 ) Registros encontrados.<br>";
@@ -609,10 +611,11 @@
 						$funOnC="";
 					}else{
 						$title="Da clic para modificar la actividad";
-						$funOnC="modAct('".$row['id_actividad']."','".$id_proceso."','".$idUsuario."')";
+						$funOnC="modAct('".$row['id_actividad']."','".$id_proceso."','".$idUsuario."','".$status."')";
 					}
 ?>
-					<div class="resultadosAvisos" style="margin: 3px;height: auto; background: <?=$color?>;" title="<?=$title?>" onclick="<?=$funOnC?>">
+					<div class="resultadosAvisos" style="margin: 3px;height: auto; background: <?=$color?>;position:relative;" title="<?=$title?>" onclick="<?=$funOnC?>">
+						<?if($status=='Inactivo'){?><div class="nuevoStyle">Inactivo</div><?}?>
 						<table border="0" cellpadding="1" cellspacing="1" width="98%" style="font-size: 10px;">
 							<tr>
 								<td width="10%">Actividad:</td>
@@ -678,22 +681,27 @@
 			}
 		}
 		
-		public function listarProcesos($id_proyecto,$idUsuario,$optPc){
-			$status="Activo";
+		public function listarProcesos($id_proyecto,$idUsuario,$optPc,$status){
 			$sqlP="SELECT * FROM SAT_PROYECTO WHERE id_proyecto='".$id_proyecto."'";//se extrae el nombre del proyecto
 			$resP=mysql_query($sqlP,$this->conectarBd());
 			$rowP=mysql_fetch_array($resP);
-			if($optPc=="consulta"){
-				$sqlConsult="SELECT * FROM SAT_PROCESO where id_proyecto='".$id_proyecto."' AND status='".$status."'";
-			}else{
-				$sqlConsult="SELECT * FROM SAT_PROCESO where id_proyecto='".$id_proyecto."'";
-			}
+			$sqlConsult="SELECT * FROM SAT_PROCESO where id_proyecto='".$id_proyecto."' AND status='".$status."'";
 			$resulta=@mysql_query($sqlConsult,$this->conectarBd()) or die(mysql_error());
 			if($idUsuario==1 && $optPc=="consulta" ||$idUsuario==0 && $optPc=="consulta" ){
 ?>
 			<div id="barraAPc" style="height: 36px;background: #666;padding: 3px;display:block">
 				<div class="opcionesEnsamble" onclick="limpiaconDiv('contenido13');nuevoProceso('<?=$id_proyecto;?>','<?=$idUsuario?>')" title="Nuevo">Nuevo Proceso</div>				
-				<div class="opcionesEnsamble" onclick="limpiaconDiv('contenido13');listarProcesos('<?=$id_proyecto;?>','<?=$idUsuario?>','modifica')" title="Modificar">Modificar Proceso</div>	
+				<div class="opcionesEnsamble" onclick="limpiaconDiv('contenido13');listarProcesos('<?=$id_proyecto;?>','<?=$idUsuario?>','modifica','<?=$status?>')" title="Modificar">Modificar Proceso</div>	
+				<div class="filtro">
+					<select id="statusFiltroPc" name="statusFiltroPc" onchange="verProcesos('<?=$id_proyecto?>','<?=$idUsuario?>');" style="font-size:12px;">
+						<option value="<?=$status?>"><?=strtoupper($status).S?></option>
+						<?if($status=="Activo"){?>
+							<option value="Inactivo">INACTIVOS</option>
+						<?}else{?>
+							<option value="Activo">ACTIVOS</option>
+						<?}?>
+					</select></div>
+				</div>
 			</div>
 			<?}?>
 			<div style="clear: both;"></div>
@@ -705,7 +713,7 @@
 			<?
 			if($optPc=="modifica"){
 				?><div id="barraTer" style="height: 36px;background: #fff;padding: 3px;clear:both;text-align:center;">
-					<div class="opcionesEnsambleter" onclick="limpiaconDiv('contenido13');listarProcesos('<?=$id_proyecto;?>','<?=$idUsuario?>','consulta')" title="Consultar">Terminar Edición</div>	
+					<div class="opcionesEnsambleter" onclick="limpiaconDiv('contenido13');listarProcesos('<?=$id_proyecto;?>','<?=$idUsuario?>','consulta','<?=$status?>')" title="Consultar">Terminar Edición</div>	
 			</div>
 			<?}?>
 			<div id="nuevoProceso" style="border: 1px solid #CCC;margin: 3px;background: #f0f0f0;margin-bottom: 10px;"></div>	
@@ -719,13 +727,14 @@
 					$resResp=mysql_query($sqlResp,$this->conectarBd());
 					if($optPc=="consulta"){
 						$title="Ver Actividades del Proceso";
-						$onclick="listarActividades('".$row['id_proceso']."','consulta','".$idUsuario."');";
+						$onclick="listarActividades('".$row['id_proceso']."','consulta','".$idUsuario."','".$status."');";
 					}else{
 						$title="Modificar Datos del Proceso";
-						$onclick="FormModificaProceso('".$id_proyecto."','".$row['id_proceso']."','".$idUsuario."');";
+						$onclick="FormModificaProceso('".$id_proyecto."','".$row['id_proceso']."','".$idUsuario."','".$status."');";
 					}
 ?>
-					<div class="resultadosAvisos" style="height: auto;margin: 3px; background: <?=$color?>;" title="<?=$title?>" onclick="<?=$onclick?>">
+					<div class="resultadosAvisos" style="height: auto;margin: 3px; background: <?=$color?>;position:relative;" title="<?=$title?>" onclick="<?=$onclick?>">
+							<?if($status=='Inactivo'){?><div class="nuevoStylePc">Inactivo</div><?}?>
 						<table border="0" cellpadding="1" cellspacing="1" width="98%" style="font-size: 10px;">
 							<tr>
 								<td width="10%">Proceso:</td>
@@ -782,8 +791,8 @@
 			<div id="nuevoProyecto" style="border: 1px solid #CCC;margin: 3px;background: #f0f0f0;margin-bottom: 10px;"></div>	
 			<?
 			if($opProy=="modifica"){
-				?><div id="barraTer" style="height: 36px;background: #fff;padding: 3px;clear:both;">
-					<div class="opcionesEnsambleter" onclick="limpiaDivs('contenido12','contenido13');listarProyectos('<?=$idUsuario?>','consulta','<?=$status?>')" title="Consultar">Terminar Edición</div>	
+				?><div id="barraTer" style="height: 36px;background: #fff;padding: 3px;clear:both;text-align: center;">
+					<div class="opcionesEnsambleter" style="left: 50%;" onclick="limpiaDivs('contenido12','contenido13');listarProyectos('<?=$idUsuario?>','consulta','<?=$status?>')" title="Consultar">Terminar Edición</div>	
 			</div>
 				<?
 			}
@@ -797,7 +806,7 @@
 					$resResp=mysql_query($sqlResp,$this->conectarBd());		
 					if($opProy=="consulta"){
 						$titleP="Ver procesos del proyecto";
-						$onclickP="listarProcesos('".$row["id_proyecto"]."','".$idUsuario."','consulta','Activo');";
+						$onclickP="listarProcesos('".$row["id_proyecto"]."','".$idUsuario."','consulta','".$status."');";
 					}else{
 						$titleP="Modifica detalles del proceso";
 						$onclickP="formActPry('".$row["id_proyecto"]."','".$idUsuario."','".$status."')";
@@ -853,7 +862,7 @@
 			} 
 		}
 
-	public function formActuaAct($idAct,$idProceso,$idUsuario){
+	public function formActuaAct($idAct,$idProceso,$idUsuario,$status){
 				$sqlResp1="SELECT * FROM ACTIVIDAD_STATUS INNER JOIN SAT_STATUS ON ACTIVIDAD_STATUS.id_status = SAT_STATUS.id_status WHERE id_actividad='".$idAct."'";
 				$resResp1E=mysql_query($sqlResp1,$this->conectarBd());
 				$sqlSat="SELECT * FROM SAT_ACTIVIDAD WHERE id_actividad='".$idAct."'";
@@ -873,11 +882,11 @@
 					<input type="hidden" name="idUser" id="idUser" value="<?=$idUsuario?>" />
 							<tr>
 								<td width="10%">Actividad:</td>
-								<td width="88%"><input type="text" name="actName" id="actName" value="<?=$row["nom_actividad"]?>" onchange="confGuarda('el nombre');guardaE('actName','nom_actividad');"/></td>
+								<td width="88%"><input type="text" name="actName" id="actName" value="<?=$row["nom_actividad"]?>" onchange="confGuarda('el nombre');guardaE('actName','nom_actividad','<?=$status?>');"/></td>
 							</tr>
 							<tr>
 								<td>Descripcion:</td>
-								<td><input type="text" name="desAct" id="desAct" value="<?=$row["descripcion"];?>" onchange="confGuarda('la descripción');guardaE('desAct','descripcion');"/></td>
+								<td><input type="text" name="desAct" id="desAct" value="<?=$row["descripcion"];?>" onchange="confGuarda('la descripción');guardaE('desAct','descripcion','<?=$status?>');"/></td>
 							</tr>
 							<tr>
 								<td>Producto</td>
@@ -887,7 +896,7 @@
 								    		echo "No hay productos Capturados";
 										 }else{
 			?>
-									    <select name="cboProductoActividad" id="cboProductoActividad" style="width: 233px;" onchange="confGuarda('el producto');guardaE('cboProductoActividad','id_producto');">						       
+									    <select name="cboProductoActividad" id="cboProductoActividad" style="width: 233px;" onchange="confGuarda('el producto');guardaE('cboProductoActividad','id_producto','<?=$status?>');">						       
 										     <option value="<?=$idP;?>"><?=$ROWp["nom_producto"]?></option>
 				<?
 									    while($rowProducto=mysql_fetch_array($resProducto)){
@@ -903,8 +912,19 @@
 							</div>&nbsp;<div style="float: left;margin-top: 3px;margin-left: 5px;">[ <a href="#" onclick="agregaProducto()" title="Agregra Producto" style="color: blue;">Nuevo Producto</a> ]</div>
 							</td>		
 						</tr>
+						<tr>
+							<td>Status</td>
+							<td><select name="staActividad" id="staActividad" style="width:233px;"onchange="confGuarda('el status');guardaE('staActividad','status','<?=$status?>')">
+								<option value="<?=$row["status"]?>"><?=$row["status"]?></option>
+								<?if($row["status"]=='Activo'){?>
+								<option value="Inactivo">Inactivo</option>
+								<?}else{?>
+								<option value="Activo">Activo</option>
+								<?}?>
+							</select></td>
+						</tr>
 							<tr>
-						<td colspan="2">Seleccione, Modifique o deseleccione los status relacionados a la actividad&nbsp;<a href="#" onclick="agregarMS('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario;?>')" title="Agregar Status" style="color: blue;"><img src="../../img/add.png" border="0" /></a></td>
+						<td colspan="2">Seleccione, Modifique o deseleccione los status relacionados a la actividad&nbsp;<a href="#" onclick="agregarMS('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario;?>','<?=$status?>')" title="Agregar Status" style="color: blue;"><img src="../../img/add.png" border="0" /></a></td>
 					</tr>
 					<tr>
 						<td colspan="2">
@@ -929,15 +949,15 @@
 							<div id="contenido" style="heigth:25px; width:90%;overflow:auto;clear:both;">
 								<?if($rowStaSe["id_status"]==1){?>
 									<?if($rowStaSe["tiempo"]!=0||$rowStaSe["tiempo"]!=0.000){?>
-										<div id="des" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px;"><input type="checkbox" name="ASt" id="ASt" onclick="cACS('Desactivar','<?=$rowStaSe["id_act_status"]?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>');checkActivar('ASt','<?=$rowStaSe["id_act_status"]?>','<?=$rowStaSe["tiempo"]?>')" checked="checked"/></div>
+										<div id="des" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px;"><input type="checkbox" name="ASt" id="ASt" onclick="cACS('Desactivar','<?=$rowStaSe["id_act_status"]?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>');checkActivar('ASt','<?=$rowStaSe["id_act_status"]?>','<?=$rowStaSe["tiempo"]?>')" checked="checked"/></div>
 										<div id="<?=$divEdita?>" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px; display:block"><a href="#" onclick="editaStatus('<?=$rowStaSe["id_act_status"]?>','<?=$idAct?>','<?=$idProceso?>')" title="Edita Status"><img src="../../img/icon_edit.png" border="0" /></a></div>								
 									<?}else{
-										?><div id="des" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px;"><input type="checkbox" name="ASt" id="ASt" onclick="cACS('Activar','<?=$rowStaSe["id_act_status"]?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>');checkActivar('ASt','<?=$rowStaSe["id_act_status"]?>','<?=$rowStaSe["tiempo"]?>')"/></div>								
+										?><div id="des" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px;"><input type="checkbox" name="ASt" id="ASt" onclick="cACS('Activar','<?=$rowStaSe["id_act_status"]?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>');checkActivar('ASt','<?=$rowStaSe["id_act_status"]?>','<?=$rowStaSe["tiempo"]?>')"/></div>								
 										<div id="divVacio" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px; display:block">&nbsp;&nbsp;&nbsp;&nbsp;</div>	
 										<div id="<?=$divEdita?>" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px; display:none"><a href="#" onclick="editaStatus('<?=$rowStaSe["id_act_status"]?>','<?=$idAct?>','<?=$idProceso?>')" title="Edita Status"><img src="../../img/icon_edit.png" border="0" /></a></div>								
 									<?}
 								}else{?>
-									<div id="quita" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px;"><a href="#" onclick="confDelSta('<?=$rowStaSe["nom_status"]?>');quitarStatus('<?=$rowStaSe["id_act_status"]?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>')" title="Eliminar Status"><img src="../../img/icon_delete.gif" border="0" /></a></div>		
+									<div id="quita" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px;"><a href="#" onclick="confDelSta('<?=$rowStaSe["nom_status"]?>');quitarStatus('<?=$rowStaSe["id_act_status"]?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>')" title="Eliminar Status"><img src="../../img/icon_delete.gif" border="0" /></a></div>		
 									<div id="<?=$divEdita?>" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px; display:block"><a href="#" onclick="editaStatus('<?=$rowStaSe["id_act_status"]?>','<?=$idAct?>','<?=$idProceso?>')" title="Edita Status"><img src="../../img/icon_edit.png" border="0" /></a></div>													
 								<?}?>
 								
@@ -946,12 +966,12 @@
 								<div id="opSta" style="heigth:20px; width:auto; background:<?=$color;?>;float:left;padding:5px;"><input type="button" style="background-color:transparent;border:none;width:30px; heigth:30px;" name="<?=$bOpe?>" id="<?=$bOpe?>" value="<?=$rowStaSe["operador"]?>" onclick="cambiaOpe('<?=$bOpe?>');" disabled="disabled"/></div>
 								<?if($rowStaSe["id_status"]==1){
 									if($rowStaSe["tiempo"]!=0 || $rowStaSe["tiempo"]!=0.000){
-										?><div id="<?=$bSaCa;?>" style="heigth:auto; width:auto; background:<?=$color;?>;float:left;padding:5px;display:none;"><input type="button" name="acept" id="acept" value="Modificar" onclick="guardarMod('<?=$rowStaSe["nom_status"]?>','<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>')"/><input type="button" name="cancl" id="cancl" value="Cancelar" onclick="canclMo('<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>')"/></div><?
+										?><div id="<?=$bSaCa;?>" style="heigth:auto; width:auto; background:<?=$color;?>;float:left;padding:5px;display:none;"><input type="button" name="acept" id="acept" value="Modificar" onclick="guardarMod('<?=$rowStaSe["nom_status"]?>','<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>')"/><input type="button" name="cancl" id="cancl" value="Cancelar" onclick="canclMo('<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>')"/></div><?
 									}else{
-										?><div id="<?=$bSaCa;?>" style="heigth:auto; width:auto; background:<?=$color;?>;float:left;padding:5px;display:none;"><input type="button" name="acept" id="acept" value="Modificar" onclick="guardarMod('<?=$rowStaSe["nom_status"]?>','<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>')"/><input type="button" name="cancl" id="cancl" value="Cancelar" onclick="canclMo('<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>');modAct('<?=$idAct?>','<?=$idProceso?>')"/></div><?
+										?><div id="<?=$bSaCa;?>" style="heigth:auto; width:auto; background:<?=$color;?>;float:left;padding:5px;display:none;"><input type="button" name="acept" id="acept" value="Modificar" onclick="guardarMod('<?=$rowStaSe["nom_status"]?>','<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>')"/><input type="button" name="cancl" id="cancl" value="Cancelar" onclick="canclMo('<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>');modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>')"/></div><?
 									}
 								}else{
-									?><div id="<?=$bSaCa;?>" style="heigth:auto; width:auto; background:<?=$color;?>;float:left;padding:5px;display:none;"><input type="button" name="acept" id="acept" value="Modificar" onclick="guardarMod('<?=$rowStaSe["nom_status"]?>','<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>')"/><input type="button" name="cancl" id="cancl" value="Cancelar" onclick="canclMo('<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>')"/></div><?
+									?><div id="<?=$bSaCa;?>" style="heigth:auto; width:auto; background:<?=$color;?>;float:left;padding:5px;display:none;"><input type="button" name="acept" id="acept" value="Modificar" onclick="guardarMod('<?=$rowStaSe["nom_status"]?>','<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>','<?=$status?>')"/><input type="button" name="cancl" id="cancl" value="Cancelar" onclick="canclMo('<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>')"/></div><?
 								}?>
 								
 
@@ -965,16 +985,16 @@
 						</table></form><?
 		
 		}
-		public function guardaE($idAct,$campo,$valor,$idProceso,$idUsuario){
+		public function guardaE($idAct,$campo,$valor,$idProceso,$idUsuario,$status){
 				$modA="UPDATE SAT_ACTIVIDAD SET $campo='".$valor."' where id_actividad='".$idAct."'";
 				$exeModA=mysql_query($modA,$this->conectarBd());
 				if(!$exeModA){
 					?><script type="text/javascript">alert("No se puedo modificar");</script><?
 				}else{
-					?><script type="text/javascript">listarActividades('<?=$idProceso?>','modifica','<?=$idUsuario?>');modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>');</script><?
+					?><script type="text/javascript">listarActividades('<?=$idProceso?>','modifica','<?=$idUsuario?>','<?=$status?>');modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>');</script><?
 				}
 		}
-		public function FormStat($idAct,$idProceso,$idUsuario){
+		public function FormStat($idAct,$idProceso,$idUsuario,$status){
 			$statusUsado= array();
 			$acS="SELECT * FROM ACTIVIDAD_STATUS WHERE id_actividad='".$idAct."'";
 			$exeAC=mysql_query($acS,$this->conectarBd());
@@ -1015,7 +1035,7 @@
 					<tr>
 							<td colspan="2" style="text-align: right">
 									<input type="button" onclick="cerrarVentana('transparenciaGeneralSt');" value="Cancelar">
-									<input type="button" onclick="guardarNuevoStA('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>')" value="Siguiente">
+									<input type="button" onclick="guardarNuevoStA('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>')" value="Siguiente">
 							</td>
 					</tr>
 					<tr>
@@ -1024,7 +1044,7 @@
 				</table></form><?
 		
 		}
-		public function guardarNSA($idAct,$status,$idProceso,$idUsuario){
+		public function guardarNSA($idAct,$status,$idProceso,$idUsuario,$statusAC){
 			$status=explode(",",$status);						
 				//se recupera el ultimo id insertado en la actividad				
 				for($i=0;$i<count($status);$i++){
@@ -1037,19 +1057,19 @@
 						echo "<script type='text/javascript'> alert('Ocurrio un error al guardar el status con la Actividad');</script>";	
 					}
 				}
-				echo "<script type='text/javascript'> alert('status Agregado'); cerrarVentana('transparenciaGeneralSt');modAct('".$idAct."','".$idProceso."','".$idUsuario."');</script>";	
+				echo "<script type='text/javascript'> alert('status Agregado'); cerrarVentana('transparenciaGeneralSt');modAct('".$idAct."','".$idProceso."','".$idUsuario."','".$statusAC."');</script>";	
 			
 		}
-		public function quitarStatus($idActSta,$idAct,$idProceso,$idUsuario){
+		public function quitarStatus($idActSta,$idAct,$idProceso,$idUsuario,$status){
 			$eliAcSt="DELETE FROM ACTIVIDAD_STATUS WHERE id_act_status=$idActSta";
 			$exeDel=mysql_query($eliAcSt,$this->conectarBd());
 			if($exeDel==false){
 				?><script type='text/javascript'> alert('No se pudo eliminar el Status');</script><?
 			}else{
-				?><script type='text/javascript'> alert('Status Eliminado');listarActividades('<?=$idProceso?>','modifica','<?=$idUsuario?>'); modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>');</script><?	
+				?><script type='text/javascript'> alert('Status Eliminado');listarActividades('<?=$idProceso?>','modifica','<?=$idUsuario?>','<?=$status?>'); modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>');</script><?	
 			}
 		}
-		public function actualizaDE($idActSta,$tiempo,$operador,$idAct,$idProceso,$idUsuario){
+		public function actualizaDE($idActSta,$tiempo,$operador,$idAct,$idProceso,$idUsuario,$status){
 			if($operador=="mas"){
 				$operador="+";
 			}else{
@@ -1058,22 +1078,21 @@
 				$sqlActDE="UPDATE ACTIVIDAD_STATUS SET tiempo='".$tiempo."', operador='".$operador."' WHERE id_act_status='".$idActSta."'";
 				$resActActDE=mysql_query($sqlActDE,$this->conectarBd());
 				if($resActActDE){
-					?><script type="text/javascript">alert('Actualizacion Realizada');listarActividades('<?=$idProceso?>','modifica','<?=$idUsuario?>');modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>');</script><?
+					?><script type="text/javascript">alert('Actualizacion Realizada');listarActividades('<?=$idProceso?>','modifica','<?=$idUsuario?>','<?=$status?>');modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>');</script><?
 				}else{
-						?><script type="text/javascript">alert('Error al Actualizar el Registro');listarActividades('<?=$idProceso?>','modifica','<?=$idUsuario?>');modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>');</script><?
+						?><script type="text/javascript">alert('Error al Actualizar el Registro');listarActividades('<?=$idProceso?>','modifica','<?=$idUsuario?>','<?=$status?>');modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>');</script><?
 				}
 		}
 		public function agregaSBA($status,$idAct,$idProceso,$idUsuario){
 			$sqlStatus="INSERT INTO SAT_STATUS (nom_status,status) VALUES ('".strtoupper($status)."','Activo')";
 			$resStatus=mysql_query($sqlStatus,$this->conectarBd());
 			if($resStatus){
-				echo "<script type='text/javascript'> alert('Status Guardado'); agregarMS('".$idAct."','".$idProceso."','".$idUsuario."')</script>";
+				echo "<script type='text/javascript'> alert('Status Guardado'); agregarMS('".$idAct."','".$idProceso."','".$idUsuario."','Activo')</script>";
 			}else{
 				echo "<script type='text/javascript'> alert('Error al Guardar el Status'); </script>";
 			}
 		}
-		public function FormActualizaProceso($idProyecto,$idProceso,$idUsuario){
-			$status="Activo";
+		public function FormActualizaProceso($idProyecto,$idProceso,$idUsuario,$status){
 			$querProc="SELECT * FROM SAT_PROCESO WHERE id_proceso=$idProceso AND status='".$status."'";
 			$exeQueProc=mysql_query($querProc,$this->conectarBd());
 			$arraQuer=mysql_fetch_array($exeQueProc);
@@ -1098,12 +1117,20 @@
 					<td><textarea rows="3" cols="30" name="txtDescProcAc" id="txtDescProcAc"><?=$arraQuer["descripcion"]?></textarea></td>
 				</tr>
 				<tr>
+					<td>Status</td>
+				</tr>
+					<td><Select name="staProc" id="staProc" style="width:250px;">
+						<option value="<?=$arraQuer["status"]?>"><?=$arraQuer["status"]?></option>
+						<option value="Activo">Activo</option>
+						<option value="Inactivo">Inactivo</select></td>
+				</tr>
+				<tr>
 					<td><hr style="background: #666;"</td>
 				</tr>
 				<tr>
 					<td style="text-align: right">
 						<input type="button" onclick="cancelarCapturaProceso()" value="Cancelar">
-						<input type="button" onclick="actualizaProceso()" value="Modificar Proceso">
+						<input type="button" onclick="confGuarda('los datos');actualizaProceso('<?=$status?>','<?=$arraQuer["status"]?>')" value="Modificar Proceso">
 					</td>
 				</tr>
 				<tr>
@@ -1112,13 +1139,35 @@
 			</table>
 <?
 		}
-		public function actualizaProceso($id_proyecto,$nombre,$descripcion,$id_proceso,$idUsuario){
-			$acProc="UPDATE SAT_PROCESO SET nom_proceso='".$nombre."', descripcion='".$descripcion."' WHERE id_proceso='".$id_proceso."'";
+		public function actualizaProceso($id_proyecto,$nombre,$descripcion,$id_proceso,$idUsuario,$status,$statSATProc,$statActualPc){
+			$acProc="UPDATE SAT_PROCESO SET nom_proceso='".$nombre."', descripcion='".$descripcion."', status='".$statSATProc."' WHERE id_proceso='".$id_proceso."'";
 			$exeAcPrc=mysql_query($acProc,$this->conectarBd());
 			if($exeAcPrc==false){
-				?><script type="text/javascript">alert("No se pudo actualizar el proceso intente mas tarde");cancelarCapturaProceso();listarProcesos('<?=$id_proyecto?>','<?=$idUsuario?>','modifica');</script><?
+				?><script type="text/javascript">alert("No se pudo actualizar el proceso intente mas tarde");cancelarCapturaProceso();listarProcesos('<?=$id_proyecto?>','<?=$idUsuario?>','modifica','<?=$status?>');</script><?
 			}else{
-				?><script type="text/javascript">alert("El proceso se ha actualizado con exito");cancelarCapturaProceso();listarProcesos('<?=$id_proyecto?>','<?=$idUsuario?>','modifica');</script><?
+				if($statSATProc!=$statActualPc){
+					$consultActividades="SELECT * FROM SAT_ACTIVIDAD WHERE $id_proceso='".$id_proceso."'";
+					$exeQueryAct=mysql_query($consultActividades,$this->conectarBd());
+					$ArrayidAct=array();
+					if($statSATProc=="Activo"){
+						$msj="Activado";
+					}else{
+						$msj="Desactivado";
+					}
+					if(mysql_num_rows($exeQueryAct)!=0){
+						while($rowQA=mysql_fetch_array($exeQueryAct)){
+							array_push($ArrayidAct,$rowQA["id_actividad"]);
+						}
+						$idsActs=implode(",",$ArrayidAct);
+						$actualizarActi="UPDATE SAT_ACTIVIDAD SET status='".$statSATProc."' WHERE id_actividad IN ($idsActs)";
+						$exeActuAct=mysql_query($actualizarActi,$this->conectarBd());
+						if($exeActuAct==true){
+								?><script type="text/javascript">alert("Se han <?=$msj?> las Actividades derivados del Proceso <?=$nombre?>");</script><?
+						}
+					}
+
+				}
+				?><script type="text/javascript">alert("El proceso se ha actualizado con exito");cancelarCapturaProceso();listarProcesos('<?=$id_proyecto?>','<?=$idUsuario?>','modifica','<?=$status?>');</script><?
 			}
 		}
 		public function nuevoProyecto($idUsuario){
@@ -1289,7 +1338,7 @@
 				</tr>
 				<tr>
 					<td style="text-align: right" colspan=2>
-						<input type="button" onclick="cancelarCapturaProceso()" value="Cancelar"><input type="button" onclick="ActualizarProyecto('<?=$idProyecto?>','<?=$idUsuario;?>','<?=$fetPry['status']?>','<?=$statusFPry?>')" value="Actualizar Proyecto">
+						<input type="button" onclick="cancelarCapturaProceso()" value="Cancelar"><input type="button" onclick="confGuarda('los datos');ActualizarProyecto('<?=$idProyecto?>','<?=$idUsuario;?>','<?=$fetPry['status']?>','<?=$statusFPry?>')" value="Actualizar Proyecto">
 					</td>
 				</tr>
 				<tr>

@@ -124,15 +124,17 @@ function buscarDatosMatriz(){
 	var noEmpleado=$("#txtBNoEmpleado").val();
 	var fecha1=$("#busquedaRegistro1").val();
 	var fecha2=$("#busquedaRegistro2").val();
-	if(tabAux==2){
+	/*if(tabAux==2){
 		//se carga en el primer div el predeterminado
 		ajaxApp("contentTab1","controladorEnsamble.php","action=buscarDatosMatriz&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2,"POST");
 		tabAux+=1;
-	}else{
+	}else{*/
 		//se coloca el siguiente tab		
-		parametros="action=buscarDatosMatriz&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2;
-		addTab("Resultados","controladorEnsamble.php",parametros,"POST");
-	}	
+		//parametros="action=buscarDatosMatriz&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2;
+		//addTab("Resultados","controladorEnsamble.php",parametros,"POST");
+	//}
+	ajaxApp("infoEnsamble3","controladorEnsamble.php","action=buscarDatosMatriz&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2,"POST");
+	$("#ventanaDatosABuscar").hide();
 }
 function cargarCapturasMatriz(tabMatrizDetalle){
 	var nombreCombo="#cboActividadMatriz"+tabMatrizDetalle;

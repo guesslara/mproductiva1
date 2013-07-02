@@ -1,6 +1,7 @@
 <?      
 	session_start();
-	session_regenerate_id(true);
+	//session_regenerate_id(true);
+	//print_r($_SESSION);
 	include("../../includes/txtApp.php");
 	include("../../clases/regLog.php");
 	$objLog=new regLog();

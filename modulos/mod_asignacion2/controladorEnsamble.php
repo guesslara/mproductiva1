@@ -7,10 +7,10 @@
 			$objAsig->listarProyectos($_POST['idUsuario'],$_POST["optProyecto"],$_POST["status"]);	
 		break;
 		case "listarProcesos":
-			$objAsig->listarProcesos($_POST["idProyecto"],$_POST["idUsuario"],$_POST["optPc"]);
+			$objAsig->listarProcesos($_POST["idProyecto"],$_POST["idUsuario"],$_POST["optPc"],$_POST["statusPrc"]);
 		break;
 		case "listarActividades":
-			$objAsig->listarActividades($_POST["idProceso"],$_POST["opt"],$_POST["idUsuario"]);
+			$objAsig->listarActividades($_POST["idProceso"],$_POST["opt"],$_POST["idUsuario"],$_POST["statusAc"]);
 		break;
 		case "nuevoProceso":
 			//print_r($_POST);
@@ -70,31 +70,31 @@
 			$objAsig->actualizaListadoProductos();
 		break;
 		case "modAct":
-			$objAsig->formActuaAct($_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"]);
+			$objAsig->formActuaAct($_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"],$_POST["statusAc"]);
 		break;
 		case "guardaE":
-			$objAsig->guardaE($_POST["idAct"],$_POST["campo"],$_POST["valor"],$_POST["idProceso"],$_POST["idUsuario"]);
+			$objAsig->guardaE($_POST["idAct"],$_POST["campo"],$_POST["valor"],$_POST["idProceso"],$_POST["idUsuario"],$_POST["status"]);
 		break;
 		case "quitarStatus":
-			$objAsig->quitarStatus($_POST["idActSta"],$_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"]);
+			$objAsig->quitarStatus($_POST["idActSta"],$_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"],$_POST["status"]);
 		break;
 		case "FormStat":
-			$objAsig->FormStat($_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"]);
+			$objAsig->FormStat($_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"],$_POST["status"]);
 		break;
 		case "guardarNSA":
-			$objAsig->guardarNSA($_POST["idAct"],$_POST["status"],$_POST["idProceso"],$_POST["idUsuario"]);
+			$objAsig->guardarNSA($_POST["idAct"],$_POST["status"],$_POST["idProceso"],$_POST["idUsuario"],$_POST["statusAC"]);
 		break;
 		case "actualizaDE":
-			$objAsig->actualizaDE($_POST["idActSta"],$_POST["time"],$_POST["operador"],$_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"]);
+			$objAsig->actualizaDE($_POST["idActSta"],$_POST["time"],$_POST["operador"],$_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"],$_POST["status"]);
 		break;
 		case "agregaSBA":
 			$objAsig->agregaSBA($_POST["status"],$_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"]);
 		break;
 		case "FormActualizaProceso":
-			$objAsig->FormActualizaProceso($_POST["id_proyecto"],$_POST["idProceso"],$_POST["idUsuario"]);
+			$objAsig->FormActualizaProceso($_POST["id_proyecto"],$_POST["idProceso"],$_POST["idUsuario"],$_POST["statusPc"]);
 		break;
 		case "actualizaProceso":
-			$objAsig->actualizaProceso($_POST["id_proyecto"],$_POST["nombre"],$_POST["descripcion"],$_POST["id_proceso"],$_POST["idUsuario"]);
+			$objAsig->actualizaProceso($_POST["id_proyecto"],$_POST["nombre"],$_POST["descripcion"],$_POST["id_proceso"],$_POST["idUsuario"],$_POST["statusPc"],$_POST["statSATProc"],$_POST["statActualPc"]);
 		break;
 		case "nuevoProyecto":
 			$objAsig->nuevoProyecto($_POST["idUsuario"]);                                                                                                              

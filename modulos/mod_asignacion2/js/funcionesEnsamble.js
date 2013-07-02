@@ -21,11 +21,11 @@ function ajaxApp(divDestino,url,parametros,metodo){
 function listarProyectos(idUsuario,optProyecto,status){
 	ajaxApp("contenido11","controladorEnsamble.php","action=listarProyectos&idUsuario="+idUsuario+"&optProyecto="+optProyecto+"&status="+status,"POST");
 }
-function listarProcesos(idProyecto,idUsuario,opt){
-	ajaxApp("contenido12","controladorEnsamble.php","action=listarProcesos&idProyecto="+idProyecto+"&idUsuario="+idUsuario+"&optPc="+opt,"POST");
+function listarProcesos(idProyecto,idUsuario,opt,statusPrc){
+	ajaxApp("contenido12","controladorEnsamble.php","action=listarProcesos&idProyecto="+idProyecto+"&idUsuario="+idUsuario+"&optPc="+opt+"&statusPrc="+statusPrc,"POST");
 }
-function listarActividades(idProceso,opt,idUsuario){
-	ajaxApp("contenido13","controladorEnsamble.php","action=listarActividades&idProceso="+idProceso+"&opt="+opt+"&idUsuario="+idUsuario,"POST");
+function listarActividades(idProceso,opt,idUsuario,statusAc){
+	ajaxApp("contenido13","controladorEnsamble.php","action=listarActividades&idProceso="+idProceso+"&opt="+opt+"&idUsuario="+idUsuario+"&statusAc="+statusAc,"POST");
 }
 function nuevoProceso(id_proyecto,idUsuario){
 	$("#formularioOpciones").show();
@@ -197,21 +197,21 @@ function guardarProducto(){
 function actualizarListadoProductos(){
 	ajaxApp("divProductoS","controladorEnsamble.php","action=actualizaListadoProductos","POST");
 }
-function modAct(idAct,idProceso,idUsuario){
+function modAct(idAct,idProceso,idUsuario,statusAc){
 	$("#formularioOpciones").show();
 	$("#barraTitulo1VentanaDialogoValidacion2").show();
 	$("#barraTitulo1VentanaDialogoCapturaFinal").hide();
-	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=modAct&idAct="+idAct+"&idProceso="+idProceso+"&idUsuario="+idUsuario,"POST");
+	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=modAct&idAct="+idAct+"&idProceso="+idProceso+"&idUsuario="+idUsuario+"&statusAc="+statusAc,"POST");
 }
 function confGuarda(opcion){
-	if(!confirm("¿Esta seguro que desea modificar"+opcion+"?"))exit();
+	if(!confirm("¿Esta seguro que desea modificar "+opcion+"?"))exit();
 }
-function guardaE(obj,campo){
+function guardaE(obj,campo,status){
 	idAct=$("#idA").val();
 	idProceso=$("#idP").val();
 	idUsuario=$("#idUser").val();
 	valor=$("#"+obj).val();
-	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=guardaE&idAct="+idAct+"&campo="+campo+"&valor="+valor+"&idProceso="+idProceso+"&idUsuario="+idUsuario,"POST");
+	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=guardaE&idAct="+idAct+"&campo="+campo+"&valor="+valor+"&idProceso="+idProceso+"&idUsuario="+idUsuario+"&status="+status,"POST");
 }
 function confDelSta(opcion){
 	if(opcion=='SCRAP'){
@@ -220,14 +220,14 @@ function confDelSta(opcion){
 	}
 	if(!confirm("¿Esta seguro que desea Eliminar el Status = "+opcion+"?"))exit();
 }
-function quitarStatus(idActSta,idAct,idProceso,$idUsuario){
-	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=quitarStatus&idActSta="+idActSta+"&idAct="+idAct+"&idProceso="+idProceso+"&idUsuario="+idUsuario,"POST");
+function quitarStatus(idActSta,idAct,idProceso,$idUsuario,status){
+	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=quitarStatus&idActSta="+idActSta+"&idAct="+idAct+"&idProceso="+idProceso+"&idUsuario="+idUsuario+"&status="+status,"POST");
 }
-function agregarMS(idAct,idProceso,idUsuario){
+function agregarMS(idAct,idProceso,idUsuario,status){
 	$("#transparenciaGeneralSt").show();
-	ajaxApp("listadoStatus","controladorEnsamble.php","action=FormStat&idAct="+idAct+"&idProceso="+idProceso+"&idUsuario="+idUsuario,"POST");
+	ajaxApp("listadoStatus","controladorEnsamble.php","action=FormStat&idAct="+idAct+"&idProceso="+idProceso+"&idUsuario="+idUsuario+"&status="+status,"POST");
 }
-function guardarNuevoStA(idAct,idProceso,idUsuario){
+function guardarNuevoStA(idAct,idProceso,idUsuario,statusAC){
 	var status="";
 
 	for (var i=0;i<document.mS.elements.length;i++){
@@ -245,7 +245,7 @@ function guardarNuevoStA(idAct,idProceso,idUsuario){
 		alert("Sebe Seleccionar uno o mas campos");
 	}else{
 		//ajaxApp("nuevaActividad","controladorEnsamble.php","action=guardarActividad&id_proceso="+id_proceso+"&nombre="+nombre+"&descripcion="+descripcion+"&producto="+producto+"&status="+status,"POST");
-		ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=guardarNSA&idAct="+idAct+"&status="+status+"&idProceso="+idProceso+"&idUsuario="+idUsuario,"POST");
+		ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=guardarNSA&idAct="+idAct+"&status="+status+"&idProceso="+idProceso+"&idUsuario="+idUsuario+"&statusAC="+statusAC,"POST");
 	}
 }
 function editaStatus(idActSta,idAct,idProceso){
@@ -303,10 +303,10 @@ function checkActivar(obj,cajaT,tim){
 		}
 	}
 }
-function cACS(opS,idActSta,idAct,id_proceso,idUsuario){
+function cACS(opS,idActSta,idAct,id_proceso,idUsuario,status){
  	if(confirm("¿Esta seguro que desea "+opS+" el Status SCRAP?")){
  		if(opS=="Desactivar"){
- 			ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=actualizaDE&idActSta="+idActSta+"&time=0&operador=mas&idAct="+idAct+"&idProceso="+id_proceso+"&idUsuario="+idUsuario,"POST");
+ 			ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=actualizaDE&idActSta="+idActSta+"&time=0&operador=mas&idAct="+idAct+"&idProceso="+id_proceso+"&idUsuario="+idUsuario+"&status="+status,"POST");
  		}else{
  			editaStatus(idActSta,idAct,id_proceso);
  		}
@@ -314,11 +314,11 @@ function cACS(opS,idActSta,idAct,id_proceso,idUsuario){
  		$("#formularioOpciones").show();
 		$("#barraTitulo1VentanaDialogoValidacion2").show();
 		$("#barraTitulo1VentanaDialogoCapturaFinal").hide();
-		ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=modAct&idAct="+idAct+"&idProceso="+id_proceso,"POST");
+		ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=modAct&idAct="+idAct+"&idProceso="+id_proceso+"&idUsuario="+idUsuario+"&statusAc="+status,"POST");
 		return;
  	}
 }
-function guardarMod(opS,idActSta,idAct,id_proceso){
+function guardarMod(opS,idActSta,idAct,id_proceso,idUsuario,status){
 	if(confirm("¿Esta seguro que desea modificar el status: "+opS+"?")){
 		var cTim="#CtimS"+idActSta;
 		var bOpe="#BopSta"+idActSta;
@@ -329,7 +329,7 @@ function guardarMod(opS,idActSta,idAct,id_proceso){
 		}else{
 			operador="menos";
 		}
-		ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=actualizaDE&idActSta="+idActSta+"&time="+tiempo+"&operador="+operador+"&idAct="+idAct+"&idProceso="+id_proceso,"POST");
+		ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=actualizaDE&idActSta="+idActSta+"&time="+tiempo+"&operador="+operador+"&idAct="+idAct+"&idProceso="+id_proceso+"&idUsuario="+idUsuario+"&status="+status,"POST");
 	}else{
 		$("#formularioOpciones").show();
 		$("#barraTitulo1VentanaDialogoValidacion2").show();
@@ -351,20 +351,21 @@ function agregaSBA(idAct,idProceso,idUsuario){
 function limpiaconDiv(divAc){
 	$("#"+divAc).html("");
 }
-function FormModificaProceso(idProyecto,idProceso,idUsuario){
+function FormModificaProceso(idProyecto,idProceso,idUsuario,statusPc){
 	$("#formularioOpciones").show();
-	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=FormActualizaProceso&id_proyecto="+idProyecto+"&idProceso="+idProceso+"&idUsuario="+idUsuario,"POST");
+	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=FormActualizaProceso&id_proyecto="+idProyecto+"&idProceso="+idProceso+"&idUsuario="+idUsuario+"&statusPc="+statusPc,"POST");
 }
-function actualizaProceso(){
+function actualizaProceso(statusPc,statActualPc){
 	id_proyecto=$("#hdnProcesoProyectoA").val();
 	id_proceso=$("#hdnProcesoAc").val();
 	idUsuario=$("#hdnUsuarioAc").val();
 	nombre=$("#txtNombreProcAc").val();
 	descripcion=$("#txtDescProcAc").val();
+	var statSATProc=$("#staProc").val();
 	if(nombre=="" || descripcion==""){
 		alert("Error debe llenar todos los campos");
 	}else{
-		ajaxApp("nuevoProceso","controladorEnsamble.php","action=actualizaProceso&id_proyecto="+id_proyecto+"&nombre="+nombre+"&descripcion="+descripcion+"&id_proceso="+id_proceso+"&idUsuario="+idUsuario,"POST");
+		ajaxApp("nuevoProceso","controladorEnsamble.php","action=actualizaProceso&id_proyecto="+id_proyecto+"&nombre="+nombre+"&descripcion="+descripcion+"&id_proceso="+id_proceso+"&idUsuario="+idUsuario+"&statusPc="+statusPc+"&statSATProc="+statSATProc+"&statActualPc="+statActualPc,"POST");
 	}
 }
 function limpiaDivs(div1,div2){
@@ -416,5 +417,17 @@ function ActualizarProyecto(idProyecto,idUsuario,statActual,statusFiltroPry){
 function verProyectosS(idUsuario){
 	var statusFiltro=$("#statusFiltroPy").val();
 	var optProyecto='consulta';	
+	$("#contenido12").html("");
+	$("#contenido13").html("");
 	ajaxApp("contenido11","controladorEnsamble.php","action=listarProyectos&idUsuario="+idUsuario+"&optProyecto="+optProyecto+"&status="+statusFiltro,"POST");	
+}
+function verProcesos(idProyecto,idUsuario){
+	var statusFiltroPc=$("#statusFiltroPc").val();
+	var opt='consulta';
+	$("#contenido13").html("");
+	ajaxApp("contenido12","controladorEnsamble.php","action=listarProcesos&idProyecto="+idProyecto+"&idUsuario="+idUsuario+"&optPc="+opt+"&statusPrc="+statusFiltroPc,"POST");
+}
+function verActividades(idProceso,opt,idUsuario){
+	var statusFiltroPc=$("#statusFiltroAc").val();
+	ajaxApp("contenido13","controladorEnsamble.php","action=listarActividades&idProceso="+idProceso+"&opt="+opt+"&idUsuario="+idUsuario+"&statusAc="+statusFiltroPc,"POST");
 }

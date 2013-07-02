@@ -148,7 +148,7 @@
 			$date[$q][0]=$dias[$dia].", ".date("Y-m-d", mktime(0,0,0,$fecha1[1],$fecha1[2]+$q,$fecha1[0]));
 		}
 		?>
-		<table id="mytabla" class="tablita" cellspacing="1" cellpadding="1" border="1" style="font-size: 10px;margin: 5px; text-align: center;">
+		<table id="mytabla" class="tablita" cellspacing="1" cellpadding="1" border="0" style="font-size: 10px;margin: 5px; text-align: center;border: 1px solid #000;">
 			<col><col><col><col><col><col><col><col><col><col><col><col>
 			<tr class="cabezas">
 				<?foreach($columnas as $nombre => $valor){?>
@@ -724,6 +724,9 @@
 				//echo "<br>".
 				$sqlCapMes="SELECT * FROM CAP_MES WHERE no_empleado='".$noEmpleado."' AND mes='".$fecha1x[1]."'";
 				$resCapMes=@mysql_query($sqlCapMes,$this->conectarBd())or die(mysql_error());
+				echo "<div id='barraOpcionesEnsamble'>
+					<a href='index.php' target='_blank' class='opcionesEnsamble' style='text-decoration:none;color:#000;'>Nueva Consulta</a>
+				      </div>";
 				if(mysql_num_rows($resCapMes)==0){
 					echo "<div style='border-top:2px solid blue;border-bottom:2px solid blue;background:skyblue;height:20px;padding:8px;color:#000;font-weight:bold;'>No existen datos configurados para el mes seleccionado.</div>";
 				}else{					
@@ -753,80 +756,84 @@
 					<input type="hidden" name="txtHdnTiempoExtra" id="txtHdnTiempoExtra" value="<?=$rowCapMes["tiem_ex"];?>">
 					<input type="hidden" name="txtHdnMetaProd" id="txtHdnMetaProd" value="<?=$rowCapMes["meta_pro"];?>">
 			
-					<table border="1" cellpadding="1" cellspacing="1" width="300" style="font-size: 10px;margin: 5px;">
-						<tr>
-							<td width="230" style="background: #7DC24B;">Mes</td>
-							<td width="70"><? echo $meses[$fecha1x[1]-1]; ?></td>
-						</tr>
-						<tr>
-							<td>Jornada Laboral</td>
-							<td>&nbsp;<? echo $rowCapMes["jorna_lab"];?></td>
-						</tr>
-						<tr>
-							<td style="background: #7DC24B;">Dias Laborables</td>
-							<td>&nbsp;<? echo $rowCapMes["dias_lab"]; ?></td>
-						</tr>
-						<tr>
-							<td style="background: #7DC24B;">Dias con Licencia</td>
-							<td>&nbsp;<? echo $rowCapMes["dias_li"]; ?></td>
-						</tr>
-						<tr>
-							<td style="background: #7DC24B;">TE (Hrs)</td>
-							<td>&nbsp;<? echo $rowCapMes["tiem_ex"]; ?></td>
-						</tr>
-						<tr>
-							<td style="background: #7DC24B;">Meta Productiva</td>
-							<td>&nbsp;<? echo $rowCapMes["meta_pro"]; ?></td>
-						</tr>
-						<tr>
-							<td>Dias Laborados (Admin)</td>
-							<td>&nbsp;<? echo round($diasLaboradorAdmin,2); ?></td>
-						</tr>
-						<tr>
-							<td>Dias Laborados Operativamente</td>
-							<td>&nbsp;</td>
-						</tr>
-						<tr>
-							<td>Minutos Laborables por Jornada (min)</td>
-							<td>&nbsp;<? echo $minutosLaborablesxJornada; ?><input type="hidden" name="hdnMinutosLaborablesJornada" id="hdnMinutosLaborablesJornada" value="<?=$minutosLaborablesxJornada?>"></td>
-						</tr>
-						<tr>
-							<td>Horas Laboradas en el Mes al 100 % de Productividad</td>
-							<td>&nbsp;<? echo $horasLaboradasMes; ?></td>
-						</tr>
-						<tr>
-							<td>Horas Laboradas en el Mes al % de Productividad</td>
-							<td>&nbsp;<? echo $horasLaboradasMesProd; ?></td>
-						</tr>
-						<tr>
-							<td style="background: yellow;color: #000;">Cumplimiento</td>
-							<td>&nbsp;<input type="text" id="cumpli" name="cumpli" readonly="" value="" style="width: 60px;" /></td>
-						</tr>
-						<tr>
-							<td style="background: yellow;color: #000;">TE (Hrs)</td>
-							<td>&nbsp;<input type="text" id="te" name="te" readonly="" value="" style="width: 60px;" /></td>
-						</tr>
-						<tr>
-							<td style="background: yellow;color: #000;">Productividad por Dia</td>
-							<td>&nbsp;<input type="text" id="pxd" name="pxd" readonly="" value="" style="width: 60px;" /></td>
-						</tr>
-						<tr>
-							<td style="background: yellow;color: #000;">Productividad por Mes</td>
-							<td>&nbsp;<input type="text" id="pxm" name="pxm" readonly="" value="" style="width: 60px;" /></td>
-						</tr>
-						<tr>
-							<td style="background: yellow;color: #000;">Rendimiento</td>
-							<td>&nbsp;<input type="text" id="rendi" name="rendi" readonly="" value="" style="width: 60px;" /></td>
-						</tr>
-						<tr>
-							<td style="background: yellow;color: #000;">% de Scrap en el Mes</td>
-							<td>&nbsp;<input type="text" id="scrapxr" name="scrapxr" readonly="" value="" style="width: 60px;" /></td>
-						</tr>
-						<tr>
-							<td style="background: yellow;color: #000;">% de Rechazo en el Mes</td>
-							<td>&nbsp;<input type="text" id="rechazoxr" name="rechazoxr" readonly="" value="" style="width: 60px;" /></td>
-						</tr>
-					</table>
+					<div style="overflow: hidden;height: auto;width: 99%;">
+						<div style="float: left;border: 1px solid #CCC;margin: 5px;height: auto;width: 350px;">
+							<table border="1" cellpadding="1" cellspacing="1" width="300" style="font-size: 10px;margin: 5px;">
+								<tr>
+									<td width="230" style="background: #7DC24B;">Mes</td>
+									<td width="70"><? echo $meses[$fecha1x[1]-1]; ?></td>
+								</tr>
+								<tr>
+									<td>Jornada Laboral</td>
+									<td>&nbsp;<? echo $rowCapMes["jorna_lab"];?></td>
+								</tr>
+								<tr>
+									<td style="background: #7DC24B;">Dias Laborables</td>
+									<td>&nbsp;<? echo $rowCapMes["dias_lab"]; ?></td>
+								</tr>
+								<tr>
+									<td style="background: #7DC24B;">Dias con Licencia</td>
+									<td>&nbsp;<? echo $rowCapMes["dias_li"]; ?></td>
+								</tr>
+								<tr>
+									<td style="background: #7DC24B;">TE (Hrs)</td>
+									<td>&nbsp;<? echo $rowCapMes["tiem_ex"]; ?></td>
+								</tr>
+								<tr>
+									<td style="background: #7DC24B;">Meta Productiva</td>
+									<td>&nbsp;<? echo $rowCapMes["meta_pro"]; ?></td>
+								</tr>
+								<tr>
+									<td>Dias Laborados (Admin)</td>
+									<td>&nbsp;<? echo round($diasLaboradorAdmin,2); ?></td>
+								</tr>
+								<tr>
+									<td>Dias Laborados Operativamente</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td>Minutos Laborables por Jornada (min)</td>
+									<td>&nbsp;<? echo $minutosLaborablesxJornada; ?><input type="hidden" name="hdnMinutosLaborablesJornada" id="hdnMinutosLaborablesJornada" value="<?=$minutosLaborablesxJornada?>"></td>
+								</tr>
+								<tr>
+									<td>Horas Laboradas en el Mes al 100 % de Productividad</td>
+									<td>&nbsp;<? echo $horasLaboradasMes; ?></td>
+								</tr>
+							</table>
+						</div>
+						<div style="float: left;border: 1px solid #CCC;margin: 5px;height: auto;width: 350px;">
+							<table border="1" cellpadding="1" cellspacing="1" width="300" style="font-size: 10px;margin: 5px;">
+								<tr>
+									<td style="background: yellow;color: #000;">Cumplimiento</td>
+									<td>&nbsp;<input type="text" id="cumpli" name="cumpli" readonly="" value="" style="width: 60px;" /></td>
+								</tr>
+								<tr>
+									<td style="background: yellow;color: #000;">TE (Hrs)</td>
+									<td>&nbsp;<input type="text" id="te" name="te" readonly="" value="" style="width: 60px;" /></td>
+								</tr>
+								<tr>
+									<td style="background: yellow;color: #000;">Productividad por Dia</td>
+									<td>&nbsp;<input type="text" id="pxd" name="pxd" readonly="" value="" style="width: 60px;" /></td>
+								</tr>
+								<tr>
+									<td style="background: yellow;color: #000;">Productividad por Mes</td>
+									<td>&nbsp;<input type="text" id="pxm" name="pxm" readonly="" value="" style="width: 60px;" /></td>
+								</tr>
+								<tr>
+									<td style="background: yellow;color: #000;">Rendimiento</td>
+									<td>&nbsp;<input type="text" id="rendi" name="rendi" readonly="" value="" style="width: 60px;" /></td>
+								</tr>
+								<tr>
+									<td style="background: yellow;color: #000;">% de Scrap en el Mes</td>
+									<td>&nbsp;<input type="text" id="scrapxr" name="scrapxr" readonly="" value="" style="width: 60px;" /></td>
+								</tr>
+								<tr>
+									<td style="background: yellow;color: #000;">% de Rechazo en el Mes</td>
+									<td>&nbsp;<input type="text" id="rechazoxr" name="rechazoxr" readonly="" value="" style="width: 60px;" /></td>
+								</tr>
+							</table>
+						</div>
+					</div>					
 <?
 					//se buscan las actividades relacionadas al usuario
 					//echo "<br>".

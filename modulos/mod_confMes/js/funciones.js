@@ -94,16 +94,18 @@ function VALIDAR(tabla){
 				alert("ERROR: No se acepta el caracter '" + ubicacion + "'.")  
 				return;
 			}
+		}
 		
 		//acaba for valores
 		if (sql_valores==""){
 			sql_valores=campos[i2]+"|||"+valores[i2];
+			//alert(sql_valores); exit;
 		} else {
 			sql_valores+="@@@"+campos[i2]+"|||"+valores[i2];
-		
+			//alert(sql_valores); exit;	
 		}
 	
-		}
+		
 	}
 		
                      
@@ -112,7 +114,7 @@ function VALIDAR(tabla){
 	//exit;
 	//se recupera los numeros de los dias
 	//var numerosDias=$("#txtDiasSeleccionados").val();
-	//sql_valores=sql_valores+"@@@numerosDias|||"+numerosDias;
+	//sql_valores=sql_valores+"@@@numerosDias|0||"+numerosDias;
 	
         if (confirm("¿Desea guardar el registro?")){
 		ajaxApp("muestraasignaciones","controladormes.php","action=insertarregistro&tabla="+tabla+"&valores="+sql_valores,"POST");
@@ -129,21 +131,18 @@ function calcular(){
 
 	if(isNaN(a)||isNaN(b)||isNaN(c)||isNaN(d)){
 		alert("Error: El campo Dias Laborables solo admite numeros");
-		return false;
+		return false;0
 	}else{
-		aa=parseInt(a);
-		bb=parseInt(b);
-		cc=parseInt(c);
+		aa=parseInt(a);//dias laborables
+		bb=parseInt(b);//jornada laboral
+		cc=parseInt(c);//dias licencia
 		
-		dd=parseFloat(d);
-		//alert(dd);
-		//exit
-		
+		dd=parseFloat(d);//tiempo extra
 		diasli=cc*bb;
-		resu=aa*bb;
-		otro=resu-diasli;
+		resu=aa*bb; //calculo para dias totales laborables
+		otro=resu-diasli;//calculo si hay dias de vacaciones
 		////otromas=float
-		otromas= otro+dd;
+		otromas= otro+dd;// resultado total de horas laborables
 		//alert(otromas);
 		
 		
@@ -275,3 +274,8 @@ function agregarDiasSeleccionados(){
 function muestraCalendarioMod(anio,mes,dia,diasSeleccionados){
 	ajaxApp("calendarioDiasSeleccionadosMods","controladormes.php","action=verMesConfiguracion&mes="+mes,"POST");
 }
+function campoValor0(valor){
+	
+	alert(valor.value);
+}
+

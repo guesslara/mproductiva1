@@ -46,8 +46,8 @@
 	function redimensionar(){
 		var altoDiv=$("#contenedorEnsamble3").height();
 		var anchoDiv=$("#contenedorEnsamble3").width();
-		var altoCuerpo=altoDiv-52;		
-		$("#infoEnsamble3").css("height",(altoCuerpo-15)+"px");
+		var altoCuerpo=altoDiv-3;		
+		$("#infoEnsamble3").css("height",altoCuerpo+"px");
 	}
 	
 	window.onresize=redimensionar;
@@ -67,72 +67,65 @@
 <input type="hidden" name="txtProcesoEmpaqueEnvio" id="txtProcesoEmpaqueEnvio" value="<?=$proceso1;?>" />
 <input type="hidden" name="txtIdUsuarioEmpaque" id="txtIdUsuarioEmpaque" value="<?=$_SESSION['id_usuario_nx'];?>" />
 <div id="contenedorEnsamble">
-	<div id="contenedorEnsamble3">
-		<div id="barraOpcionesEnsamble">
-			<table border="0" cellpadding="1" cellspacing="1" width="99.7%" style="font-size: 10px;margin: 4px;background: #FFF;">
-				<tr>
-					<td>
-						#: <input type="text" readonly="readonly" style="width: 65px;" name="txtBNoEmpleado" id="txtBNoEmpleado">
-						<input type="button" value="..." onclick="abrir('buscarEmpleado','busqueda')" >
-						Fecha 1&nbsp;<input type="text" name="busquedaRegistro1" id="busquedaRegistro1" style="width: 150px;" >
-						<input type="button" id="lanzadorB1"  value="..." />
-						<!-- script que define y configura el calendario-->
-						<script type="text/javascript">
-						    Calendar.setup({
-							inputField     :    "busquedaRegistro1",      // id del campo de texto
-							ifFormat       :    "%Y-%m-%d",       // formato de la fecha, cuando se escriba en el campo de texto
-							button         :    "lanzadorB1"   // el id del botón que lanzará el calendario
-						    });
-						</script>&nbsp;y&nbsp;
-						Fecha 2&nbsp;<input type="text" name="busquedaRegistro2" id="busquedaRegistro2" style="width: 150px;" >
-						<input type="button" id="lanzadorB2"  value="..." />
-						<!-- script que define y configura el calendario-->
-						<script type="text/javascript">
-						    Calendar.setup({
-							inputField     :    "busquedaRegistro2",      // id del campo de texto
-							ifFormat       :    "%Y-%m-%d",       // formato de la fecha, cuando se escriba en el campo de texto
-							button         :    "lanzadorB2"   // el id del botón que lanzará el calendario
-						    });
-						</script>&nbsp;&nbsp;&nbsp;
-						<input type="button" value="Buscar..." onclick="buscarDatosMatriz();" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Nombre:&nbsp;<span id="nombreCompletoABuscar" style="width: 250px;height: 25px;font-size: 12px;">Nombre del Empleado</span>
-					</td>
-				</tr>				
-			</table>
-			<!--<div class="opcionesEnsamble" onclick="nuevaEntrega()" title="Capturar Equipo OK">Nueva Captura</div>			
-			<div class="opcionesEnsambleFinalizar" onclick="generarVentana()" title="Finalizar Entregas">Finalizar Entregas</div>-->
-			<!--<div id="cargadorEmpaque" style="float:right;width:600px;height:20px;padding:5px;background:#FFF;border:1px solid #CCC;font-size:13px;text-align:right;"></div>-->
-		</div>
-		<div id="infoEnsamble3">
-			<!--Area de los tabs-->
-			<div id="contenedor">
-				<div id="contenedorTabs" class="contenedorTabs">
-				    <div id="tab1" class="bordeDiv"><a href="javascript:void(0)" onclick="mostrarTab('1','contentTab1')" class="enlacesTabs">Resultados</a> <div class="btnCerrar" onclick="cierraTab('tab1')">&nbsp;</div></div>
-				</div>
-			</div>    
-			<input type="button" id="left" class="botonesDesp" value="<" />
-			<input type="button" id="right" class="botonesDesp" value=">" />
-			<div class="separador"></div>
-			<div id="contenedorContenidos">
-			</div>
-			    <div id="contenidoTab">
-			    <div id="contentTab1" class="contenidoTabs">
-				<p align="center" style="margin-top: 150px;font-size: 15px;">Introduzca los Datos de B&uacute;squeda en la parte Posterior</p>
-			    </div>
-			</div>
-			<!--Fin Area de los tabs-->
+	<div id="contenedorEnsamble3">		
+		<div id="infoEnsamble3" style="overflow: auto;">
+			
 		</div>
 	</div>
 </div>
-<div id="ventanaDialogo" class="ventanaDialogo" style="display:none;">
+<div id="ventanaDatosABuscar" class="ventanaDialogo" style="display:block;">
+	<div id="barraTitulo1" style="height: 19px;padding: 5px;background: #000;color: #FFF;font-size: 12px;">Buscar...<div id="btnCerrar" style="float: right;"><a href="#" onclick="cerrarVentana('ventanaDialogo')" title="Cerrar Ventana Dialogo"><img src="../../img/close.gif" border="0" /></a></div></div>
+	<div id="opcionesBusqueda" style="border: 0px solid #FF0000;width: 598px;height: 269px;overflow: auto;"><br>
+		<table border="0" cellpadding="1" cellspacing="1" width="575" style="font-size: 10px;margin: 4px;background: #FFF;">
+			<tr>
+				<td width="100">#:</td>
+				<td width="475">
+					<input type="text" readonly="readonly" value="2441" style="width: 65px;" name="txtBNoEmpleado" id="txtBNoEmpleado">
+					<input type="button" value="..." onclick="abrir('buscarEmpleado','busqueda')" >
+				</td>
+			</tr>
+			<tr>
+				<td>Nombre:</td>
+				<td><div id="nombreCompletoABuscar" style="width: 250px;height: 25px;font-size: 12px;">Nombre del Empleado</div></td>
+			</tr>				
+			<tr>
+				<td>Fecha 1</td>
+				<td>
+					<input type="text" name="busquedaRegistro1" id="busquedaRegistro1" style="width: 150px;" value="2013-05-01" >
+					<input type="button" id="lanzadorB1"  value="..." />
+					<!-- script que define y configura el calendario-->
+					<script type="text/javascript">
+					    Calendar.setup({
+						inputField     :    "busquedaRegistro1",      // id del campo de texto
+						ifFormat       :    "%Y-%m-%d",       // formato de la fecha, cuando se escriba en el campo de texto
+						button         :    "lanzadorB1"   // el id del botón que lanzará el calendario
+					    });
+					</script>&nbsp;y&nbsp;
+					Fecha 2&nbsp;<input type="text" name="busquedaRegistro2" id="busquedaRegistro2" style="width: 150px;" value="2013-05-31" >
+					<input type="button" id="lanzadorB2"  value="..." />
+					<!-- script que define y configura el calendario-->
+					<script type="text/javascript">
+					    Calendar.setup({
+						inputField     :    "busquedaRegistro2",      // id del campo de texto
+						ifFormat       :    "%Y-%m-%d",       // formato de la fecha, cuando se escriba en el campo de texto
+						button         :    "lanzadorB2"   // el id del botón que lanzará el calendario
+					    });
+					</script>&nbsp;&nbsp;&nbsp;
+					
+				</td>
+			</tr>
+			<tr><td colspan="2"><hr style="background:#CCC;"></td></tr>
+			<tr>
+				<td colspan="2" style="text-align: right;"><input type="button" value="Buscar..." onclick="buscarDatosMatriz();" /></td>
+			</tr>			
+		</table>
+	</div>
+</div>
+<div id="ventanaDialogo" class="ventanaDialogo" style="display:none;z-index:999;">
 	<div id="barraTitulo1" style="height: 15px;padding: 5px;background: #000;color: #FFF;font-size: 12px;">Opciones...<div id="btnCerrar" style="float: right;"><a href="#" onclick="cerrarVentana('ventanaDialogo')" title="Cerrar Ventana Dialogo"><img src="../../img/close.gif" border="0" /></a></div></div>
 	<div id="msgVentanaDialogo" class="msgVentanaDialogo" style="border: 0px solid #FF0000;width: 99.5%;height: 272px;overflow: auto;"></div>
 </div>
-<div id="buscarEmpleado" style="border:1px solid #000;background-color:#FFF;height:300px;width:600px;left: 50%;top: 50%;margin-left: -300px;margin-top: -150px;position:absolute; display: none;"  >
+<div id="buscarEmpleado" style="border:1px solid #000;background-color:#FFF;height:300px;width:600px;left: 50%;top: 50%;margin-left: -300px;margin-top: -150px;position:absolute; display: none;z-index: 998;"  >
 	<div id="barraTituloBuscar" class="barraTitulo1VentanaDialogoValidacion">Seleccionar...<div id="btnCerrarVentanaDialogo"><a href="#" onclick="cerrarVentana('buscarEmpleado');" title="Cerrar Ventana"><img src="../../img/close.gif" border="0" /></a></div></div>
 	<div id="listadoResultados" style="border:1px solid #CCC; margin:4px; font-size:10px;height:87%; overflow:hidden;"><br><br>
 		<center>
