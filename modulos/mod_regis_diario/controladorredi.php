@@ -50,5 +50,8 @@
 			//print_r($_POST);
 			$registroDiario->consultarRegistroDiario($_POST["noEmpleado"],$_POST["fecha1"],$_POST["fecha2"]);
 		break;
+		case "formBuscador":
+		 	$registroDiario->formBuscador($_POST["opcionB"]);
+		break;
 	}
 ?>

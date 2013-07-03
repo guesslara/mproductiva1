@@ -48,7 +48,7 @@ class diario {
 	    </tr>
 	    <tr>
 		<td width="100" class="cabeceraTitulosTabla">No Empleado</td>
-		<td width="500"><input type="text" readonly="readonly" name="txtBNoEmpleado" id="txtBNoEmpleado"><input type="button" value="Buscar" onclick="abrir('buscarEmpleado','busqueda')" ></td>
+		<td width="500"><input type="text" readonly="readonly" name="txtBNoEmpleado" id="txtBNoEmpleado"><input type="button" value="Buscar" onclick="abrir('buscaDiv','busqueda')" ></td>
 	    </tr>
 	    <tr>
 		<td width="100" class="cabeceraTitulosTabla">Nombre</td>
@@ -57,7 +57,7 @@ class diario {
 	    <tr>
 		<td class="cabeceraTitulosTabla">Fecha</td>
 		<td>
-		<input type="text" name="busquedaRegistro1" id="busquedaRegistro1" >
+		<input type="text" name="busquedaRegistro1" id="busquedaRegistro1" readonly >
 		    <input type="button" id="lanzadorB1"  value="..." />
                     <!-- script que define y configura el calendario-->
                     <script type="text/javascript">
@@ -67,7 +67,7 @@ class diario {
                             button         :    "lanzadorB1"   // el id del botón que lanzará el calendario
                         });
                     </script>
-		    <input type="text" name="busquedaRegistro2" id="busquedaRegistro2" >
+		    <input type="text" name="busquedaRegistro2" id="busquedaRegistro2" readonly >
 		    <input type="button" id="lanzadorB2"  value="..." />
                     <!-- script que define y configura el calendario-->
                     <script type="text/javascript">
@@ -105,7 +105,7 @@ class diario {
 	    while($rowRD=mysql_fetch_array($resRD)){
 ?>
 		<tr>
-		    <td colspan="3"><br><?=$this->dameNombreActividad($rowRD["id_actividad"]);?></td>
+		    <td colspan="3"><br><?=$this->dameNombreActividad($rowRD["id_actividad"]);?><div></div></td>
 		</tr>
 		<tr>
 		    <td width="300" class="cabeceraTitulosTabla">Nombre</td>
@@ -124,11 +124,12 @@ class diario {
 		    echo "( 0 ) registros encontrados.";
 		}else{
 		    $valorStatus=explode(",",$rowRD["status"]);
-		    
+		    $cuantosStatus=mysql_num_rows($resS)+1;
 		    echo "<table width='350' border='0' cellpadding='1' cellspacing='1' style='font-size:10px;'>
 			    <tr>
 				<td width='250' class='cabeceraTitulosTabla'>Status</td>
-				<td width='100' class='cabeceraTitulosTabla'>Registros</td>
+				<td width='100' class='cabeceraTitulosTabla'>Registros</td>	
+				<td rowspan='".$cuantosStatus."' width='100' style='text-align:center;background:#fff;'><a href='#' onclick='abrir('buscaDiv','N/A')' title='Editar detalle de captura'><img src='../../img/icon_edit.png' border='0' /></a></td>
 			    </tr>";
 		    $i=0; $color="#E1E1E1";
 		    while($rowS=mysql_fetch_array($resS)){
@@ -201,7 +202,7 @@ class diario {
 		    </td>
 		</tr>
 		<tr>
-		    <td style="height: 15px;padding: 5px;text-align: right;"><a href="#" onclick="abrir('buscarEmpleado','N/A')"> Buscar Empleado a Evaluar</a></td>
+		    <td style="height: 15px;padding: 5px;text-align: right;"><a href="#" onclick="abrir('buscaDiv','N/A')"> Buscar Empleado a Evaluar</a></td>
 		</tr>
 	    </table>
 	</form>
@@ -220,11 +221,10 @@ class diario {
 <?
 	}
 	else{
-     
 ?>
 	<table align="center" BORDER="0" CELLPADDING="0" width="700" CELLSPACING="0" style="font-size: 12px;">
 	    <tr>
-		    <td colspan="8"><center><strong>EMPLEADOS</strong></center></td>
+		    <td colspan="8"><center><strong>EMPLEADOS <?=$opcionB?></strong></center></td>
 	    </tr>
 	    <tr>
 		<td class="cabeceraTitulosTabla"><strong>N° Empleado</strong></td>
@@ -240,11 +240,11 @@ class diario {
 <?
 	    if($opcionB!="N/A"){
 ?>
-		    <a href="#" onclick="ponerDAtosEmpleado2('<?=$rowListado["no_empleado"];?>','<?=$rowListado["nombres"];?>','<?=$rowListado["a_paterno"];?>','<?=$rowListado["a_materno"];?>'),cerrarVentana('buscarEmpleado')" ><?=$rowListado["no_empleado"];?></a>
+		    <a href="#" onclick="ponerDAtosEmpleado2('<?=$rowListado["no_empleado"];?>','<?=$rowListado["nombres"];?>','<?=$rowListado["a_paterno"];?>','<?=$rowListado["a_materno"];?>'),cerrarVentana('buscaDiv')" ><?=$rowListado["no_empleado"];?></a>
 <?
 	    }else{
 ?>
-		    <a href="#" onclick="insertarempleado('<?=$rowListado["no_empleado"];?>','<?=$rowListado["nombres"];?>','<?=$rowListado["a_paterno"];?>','<?=$rowListado["a_materno"];?>'),cerrarVentana('buscarEmpleado')" ><?=$rowListado["no_empleado"];?></a>
+		    <a href="#" onclick="insertarempleado('<?=$rowListado["no_empleado"];?>','<?=$rowListado["nombres"];?>','<?=$rowListado["a_paterno"];?>','<?=$rowListado["a_materno"];?>'),cerrarVentana('buscaDiv')" ><?=$rowListado["no_empleado"];?></a>
 <?
 	    }
 ?>
@@ -397,6 +397,14 @@ class diario {
 	    </table>
 	    <script type="text/javascript"> $("#txtStatus0").focus(); </script>
 <?
+	}
+	public function formBuscador($buscadorB){
+		?><br>
+		<center>
+		<!--<input type="hidden" name="txtOpcionBusqueda" id="txtOpcionBusqueda" value="<?=$buscadorB;?>">-->
+		<form>
+		Buscar:<input type="text" name="buscar"  id="buscar" onkeypress="buscarEmpleado('<?=$buscadorB;?>');"></i>
+		</form></center><?
 	}
 }
 ?>

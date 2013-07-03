@@ -1,4 +1,5 @@
 var tabAux=2;
+var cont=0;
 var cantidadJornada="";
 function ajaxApp(divDestino,url,parametros,metodo){	
 	$.ajax({
@@ -19,10 +20,66 @@ function ajaxApp(divDestino,url,parametros,metodo){
 	error:function() { $("#"+divDestino).show().html('<center>Error: El servidor no responde. <br>Por favor intente mas tarde. </center>'); }
 	});
 }
-function arriba(fila){
-	//$("fila").removeClass();
-} 
+function cambio(){
+	var Pjl=parseFloat($("#Pjl").val());
+	var Pdl=parseFloat($("#Pdl").val());
+	var Pdcl=parseFloat($("#Pdcl").val());
+	var Pte=parseFloat($("#Pte").val());
+	var Pmp=parseFloat($("#Pmp").val());
+	var bx62=parseFloat($("#txtbx62").val());
+	var by62=parseFloat($("#txtby62").val());
+	var dlab=0,dlope=0,mlxj=0,hlxm=0,cero=0;
+	dlab=Pdl-Pdcl+(Pte/Pjl);
+	$("#Pdladmin").attr("value",Math.round(dlab*100)/100);
+	if($("#txtbx62").val()){
+		dlope=(((bx62+by62)/Pmp)/Pjl)*100;
+		$("#Pdlope").attr("value",Math.round(dlope*100)/100);
+	}
+	mlxj=Pjl*60*Pmp;
+	$("#Pmlxj").attr("value",mlxj);
+	hlxm=Pjl*(Pdl+(Pte/Pjl)-Pdcl);
+	$("#Phlxm").attr("value",hlxm);
+	$("#cumpli").attr("value",cero);
+	$("#te").attr("value",cero);
+	$("#pxd").attr("value",cero);
+	$("#pxm").attr("value",cero);
+	$("#rendi").attr("value",cero);
+	$("#scrapxr").attr("value",cero);
+	$("#rechazoxr").attr("value",cero);
+	$("#tabMatrizDetalle2").html("");
+	vermatriz="<input type='button' value='Ver Matriz' onclick='crear();' />";
+	$("#btns").html(vermatriz);cont=0;	
+}
+function oculver(cual,llego){
+	if(cual==1){
+		//var antesarre = llego.split("&");
+		$("#mostra").hide();
+		$("#oculta").show();
+		$("#Pjl").removeAttr("readonly");
+		$("#Pdl").removeAttr("readonly");
+		$("#Pdcl").removeAttr("readonly");
+		$("#Pte").removeAttr("readonly");
+		$("#Pmp").removeAttr("readonly");
+		$("#contesta").html("");
+	}else if(cual==2){
+		$("#oculta").hide();
+		$("#verFacPas").hide();
+		$("#mostra").show();
+		$("#Pjl").attr("readonly","readonly");
+		$("#Pdl").attr("readonly","readonly");
+		$("#Pdcl").attr("readonly","readonly");
+		$("#Pte").attr("readonly","readonly");
+		$("#Pmp").attr("readonly","readonly");
+		valores="no_empleado|||"+$("#noemp").val()+"@@@dias_lab|||"+$("#Pdl").val()+"@@@jorna_lab|||"+$("#Pjl").val()+"@@@dias_li|||"+$("#Pdcl").val()+"@@@tiem_ex|||"+$("#Pte").val()+"@@@horas_la|||"+$("#Phlxm").val()+"@@@meta_pro|||"+$("#Pmp").val()+"@@@mes|||"+$("#mess").val();
+		parametros="action=actualizar&tac=CAP_MES&valores="+valores+"&ids="+$("#ids").val();
+		ajaxApp("contesta","controladorEnsamble.php",parametros,"POST");
+	}
+}
 function crear(){
+	cont++;
+	var boton="<input type='button' value='calcular' onclick='cambioAj();' />";
+	if(cont<2)
+		$("#btns").append(boton);
 	var noEmpleado=$("#txtBNoEmpleado").val();
 	var fecha1=$("#busquedaRegistro1").val();
 	var fecha2=$("#busquedaRegistro2").val();
@@ -30,21 +87,23 @@ function crear(){
 	parametros="action=creaTabla&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2+"&mlxj="+mlxj;
 	ajaxApp("tabMatrizDetalle2","controladorEnsamble.php",parametros,"POST");
 }
-function cambioAj(arrtxs,arrctxs,arrtodo,grupos){
+function cambioAj(){
+	var arrtxs=$("#cadtxs").val();
+	var arrctxs=$("#cadctxs").val();
+	var arrtodo=$("#cadtodo").val();
 	var ctxs = arrctxs.split(",");
 	var csyd=0, cont=0, hrsext=0;
 	var ajcp=100;var sump=0;
 	var res=0;var sumc=0;var sumt=0;
-	var divg=grupos.split("/");
-	var meta=parseInt($("#txtHdnMetaProd").val());
+	var meta=parseInt($("#Pmp").val());
 	var bx61=parseFloat($("#txtbx61").val());
 	var by61=parseFloat($("#txtby61").val());
 	var bz61=parseFloat($("#txtbz61").val());
 	var bx62=parseFloat($("#txtbx62").val());
 	var by62=parseFloat($("#txtby62").val());
 	var bz62=parseFloat($("#txtbz62").val());	
-	var jorlab=parseFloat($("#txtHdnJornadaLaboral").val());
-	var HdnTiempoExtra=parseFloat($("#txtHdnTiempoExtra").val());
+	var jorlab=parseFloat($("#Pjl").val());
+	var HdnTiempoExtra=parseFloat($("#Pte").val());
 	var linea = arrtodo.split("*");
 	var txs = arrtxs.split(",");
 	bz61=bz61*(-1);
@@ -55,6 +114,8 @@ function cambioAj(arrtxs,arrctxs,arrtodo,grupos){
 	$("#scrapxr").attr("value",(Math.round(scrapxr))+" %");
 	rechazoxr=(bz61/bx61)*100;
 	$("#rechazoxr").attr("value",(Math.round(rechazoxr))+" %");
+	Pdlope=(((bx62+by62)/meta)/jorlab)*100;
+	$("#Pdlope").attr("value",Math.round(Pdlope*100)/100);
 	for(var j=0; j<(linea.length-1);j++){
 		var dato=linea[j].split(",");
 		fecha=dato[1].split("-");
@@ -98,7 +159,7 @@ function cambioAj(arrtxs,arrctxs,arrtodo,grupos){
 	pxm=(sumt/labxMes)*100;
 	$("#pxm").attr("value",Math.round(pxm)+" %");
 	cumpli=(pxm/meta)*100;
-	$("#cumpli").attr("value",cumpli+" %");
+	$("#cumpli").attr("value",Math.round(cumpli)+" %");
 	return 1;
 }
 function abrir(div,opcion){

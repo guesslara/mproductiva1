@@ -48,5 +48,11 @@
             //$objCalendario->calendarizacion($_POST["mes"],date("Y"),date("d"));
             $uno->calendarizacion($_POST["mes"],date("Y"),date("d"),"N/A");
         break;
+        case "busqueda":
+            $numEmpl=$_POST["numEmpl"];
+            $nombreEmpl=$_POST["nombreEmpl"];
+            $mesSelect=$_POST["mesSelect"];
+            $uno->consultaPorParametro($numEmpl,$nombreEmpl,$mesSelect);
+        break;
     }
 ?>

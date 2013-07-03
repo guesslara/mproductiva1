@@ -148,6 +148,7 @@
 			$date[$q][0]=$dias[$dia].", ".date("Y-m-d", mktime(0,0,0,$fecha1[1],$fecha1[2]+$q,$fecha1[0]));
 		}
 		?>
+		<input type="hidden" name="cadtxs" id="cadtxs" value="<?=$cadtxs?>">
 		<table id="mytabla" class="tablita" cellspacing="1" cellpadding="1" border="0" style="font-size: 10px;margin: 5px; text-align: center;border: 1px solid #000;">
 			<col><col><col><col><col><col><col><col><col><col><col><col>
 			<tr class="cabezas">
@@ -242,6 +243,8 @@
 			<input type="hidden" name="txtbx62" id="txtbx62" value="<?=$masttxs;?>">
 			<input type="hidden" name="txtbz62" id="txtbz62" value="<?=$menosttxs;?>">
 			<input type="hidden" name="txtby62" id="txtby62" value="<?=$scrapttxs;?>">
+			<input type="hidden" name="cadctxs" id="cadctxs" value="<?=$cadctxs?>">
+			<input type="hidden" name="cadtodo" id="cadtodo" value="<?=$cadtodo?>">
 			<tr class="enlace">
 				<td>Cantidad Total x Status</td>
 				<?for($k=1;$k<$cont;$k++){?>
@@ -269,7 +272,6 @@
 				<td><input type='text' id='sumc' name='sumc' readonly="" value='' style='width: 60px;' /></td>
 			</tr>
 		</table>
-		<input type="button" value="calcular" onclick="cambioAj('<?=$cadtxs?>','<?=$cadctxs?>','<?=$cadtodo?>','<?=$grups?>');" />
 		<?
 	}
 		public function armaDetalleMatriz($noEmpleado,$fecha1,$fecha2,$idActividad){
@@ -727,6 +729,7 @@
 				echo "<div id='barraOpcionesEnsamble'>
 					<a href='index.php' target='_blank' class='opcionesEnsamble' style='text-decoration:none;color:#000;'>Nueva Consulta</a>
 				      </div>";
+				echo"<div id='contesta'></div>";
 				if(mysql_num_rows($resCapMes)==0){
 					echo "<div style='border-top:2px solid blue;border-bottom:2px solid blue;background:skyblue;height:20px;padding:8px;color:#000;font-weight:bold;'>No existen datos configurados para el mes seleccionado.</div>";
 				}else{					
@@ -746,6 +749,8 @@
 					$hdnNoEmpleado="txtHdnNoEmpleado".$tabMatrizDetalle;
 ?>
 					<input type="hidden" name="<?=$hdnNoEmpleado;?>" id="<?=$hdnNoEmpleado;?>" value="<?=$noEmpleado;?>">
+					<input type="hidden" name="noemp" id="noemp" value="<?=$noEmpleado;?>">
+					<input type="hidden" name="ids" id="ids" value="<?=$rowCapMes["id_cap"];?>">
 					<input type="hidden" name="txtHdnFecha1" id="txtHdnFecha1" value="<?=$fecha1;?>">
 					<input type="hidden" name="txtHlabxMes" id="txtHlabxMes" value="<?=$horasLaboradasMes;?>">
 					<input type="hidden" name="txtHdnFecha2" id="txtHdnFecha2" value="<?=$fecha2;?>">
@@ -755,9 +760,16 @@
 					<input type="hidden" name="txtHdnDiasLicencia" id="txtHdnDiasLicencia" value="<?=$rowCapMes["dias_li"];?>">
 					<input type="hidden" name="txtHdnTiempoExtra" id="txtHdnTiempoExtra" value="<?=$rowCapMes["tiem_ex"];?>">
 					<input type="hidden" name="txtHdnMetaProd" id="txtHdnMetaProd" value="<?=$rowCapMes["meta_pro"];?>">
-			
+					<input type="hidden" name="mess" id="mess" value="<?=$fecha1x[1]?>">
 					<div style="overflow: hidden;height: auto;width: 99%;">
 						<div style="float: left;border: 1px solid #CCC;margin: 5px;height: auto;width: 350px;">
+							<div id="fac_pasadas" style="width: 90%; height: 25px; margin: 10px 0px 10px 1px; padding: 5px 0px 0px 20px; background: #f0f0f0; border: #000000 1px solid;">
+								<div id="barrita" style="margin: 0px 0px 10px 0px;">
+								<div id="mostra" style="float: left;"><a href="#" onclick="oculver('1','<?=$lokll;?>');">Modificar</a>&nbsp</div>
+								<div id="oculta" style="display: none; float: left;"><a href="#" onclick="oculver('2');">Aplicar Cambios a</a>&nbsp</div>los Datos Principales
+							</div>
+							<div id="verFacPas" style="display: none; width: 100%; height: 85%;"></div>
+						</div>
 							<table border="1" cellpadding="1" cellspacing="1" width="300" style="font-size: 10px;margin: 5px;">
 								<tr>
 									<td width="230" style="background: #7DC24B;">Mes</td>
@@ -765,39 +777,48 @@
 								</tr>
 								<tr>
 									<td>Jornada Laboral</td>
-									<td>&nbsp;<? echo $rowCapMes["jorna_lab"];?></td>
+									<td>&nbsp;<input type="text" id="Pjl" onchange="cambio()" name="Pjl" readonly="" value="<?=$rowCapMes["jorna_lab"];?>" style="width: 60px;" />
+									</td>
 								</tr>
 								<tr>
 									<td style="background: #7DC24B;">Dias Laborables</td>
-									<td>&nbsp;<? echo $rowCapMes["dias_lab"]; ?></td>
+									<td>&nbsp;<input type="text" id="Pdl" onchange="cambio()" name="Pdl" readonly="" value="<?=$rowCapMes["dias_lab"];?>" style="width: 60px;" />
+									</td>
 								</tr>
 								<tr>
 									<td style="background: #7DC24B;">Dias con Licencia</td>
-									<td>&nbsp;<? echo $rowCapMes["dias_li"]; ?></td>
+									<td>&nbsp;<input type="text" id="Pdcl" onchange="cambio()" name="Pdcl" readonly="" value="<?=$rowCapMes["dias_li"];?>" style="width: 60px;" />
+									</td>
 								</tr>
 								<tr>
 									<td style="background: #7DC24B;">TE (Hrs)</td>
-									<td>&nbsp;<? echo $rowCapMes["tiem_ex"]; ?></td>
+									<td>&nbsp;<input type="text" id="Pte" onchange="cambio()" name="Pte" readonly="" value="<?=$rowCapMes["tiem_ex"];?>" style="width: 60px;" />
+									</td>
 								</tr>
 								<tr>
 									<td style="background: #7DC24B;">Meta Productiva</td>
-									<td>&nbsp;<? echo $rowCapMes["meta_pro"]; ?></td>
+									<td>&nbsp;<input type="text" id="Pmp" name="Pmp" onchange="cambio()" readonly="" value="<?=$rowCapMes["meta_pro"];?>" style="width: 60px;" />
+									</td>
 								</tr>
 								<tr>
 									<td>Dias Laborados (Admin)</td>
-									<td>&nbsp;<? echo round($diasLaboradorAdmin,2); ?></td>
+									<td>&nbsp;<input type="text" id="Pdladmin" name="Pdladmin" readonly="" value="<?=round($diasLaboradorAdmin,2);?>" style="width: 60px;" />
+									</td>
 								</tr>
 								<tr>
 									<td>Dias Laborados Operativamente</td>
-									<td>&nbsp;</td>
+									<td>&nbsp;<input type="text" id="Pdlope" name="Pdlope" readonly="" style="width: 60px;" />
+									</td>
 								</tr>
 								<tr>
 									<td>Minutos Laborables por Jornada (min)</td>
-									<td>&nbsp;<? echo $minutosLaborablesxJornada; ?><input type="hidden" name="hdnMinutosLaborablesJornada" id="hdnMinutosLaborablesJornada" value="<?=$minutosLaborablesxJornada?>"></td>
+									<td>&nbsp;<input type="text" id="Pmlxj" name="Pmlxj" readonly="" value="<?=$minutosLaborablesxJornada;?>" style="width: 60px;" />
+									<input type="hidden" name="hdnMinutosLaborablesJornada" id="hdnMinutosLaborablesJornada" value="<?=$minutosLaborablesxJornada?>"></td>
 								</tr>
 								<tr>
 									<td>Horas Laboradas en el Mes al 100 % de Productividad</td>
-									<td>&nbsp;<? echo $horasLaboradasMes; ?></td>
+									<td>&nbsp;<input type="text" id="Phlxm" name="Phlxm" readonly="" value="<?=$horasLaboradasMes;?>" style="width: 60px;" />
+									</td>
 								</tr>
 							</table>
 						</div>
@@ -845,7 +866,7 @@
 					}else{
 						$nombreCombo="cboActividadMatriz".$tabMatrizDetalle;
 ?>
-					<div style="height: 20px;padding: 5px;background: #f0f0f0;border: 1px solid #CCC;">
+					<div id="btns" style="height: 20px;padding: 5px;background: #f0f0f0;border: 1px solid #CCC;">
 						<input type="button" value="Ver Matriz" onclick="crear();" />
 					</div>
 					<div id="tabMatrizDetalle2" style="border: 1px solid #CCC;margin: 5px;"></div>

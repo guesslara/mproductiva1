@@ -23,17 +23,23 @@ function captura_actividad(){
 }
 function abrir(div,opcion){	
 	$("#"+div).show("fast");
-	if(div=="buscarEmpleado"){
-		$("#txtOpcionBusqueda").attr("value",opcion);
-		$("#buscar").focus();
+	$("#buscar").removeAttr("value");
+	//alert(opcion);
+	if(div=="buscaDiv"){
+		ajaxApp("formBusca","controladorredi.php","action=formBuscador&opcionB="+opcion,"POST");
+		/*$("#txtOpcionBusqueda").attr("value",opcion);
+		$("#buscar").focus();*/
 	}
 }
 function cerrarVentana(div){
 	$("#"+div).hide();
+	$("#ListarEmpleados").html("");
+	$("#formBusca").html("");
 }
-function buscarEmpleado(){
+function buscarEmpleado(opcionB){
 	var buscar=$("#buscar").val();
-	var opcionB=$("#txtOpcionBusqueda").val();
+	//var opcionB=$("#txtOpcionBusqueda").val();
+	//alert(opcionB);
 	ajaxApp("ListarEmpleados","controladorredi.php","action=buscarempleado&buscar="+buscar+"&opcionB="+opcionB,"POST");	
 }
 function insertarempleado(id_empleado,nombre,a_paterno,a_materno){

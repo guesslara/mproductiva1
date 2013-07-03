@@ -30,7 +30,7 @@
 	$(document).ready(function(){
 		redimensionar();
 		captura_actividad();
-		abrir('buscarEmpleado','N/A')
+		abrir('buscaDiv','N/A')
 	});	
 	function redimensionar(){
 		var altoDiv=$("#contenedorEnsamble3").height();
@@ -53,7 +53,7 @@
 		<div id="barraOpcionesEnsamble">
 			<div class="opcionesEnsamble" onclick="captura_actividad();" title="">Captura_Actividad</div>
 			<div class="opcionesEnsamble" onclick="consultaRegistros();" title="">Consultar Registros</div>
-			<div class="opcionesEnsamble" onclick="modificar();" title="">Modificar Registros</div>
+			<!--<div class="opcionesEnsamble" onclick="modificar();" title="">Modificar Registros</div>-->
 		<!--<div id="cargadorEmpaque" style="float:right;width:200px;height:20px;padding:5px;background:#FFF;border:1px solid #CCC;font-size:13px;text-align:right;"></div>-->
 		</div>
 		<!--abrir('transparenciaGeneral1');-->		
@@ -69,17 +69,20 @@
 	<div id="barraTitulo1VentanaDialogoValidacion" class="barraTitulo1VentanaDialogoValidacion">Asignaci&oacute;n</div>
 	<div id="listadoinEmpaqueValidacion" style="border:1px solid #CCC; margin:4px; font-size:10px;height:90%; overflow:auto;"></div>
 </div>
-<div id="buscarEmpleado" style="border:1px solid #000;background-color:#FFF;height:508px;width:900px;left: 50%;top: 50%;margin-left: -450px;margin-top: -254px;position:absolute;;/*sombra*/-webkit-box-shadow:10px 10px 5px #CCC;-moz-box-shadow:10px 10px 5px #CCC;filter: shadow(color=#CCC, direction=135,strength=2); display: none;"  >
-	<div id="barraTituloBuscar" class="barraTitulo1VentanaDialogoValidacion">Seleccionar...<div id="btnCerrarVentanaDialogo"><a href="#" onclick="cerrarVentana('buscarEmpleado');" title="Cerrar Ventana"><img src="../../img/close.gif" border="0" /></a></div></div>
+<div id="buscaDiv" class="transparenciaGeneral" style="display:none;">
+<div id="buscarEmpleado" style="border:1px solid #000;background-color:#FFF;height:508px;width:900px;left: 50%;top: 50%;margin-left: -450px;margin-top: -254px;position:absolute;;/*sombra*/-webkit-box-shadow:10px 10px 5px #CCC;-moz-box-shadow:10px 10px 5px #CCC;filter: shadow(color=#CCC, direction=135,strength=2);"  >
+	<div id="barraTituloBuscar" class="barraTitulo1VentanaDialogoValidacion">Seleccionar...<div id="btnCerrarVentanaDialogo"><a href="#" onclick="cerrarVentana('buscaDiv');" title="Cerrar Ventana"><img src="../../img/close.gif" border="0" /></a></div></div>
 	<div id="listadoResultados" style="border:1px solid #CCC; margin:4px; font-size:10px;height:92%; overflow:hidden;">
-		<br>
+		<div id="formBusca" style="border: 0px solid #ff0000;background:#fff; height:70px;width: 99%;font-size:12px;margin:3px;overflow: auto;clear:both;">
+		</div>
+	<!--	<br>
 		<br>
 		<center>
 		<input type="hidden" name="txtOpcionBusqueda" id="txtOpcionBusqueda">
 		<form>
 		Buscar:<input type="text" name="buscar"  id="buscar" onkeypress="buscarEmpleado();"></i>
-		 <input type="button" name="buscar" id="buscar"value="buscar" onclick="">
-		</form></center>
+		</form></center>-->
 		<div id="ListarEmpleados" style="border: 0px solid #ff0000;background:#fff; height: 87%;width: 99%;font-size:12px;margin:3px;overflow: auto;"></div>		
 	</div>
+</div>
 </div>

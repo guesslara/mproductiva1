@@ -249,7 +249,25 @@ class mes{
     public function consultar_mes(){    
 	$seleccion="select * from CAP_MES";
 	$ejesele=mysql_query($seleccion,$this->conectarBd()) or die(mysql_error());
-?>
+?>	<div id="Buscar" style="border:1px solid #000000; width: 800px; height: 50px;margin: 10px auto 10px auto;"><table><tr>
+	<td>Nº Empleado:<input type="text" name="noempleado" id="noempleado" size="5" /></td><td><label>Nombres</label><input type="text" name="nombres" size="15" id="nombres";/></td><td><label>Mes:</label> <select  name="mes" id="mes" >
+                    <option value="undefined">Seleccione un Mes</option>
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                    </select></td>
+	<td><input type="button" name="buscar" id="buscar"value="buscar" onclick="buscaPorParametro();"></td>
+	</tr></table></div>
+	
 	<table align="center" width="90%" BORDER="1" CELLPADDING="0" CELLSPACING="0" style="font-size: 12px;">
 	     <tr>
 	     <td colspan="15"><center><strong>CAP_MES</strong></center></td>
@@ -266,6 +284,9 @@ class mes{
 	     <td class="cabeceraTitulosTabla">Mes</td>
 	    </tr>
 <?
+	$mese=array('01'=>"Enero",'02'=>"Febrero",'03'=>"Marzo",'04'=>"Abril",'05'=>"Mayo",'06'=>"Junio",'07'=>"Julio",'08'=>"Agosto",'09'=>"Septiembre",'10'=>"Octubre",'11'=>"Noviembre",'12'=>"Diciembre");
+	//print_r($mese); exit; 
+	
 	while($li=mysql_fetch_array($ejesele)){
 	    $idcap=$li["id_cap"];
 	    $idemp=$li["no_empleado"];
@@ -276,6 +297,7 @@ class mes{
 	    $horas_lab=$li["horas_la"];
 	    $meta=$li["meta_pro"];
 	    $mes=$li["mes"];
+	    
 ?>
 	    <tr>
 		<td class="resultadosTablaBusqueda1"><?=$idcap;?></td>
@@ -286,7 +308,8 @@ class mes{
 		<td class="resultadosTablaBusqueda1"><?=$tiempo_extra;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$horas_lab;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$meta;?></td>
-		<td class="resultadosTablaBusqueda1"><?=$mes;?></td>
+		<td class="resultadosTablaBusqueda1"><?if(array_key_exists($mes,$mese)){
+		echo $mese[$mes];}?></td>
 	    </tr>
 <?
 	}
@@ -295,11 +318,11 @@ class mes{
 <?             
     }
     
-    
     public function modifica_mes(){
 	$i="select * from CAP_MES";
 	$ieje=mysql_query($i,$this->conectarBd()) or die(mysql_error());
 ?>
+	
 	<table align="center" width="90%" BORDER="1" CELLPADDING="0" CELLSPACING="0" style="font-size: 12px;">
 	    <tr>
 		<td colspan="15"><center><strong>CAP_MES</strong></center></td>
@@ -368,7 +391,7 @@ class mes{
 	<div id="modi" style="border: 0px solid #ff0000;">
 	    <FORM id="asig_mes_modi" >
 		<br> 
-		 <!--<input type="hidden" name="action" id="action" value="insertar">-->	
+		 <!--<input type="hidden" name="actionm" id="action" value="insertar">-->	
 		    <fieldset style="width: 700px; height: 150px; " >
 		    <table border="0" align="left" cellspacing="5" style="margin: 10px; font-size: 12px;">
 			<legend>Datos Personales</legend>     
@@ -426,32 +449,32 @@ class mes{
                     </tr>-->
 		    <tr>
                     <td>
-                    Dias laborables:</td><td><input type="text" name="dias_lab" id="dias_lab"  class="<?=$clase_obligaria?>"  value="<?=$diaslab;?>"onkeyup="calcular();" >    
+                    Dias laborables:</td><td><input type="text" name="dias_lab" id="dias_lab"  class="<?=$clase_obligaria?>"  value="<?=$diaslab;?>"onkeyup="calcular();" onblur=" campovaloractu(this);" >    
                     </td>    
                     </tr>
                     <tr>
                     <td>
-                    Jornada Laboral:</td><td> <input type="text" name="jorna_lab" id="jorna_lab"  class="<?=$clase_obligaria?>" value="<?=$jornadalab;?>" onkeyup="calcular();" >    
+                    Jornada Laboral:</td><td> <input type="text" name="jorna_lab" id="jorna_lab"  class="<?=$clase_obligaria?>" value="<?=$jornadalab;?>" onkeyup="calcular();" onblur=" campovaloractu(this);" >    
                     </td>    
                     </tr>
                     <tr>
                     <td>
-                    Dias Licencia:</td> <td><input type="text" name="dias_li" id="dias_li"  class="<?=$clase_obligaria?>" value="<?=$vacacion;?>" onkeyup="calcular();"></td>    
+                    Dias Licencia:</td> <td><input type="text" name="dias_li" id="dias_li"  class="<?=$clase_obligaria?>" value="<?=$vacacion;?>" onkeyup="calcular();" onblur=" campovaloractu(this);"></td>    
                     </tr>
                     <tr>
                     <td>
-                    Tiempo Extra: </td><td><input type="text" name="tiem_ex" id="tiem_ex"  class="<?=$clase_obligaria?>" value="<?=$tiempo;?>"onkeyup="calcular();">    
+                    Tiempo Extra: </td><td><input type="text" name="tiem_ex" id="tiem_ex"  class="<?=$clase_obligaria?>" value="<?=$tiempo;?>"onkeyup="calcular();" onblur=" campovaloractu(this);" >    
                     </td>
                     </tr>
                     <tr>
-                    <td>Horas Laborables:</td><td><input type="text" name="horas_la" id="horas_la"  value="<?=$tiempo;?>" class="<?=$clase_obligaria?>" readonly></td>
+                    <td>Horas Laborables:</td><td><input type="text" name="horas_la" id="horas_la"  value="<?=$horas;?>" class="<?=$clase_obligaria?>" readonly></td>
                     </tr>
                     <tr>
                     <td>
-                    Meta Productiva:</td><td><input type="text" name="meta_pro" id="meta_pro"  value="<?=$metaal;?>" class="<?=$clase_obligaria?>" ><label>%</label>
+                    Meta Productiva:</td><td><input type="text" name="meta_pro" id="meta_pro"  value="<?=$metaal;?>"  onkeyup="calcular();" class="<?=$clase_obligaria?>" ><label>%</label>
                     </td>    
                     </tr>
-		    <tr>
+		    <tr>0
 			<td colspan="2"><hr align="center" width="99%"  size="3"/></td>
 		    </tr>
 		    <tr>
@@ -547,7 +570,7 @@ class mes{
 			$numeroDia+=1;
 			$dia+=1;
                     }else{
-			echo "x";
+			echo "x";m
                     }
 		}
 		$numeroDia=0;
@@ -566,7 +589,7 @@ class mes{
                     </tr>
                     <tr>
                         <td colspan="7" style="font-size:16px; text-align:center;"><?=$meses[$mes-1]." ".date("Y");?></td>
-                    </tr>
+                    </tr>m
                     <tr>
 	  		<td width="14%" style="border:1px solid #999; background:#ccc; text-align:center; height:40px;">Domingo</td>
 			<td width="14%" style="border:1px solid #999; background:#ccc; text-align:center; height:40px;">Lunes</td>
@@ -617,6 +640,27 @@ class mes{
 ?>
         	</tr>
         </table>    
+<?
+	}
+	
+	public function consultaPorParametro($numEmpl,$nombreEmpl,$mesSelect){
+	
+?>
+		<table align="center" width="90%" BORDER="1" CELLPADDING="0" CELLSPACING="0" style="font-size: 12px;">
+		<tr>
+		<td colspan="15"><center><strong>CAP_MES</strong></center></td>
+		</tr>
+		<tr>
+		<td class="cabeceraTitulosTabla">No_Captura</td>
+		<td class="cabeceraTitulosTabla">N°_empleado</td>
+		<td class="cabeceraTitulosTabla">D&iacute;as Laborables</td>
+		<td class="cabeceraTitulosTabla">Jornada Laboral</td>
+		<td class="cabeceraTitulosTabla">D&iacute;as Vacaciones</td>
+		<td class="cabeceraTitulosTabla">Tiempo Extra</td>
+		<td class="cabeceraTitulosTabla">Horas Laborables</td>
+		<td class="cabeceraTitulosTabla">Meta Productiva</td>
+		<td class="cabeceraTitulosTabla">Mes</td>
+		</tr>
 <?
 	}
     

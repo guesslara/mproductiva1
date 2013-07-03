@@ -24,5 +24,11 @@
 			//print_r($_POST);
 			$objMatriz->creaTabla($_POST["noEmpleado"],$_POST["fecha1"],$_POST["fecha2"],$_POST["mlxj"]);
 		break;
+		case "actualizar":
+			include("../mod_confMes/clasemes.php");
+			//print_r($_POST);
+			$objAct= new mes();
+			$objAct->actualiza($_POST["tac"],$_POST["valores"],$_POST["ids"]);
+		break;
 	}
 ?>

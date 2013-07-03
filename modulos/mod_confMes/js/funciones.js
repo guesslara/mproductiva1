@@ -72,7 +72,7 @@ function VALIDAR(tabla){
 	valores.splice(1,1);
 	valores.splice(2,1);
 	valores.splice(1,1);
-	for (var i2=0;i2<campos.length;i2++){
+	for (var i2=0;i2<campos.length;i2++){22
 		if ($("#"+campos[i2]).attr("class")=="campo_obligatorio"&&(valores[i2]==""||valores[i2]==undefined||valores[i2]==null||valores[i2]=="undefined")){
 			alert("Error: El campo ("+campos[i2]+") es obligatorio.");
 			return;
@@ -122,7 +122,7 @@ function VALIDAR(tabla){
 }
 
 function calcular(){
-
+	//alert("aki");
 	a=document.getElementById("dias_lab").value;
 	//alert(a);
 	b=document.getElementById("jorna_lab").value;
@@ -131,7 +131,7 @@ function calcular(){
 
 	if(isNaN(a)||isNaN(b)||isNaN(c)||isNaN(d)){
 		alert("Error: El campo Dias Laborables solo admite numeros");
-		return false;0
+		return false;
 	}else{
 		aa=parseInt(a);//dias laborables
 		bb=parseInt(b);//jornada laboral
@@ -212,6 +212,11 @@ function ACTUALIZAR(tac,id){
         alert("Error: El campo ("+campos[i2]+") es obligatorio.");
         return;
 	}
+	
+	if(valores[1]==0 || valores[2]==0 || valores[6]==0){
+			alert("Error: Verifique los campos Dias laborales, Jornada laboral, Meta Productiva; deben ser mayores a 0");
+			return;
+	}
 	//alert(campos[i2]);		     
         for (var j=0;j<valores[i2].length;j++){  // recorrido de string para buscar caracteres no validos en la cadena  
         ubicacion = valores[i2].substring(j, j + 1)
@@ -270,12 +275,27 @@ function agregarDiasSeleccionados(){
 		$("#txtDiasSeleccionados").attr("value",diasSel);
 		$("#dias_lab").attr("value",cuantosDias);
 	}
-}
+}22
 function muestraCalendarioMod(anio,mes,dia,diasSeleccionados){
 	ajaxApp("calendarioDiasSeleccionadosMods","controladormes.php","action=verMesConfiguracion&mes="+mes,"POST");
 }
 function campoValor0(valor){
+	if(valor.value==""){
+	valor.value=0;	
+	}
+}
+
+function campovaloractu(valact){
 	
-	alert(valor.value);
+	if(valact.value==""){
+		valact.value=0;
+	}
+}
+
+function buscaPorParametro(){
+	numEmpl=document.getElementById("noempleado").value;
+	nombreEmpl=document.getElementById("nombres").value;
+	mesSelect=$("#mes").val();
+	ajaxApp("muestraasignaciones","controladormes.php","action=busqueda&numEmpl="+numEmpl+"&nombreEmpl="+nombreEmpl+"&mesSelect="+mesSelect,"POST");
 }
 
