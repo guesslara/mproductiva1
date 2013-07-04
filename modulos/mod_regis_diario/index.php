@@ -86,3 +86,12 @@
 	</div>
 </div>
 </div>
+<div id="modRegT" class="transparenciaGeneral" style="display:none;">
+	<div id="contenedorDiv" class="contenedorDiv">
+			<div id="barraTituloBuscar" class="barraTitulo1VentanaDialogoValidacion">Editor Registro<div id="btnCerrarVentanaDialogo"><a href="#" onclick="cerrarVentana('modRegT');" title="Cerrar Ventana"><img src="../../img/close.gif" border="0" /></a></div></div>
+			<div id="modVal" style="width:47%;height:85%;background-color:#fff;border:1px solid #000;margin:5px;float:left;"></div>
+			<div id="modScrap" style="width:47%;height:85%;background-color:#fff;border:1px solid #000;margin:5px;float:right;"></div>
+
+	</div>
+
+</div>

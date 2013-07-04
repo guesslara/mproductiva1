@@ -152,6 +152,7 @@ function calcular(){
 	f=document.getElementById("meta_pro").value;
 	if(f>100){
 		alert(" En el campo Meta Productiva debe ingresar un porcentaje entre 1 y 100 ");
+		$("#meta_pro").val('');
 	}
 }
 
@@ -296,6 +297,27 @@ function buscaPorParametro(){
 	numEmpl=document.getElementById("noempleado").value;
 	nombreEmpl=document.getElementById("nombres").value;
 	mesSelect=$("#mes").val();
+	
+	if(numEmpl=="" && nombreEmpl=="" && mesSelect=="undefined"){
+		alert("Error: Debe llenar algún campo para la busqueda");
+	ajaxApp("muestraasignaciones","controladormes.php","action=consultar","POST");
+	//alert(mesSelect);
+	//exit;
+	}else{
 	ajaxApp("muestraasignaciones","controladormes.php","action=busqueda&numEmpl="+numEmpl+"&nombreEmpl="+nombreEmpl+"&mesSelect="+mesSelect,"POST");
+	}
+}
+
+function buscaParaModi(){
+	nuE=document.getElementById("noem").value;
+	nomEm=document.getElementById("noms").value;
+	mesRegis=$("#mon").val();
+	if(nuE=="" && nomEm=="" && mesRegis=="undefined"){
+	       alert("Error: Debe llenar algún campo para la busqueda");
+	ajaxApp("muestraasignaciones","controladormes.php","action=modificar","post");       
+	}else{
+	ajaxApp("muestraasignaciones","controladormes.php","action=busqueda2&nuE="+nuE+"&nomEm="+nomEm+"&mesRegis="+mesRegis,"POST");	
+	}
+	
 }
 

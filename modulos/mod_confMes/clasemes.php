@@ -2,7 +2,7 @@
     
 class mes{
 
-
+   
     public function conectarBd(){
 		$link=mysql_connect('localhost','root','xampp');
 		if($link==false){
@@ -248,7 +248,7 @@ class mes{
      
     public function consultar_mes(){    
 	$seleccion="select * from CAP_MES";
-	$ejesele=mysql_query($seleccion,$this->conectarBd()) or die(mysql_error());
+	$ejesele=mysql_query($seleccion,$this->conectarBd()) or die(mysql_error());	
 ?>	<div id="Buscar" style="border:1px solid #000000; width: 800px; height: 50px;margin: 10px auto 10px auto;"><table><tr>
 	<td>Nº Empleado:<input type="text" name="noempleado" id="noempleado" size="5" /></td><td><label>Nombres</label><input type="text" name="nombres" size="15" id="nombres";/></td><td><label>Mes:</label> <select  name="mes" id="mes" >
                     <option value="undefined">Seleccione un Mes</option>
@@ -275,6 +275,7 @@ class mes{
 	     <tr>
 	     <td class="cabeceraTitulosTabla">No_Captura</td>
 	     <td class="cabeceraTitulosTabla">N°_empleado</td>
+	     <td class="cabeceraTitulosTabla">Nombre Empleado</td>
 	     <td class="cabeceraTitulosTabla">D&iacute;as Laborables</td>
 	     <td class="cabeceraTitulosTabla">Jornada Laboral</td>
 	     <td class="cabeceraTitulosTabla">D&iacute;as Vacaciones</td>
@@ -284,8 +285,7 @@ class mes{
 	     <td class="cabeceraTitulosTabla">Mes</td>
 	    </tr>
 <?
-	$mese=array('01'=>"Enero",'02'=>"Febrero",'03'=>"Marzo",'04'=>"Abril",'05'=>"Mayo",'06'=>"Junio",'07'=>"Julio",'08'=>"Agosto",'09'=>"Septiembre",'10'=>"Octubre",'11'=>"Noviembre",'12'=>"Diciembre");
-	//print_r($mese); exit; 
+	
 	
 	while($li=mysql_fetch_array($ejesele)){
 	    $idcap=$li["id_cap"];
@@ -297,11 +297,23 @@ class mes{
 	    $horas_lab=$li["horas_la"];
 	    $meta=$li["meta_pro"];
 	    $mes=$li["mes"];
+	
+	$consulEmpl="select nombres,a_paterno,a_materno from cat_personal where no_empleado='".$idemp."'";
+	$consulEmplEjec=mysql_query($consulEmpl,$this->conectar()) or die(mysql_error());
+	$regis=mysql_fetch_array($consulEmplEjec);
+	    $nombres=$regis["nombres"];
+	    $a_paterno=$regis["a_paterno"];
+	    $a_materno=$regis["a_materno"];
+	    
+	    $mese=array('01'=>"Enero",'02'=>"Febrero",'03'=>"Marzo",'04'=>"Abril",'05'=>"Mayo",'06'=>"Junio",'07'=>"Julio",'08'=>"Agosto",'09'=>"Septiembre",'10'=>"Octubre",'11'=>"Noviembre",'12'=>"Diciembre");
+	//print_r($mese); exit; 
+
 	    
 ?>
 	    <tr>
 		<td class="resultadosTablaBusqueda1"><?=$idcap;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$idemp;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$nombres;?> <?=$a_paterno;?> <?=$a_materno;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$dias_lab;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$jornada;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$vacaciones;?></td>
@@ -312,6 +324,7 @@ class mes{
 		echo $mese[$mes];}?></td>
 	    </tr>
 <?
+	
 	}
 ?>
 	</table>            
@@ -322,6 +335,24 @@ class mes{
 	$i="select * from CAP_MES";
 	$ieje=mysql_query($i,$this->conectarBd()) or die(mysql_error());
 ?>
+	<div id="Buscar2" style="border:1px solid #000000; width: 800px; height: 50px;margin: 10px auto 10px auto;"><table><tr>
+	<td>Nº Empleado:<input type="text" name="noem" id="noem" size="5" /></td><td><label>Nombres</label><input type="text" name="noms" size="15" id="noms";/></td><td><label>Mes:</label> <select  name="mon" id="mon" >
+                    <option value="undefined">Seleccione un Mes</option>
+                    <option value="01">Enero</option>
+                    <option value="02">Febrero</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Abril</option>
+                    <option value="05">Mayo</option>
+                    <option value="06">Junio</option>
+                    <option value="07">Julio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                    </select></td>
+	<td><input type="button" name="buscar" id="buscar"value="buscar" onclick="buscaParaModi();"></td>
+	</tr></table></div>
 	
 	<table align="center" width="90%" BORDER="1" CELLPADDING="0" CELLSPACING="0" style="font-size: 12px;">
 	    <tr>
@@ -349,6 +380,7 @@ class mes{
 	    $horas_lab_li=$lista["horas_la"];
 	    $meta_pro=$lista["meta_pro"];
 	    $mes_pro=$lista["mes"];
+	    $mese=array('01'=>"Enero",'02'=>"Febrero",'03'=>"Marzo",'04'=>"Abril",'05'=>"Mayo",'06'=>"Junio",'07'=>"Julio",'08'=>"Agosto",'09'=>"Septiembre",'10'=>"Octubre",'11'=>"Noviembre",'12'=>"Diciembre");
 ?>
 	    <tr>
 		<td class="resultadosTablaBusqueda1"><a href="#" style="color: blue;font-size: 14px;" onclick="formmodi('<?=$id_cap;?>');"><?=$id_cap;?></a></td>
@@ -359,7 +391,8 @@ class mes{
 		<td class="resultadosTablaBusqueda1"><?=$tiempo_extra_li;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$horas_lab_li;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$meta_pro;?></td>
-		<td class="resultadosTablaBusqueda1"><?=$mes_pro;?></td>
+		<td class="resultadosTablaBusqueda1"><?if(array_key_exists($mes_pro,$mese)){
+		echo $mese[$mes_pro];}?></td>
 	    </tr>
 <?    
 	}
@@ -383,7 +416,9 @@ class mes{
 	$horas=$todas["horas_la"];
 	$metaal=$todas["meta_pro"];
 	$meses=$todas["mes"];
-	$numerosDias=$todas["numerosDias"];
+	//$numerosDias=$todas["numerosDias"];
+	$mese=array('01'=>"Enero",'02'=>"Febrero",'03'=>"Marzo",'04'=>"Abril",'05'=>"Mayo",'06'=>"Junio",'07'=>"Julio",'08'=>"Agosto",'09'=>"Septiembre",'10'=>"Octubre",'11'=>"Noviembre",'12'=>"Diciembre");
+
 ?>
 	<script type="text/javascript">
 	    muestraCalendarioMod('<?=date("Y");?>','<?=$meses;?>','<?=date("d");?>');
@@ -419,7 +454,8 @@ class mes{
                         <tr>
                     <td width="120">Mes:
                     </td><td><select  name="mes" id="mes" onchange="muestraCalendarioMod()" class="<?=$clase_obligaria?>" <?=$sol?>>
-                    <option value="<?=$meses;?>"><?=$meses;?></option>
+                    <option value="<?=$meses;?>"><?if(array_key_exists($meses,$mese)){
+		    echo $mese[$meses];};?></option>
 		    <option value="undefined">Seleccione un Mes</option>
                     <option value="01">Enero</option>
                     <option value="02">Febrero</option>
@@ -474,7 +510,7 @@ class mes{
                     Meta Productiva:</td><td><input type="text" name="meta_pro" id="meta_pro"  value="<?=$metaal;?>"  onkeyup="calcular();" class="<?=$clase_obligaria?>" ><label>%</label>
                     </td>    
                     </tr>
-		    <tr>0
+		    <tr>
 			<td colspan="2"><hr align="center" width="99%"  size="3"/></td>
 		    </tr>
 		    <tr>
@@ -644,15 +680,49 @@ class mes{
 	}
 	
 	public function consultaPorParametro($numEmpl,$nombreEmpl,$mesSelect){
-	
+	    
+	    
+	    if( !empty( $numEmpl) || !empty($nombreEmpl) || $mesSelect != "undefined"){
+		
+		if( ! empty($numEmpl) && ! empty($nombreEmpl) && $mesSelect !="undefined") {
+		$consBusc="select nombres,a_paterno,a_materno,id_cap,CAP_MES.no_empleado,dias_lab,jorna_lab,dias_li,tiem_ex,
+		horas_la,meta_pro,mes from CAP_MES,  iqe_rrhh_2010.cat_personal where iqe_rrhh_2010.cat_personal.no_empleado=CAP_MES.no_empleado
+		and nombres='".$nombreEmpl."' and mes='".$mesSelect."' and CAP_MES.no_empleado='".$numEmpl."' order by id_cap";    
+		}else if( ! empty( $numEmpl ) && empty( $nombreEmpl ) && $mesSelect=="undefined") {
+		$consBusc="select nombres,a_paterno,a_materno,id_cap,CAP_MES.no_empleado,dias_lab,jorna_lab,dias_li,tiem_ex,
+		horas_la,meta_pro,mes from CAP_MES,  iqe_rrhh_2010.cat_personal where iqe_rrhh_2010.cat_personal.no_empleado=CAP_MES.no_empleado
+		and CAP_MES.no_empleado='".$numEmpl."' order by id_cap";    
+		}else if( empty( $numEmpl ) && ! empty( $nombreEmpl ) && $mesSelect=="undefined") {
+		$consBusc="select nombres,a_paterno,a_materno,id_cap,CAP_MES.no_empleado,dias_lab,jorna_lab,dias_li,tiem_ex,
+		horas_la,meta_pro,mes from CAP_MES,  iqe_rrhh_2010.cat_personal where iqe_rrhh_2010.cat_personal.no_empleado=CAP_MES.no_empleado
+		and  nombres like '".$nombreEmpl."%' order by id_cap";    
+		}else if( empty( $numEmpl ) && empty( $nombreEmpl ) && $mesSelect != "undefined") {
+		$consBusc="select nombres,a_paterno,a_materno,id_cap,CAP_MES.no_empleado,dias_lab,jorna_lab,dias_li,tiem_ex,
+		horas_la,meta_pro,mes from CAP_MES,  iqe_rrhh_2010.cat_personal where iqe_rrhh_2010.cat_personal.no_empleado=CAP_MES.no_empleado
+		and mes='".$mesSelect."' order by id_cap";    
+		}
+	    
+	    $consBuscEjec=mysql_query($consBusc,$this->conectarBd()) or die(mysql_error());
+	    if(mysql_num_rows($consBuscEjec)==0){
+?>
+	    <script type="text/javascript">
+	    alert("Error: No se encontraron conincidencias");
+	    </script>
+<?
+	    }
+	else{
+	    
+	    
+	     
 ?>
 		<table align="center" width="90%" BORDER="1" CELLPADDING="0" CELLSPACING="0" style="font-size: 12px;">
 		<tr>
 		<td colspan="15"><center><strong>CAP_MES</strong></center></td>
 		</tr>
-		<tr>
+	    	<tr>
 		<td class="cabeceraTitulosTabla">No_Captura</td>
 		<td class="cabeceraTitulosTabla">N°_empleado</td>
+		<td class="cabeceraTitulosTabla">Nombre Empleado</td>
 		<td class="cabeceraTitulosTabla">D&iacute;as Laborables</td>
 		<td class="cabeceraTitulosTabla">Jornada Laboral</td>
 		<td class="cabeceraTitulosTabla">D&iacute;as Vacaciones</td>
@@ -662,12 +732,170 @@ class mes{
 		<td class="cabeceraTitulosTabla">Mes</td>
 		</tr>
 <?
+	    while($filas=mysql_fetch_array($consBuscEjec)){
+	    $nomEm=$filas["nombres"];
+	    $apat=$filas["a_paterno"];
+	    $ama=$filas["a_materno"];
+	    $idCap=$filas["id_cap"];
+	    $nuEm=$filas["no_empleado"];
+	    $diLab=$filas["dias_lab"];
+	    $joLab=$filas["jorna_lab"];
+	    $diLi=$filas["dias_li"];
+	    $tiEx=$filas["tiem_ex"];
+	    $hoLab=$filas["horas_la"];
+	    $mePro=$filas["meta_pro"];
+	    $mesRe=$filas["mes"];
+	    
+	    $mese=array('01'=>"Enero",'02'=>"Febrero",'03'=>"Marzo",'04'=>"Abril",'05'=>"Mayo",'06'=>"Junio",'07'=>"Julio",'08'=>"Agosto",'09'=>"Septiembre",'10'=>"Octubre",'11'=>"Noviembre",'12'=>"Diciembre");
+	//print_r($mese); exit; 
+
+	    
+?>
+	    <tr>
+		<td class="resultadosTablaBusqueda1"><?=$idCap;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$nuEm;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$nomEm;?> <?=$apat;?> <?=$ama;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$diLab;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$joLab;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$diLi;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$tiEx;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$hoLab;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$mePro;?></td>
+		<td class="resultadosTablaBusqueda1"><?if(array_key_exists($mesRe,$mese)){
+		echo $mese[$mesRe];}?></td>
+	    </tr>
+<?
+	
 	}
-    
-    
-    
-    
+?>
+	</table>            
+	    
+<?		
+		
+	}
+	    
+	    
+	    
+	}
+	}
+
+	public function ModiPorParametro($nuE,$nomEm,$mesRegis){
+	    //echo"si llega aqui"; exit;
+	if( !empty( $nuE) || !empty($nomEm) || $mesRegis != "undefined"){
+		
+		if( ! empty($nuE) && ! empty($nomEm) && $mesRegis !="undefined") {
+		$consBusc2="select nombres,a_paterno,a_materno,id_cap,CAP_MES.no_empleado,dias_lab,jorna_lab,dias_li,tiem_ex,
+		horas_la,meta_pro,mes from CAP_MES,  iqe_rrhh_2010.cat_personal where iqe_rrhh_2010.cat_personal.no_empleado=CAP_MES.no_empleado
+		and nombres='".$nomEm."' and mes='".$mesRegis."' and CAP_MES.no_empleado='".$nuE."' order by id_cap";    
+		}else if( ! empty( $nuE ) && empty( $nomEm ) && $mesRegis=="undefined") {
+		$consBusc2="select nombres,a_paterno,a_materno,id_cap,CAP_MES.no_empleado,dias_lab,jorna_lab,dias_li,tiem_ex,
+		horas_la,meta_pro,mes from CAP_MES,  iqe_rrhh_2010.cat_personal where iqe_rrhh_2010.cat_personal.no_empleado=CAP_MES.no_empleado
+		and CAP_MES.no_empleado='".$nuE."' order by id_cap";    
+		}else if( empty( $nuE ) && ! empty( $nomEm ) && $mesRegis=="undefined") {
+		$consBusc2="select nombres,a_paterno,a_materno,id_cap,CAP_MES.no_empleado,dias_lab,jorna_lab,dias_li,tiem_ex,
+		horas_la,meta_pro,mes from CAP_MES,  iqe_rrhh_2010.cat_personal where iqe_rrhh_2010.cat_personal.no_empleado=CAP_MES.no_empleado
+		and  nombres like '".$nomEm."%' order by id_cap";    
+		}else if( empty( $nuE ) && empty( $nomEm ) && $mesRegis!= "undefined") {
+		$consBusc2="select nombres,a_paterno,a_materno,id_cap,CAP_MES.no_empleado,dias_lab,jorna_lab,dias_li,tiem_ex,
+		horas_la,meta_pro,mes from CAP_MES,  iqe_rrhh_2010.cat_personal where iqe_rrhh_2010.cat_personal.no_empleado=CAP_MES.no_empleado
+		and mes='".$mesRegis."' order by id_cap";    
+		}
+	    
+	    $consBuscEjec2=mysql_query($consBusc2,$this->conectarBd()) or die(mysql_error());
+	    if(mysql_num_rows($consBuscEjec2)==0){
+?>
+	    <script type="text/javascript">
+	    alert("Error: No se encontraron conincidencias");
+	    </script>
+<?
+	    }
+	else{
+	    
+	    
+	     
+?>
+		<table align="center" width="90%" BORDER="1" CELLPADDING="0" CELLSPACING="0" style="font-size: 12px;">
+		<tr>
+		<td colspan="15"><center><strong>CAP_MES</strong></center></td>
+		</tr>
+	    	<tr>
+		<td class="cabeceraTitulosTabla">No_Captura</td>
+		<td class="cabeceraTitulosTabla">N°_empleado</td>
+		<td class="cabeceraTitulosTabla">Nombre Empleado</td>
+		<td class="cabeceraTitulosTabla">D&iacute;as Laborables</td>
+		<td class="cabeceraTitulosTabla">Jornada Laboral</td>
+		<td class="cabeceraTitulosTabla">D&iacute;as Vacaciones</td>
+		<td class="cabeceraTitulosTabla">Tiempo Extra</td>
+		<td class="cabeceraTitulosTabla">Horas Laborables</td>
+		<td class="cabeceraTitulosTabla">Meta Productiva</td>
+		<td class="cabeceraTitulosTabla">Mes</td>
+		</tr>
+<?
+	    while($line=mysql_fetch_array($consBuscEjec2)){
+	    $nomEm2=$line["nombres"];
+	    $apat2=$line["a_paterno"];
+	    $ama2=$line["a_materno"];
+	    $idCap2=$line["id_cap"];
+	    $nuEm2=$line["no_empleado"];
+	    $diLab2=$line["dias_lab"];
+	    $joLab2=$line["jorna_lab"];
+	    $diLi2=$line["dias_li"];
+	    $tiEx2=$line["tiem_ex"];
+	    $hoLab2=$line["horas_la"];
+	    $mePro2=$line["meta_pro"];
+	    $mesRe2=$line["mes"];
+	    
+	    $mese=array('01'=>"Enero",'02'=>"Febrero",'03'=>"Marzo",'04'=>"Abril",'05'=>"Mayo",'06'=>"Junio",'07'=>"Julio",'08'=>"Agosto",'09'=>"Septiembre",'10'=>"Octubre",'11'=>"Noviembre",'12'=>"Diciembre");
+	//print_r($mese); exit; 
+
+	    
+?>
+	    <tr>
+		<td class="resultadosTablaBusqueda1"><a href="#" style="color: blue;font-size: 14px;" onclick="formmodi('<?=$idCap2;?>');"><?=$idCap2;?></a></td>
+		<td class="resultadosTablaBusqueda1"><?=$nuEm2;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$nomEm2;?> <?=$apat2;?> <?=$ama2;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$diLab2;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$joLab2;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$diLi2;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$tiEx2;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$hoLab2;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$mePro2;?></td>
+		<td class="resultadosTablaBusqueda1"><?if(array_key_exists($mesRe2,$mese)){
+		echo $mese[$mesRe2];}?></td>
+	    </tr>
+<?
+	
+	}
+?>
+	</table>            
+	    
+<?		
+		
+	}
+	    
+	    
+	    
+	}    
+	    
+	    
+	    
+	}
+	
+	
+	
+	
+	
+	
+	
+
+
+
 }
+    
+    
+    
+    
+
 
 
 

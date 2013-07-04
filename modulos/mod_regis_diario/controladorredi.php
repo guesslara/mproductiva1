@@ -53,5 +53,8 @@
 		case "formBuscador":
 		 	$registroDiario->formBuscador($_POST["opcionB"]);
 		break;
+		case "modReg":
+			$registroDiario->modReg($_POST["idReg"]);
+		break;
 	}
 ?>

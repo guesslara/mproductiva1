@@ -124,12 +124,12 @@ class diario {
 		    echo "( 0 ) registros encontrados.";
 		}else{
 		    $valorStatus=explode(",",$rowRD["status"]);
-		    $cuantosStatus=mysql_num_rows($resS)+1;
-		    echo "<table width='350' border='0' cellpadding='1' cellspacing='1' style='font-size:10px;'>
+		    $cuantosStatus=mysql_num_rows($resS);
+		    echo "<table width='450' border='0' cellpadding='1' cellspacing='1' style='font-size:10px;'>
 			    <tr>
 				<td width='250' class='cabeceraTitulosTabla'>Status</td>
 				<td width='100' class='cabeceraTitulosTabla'>Registros</td>	
-				<td rowspan='".$cuantosStatus."' width='100' style='text-align:center;background:#fff;'><a href='#' onclick='abrir('buscaDiv','N/A')' title='Editar detalle de captura'><img src='../../img/icon_edit.png' border='0' /></a></td>
+				<td width='100' class='cabeceraTitulosTabla'>Modificaci&oacute;n</td>
 			    </tr>";
 		    $i=0; $color="#E1E1E1";
 		    while($rowS=mysql_fetch_array($resS)){
@@ -137,6 +137,7 @@ class diario {
 			    echo "<tr>
 			    <td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$rowS["nom_status"]."</td>
 			    <td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'> <font color='red'> No aplica</font></td>
+			    <td rowspan='".$cuantosStatus."'style='text-align:center;background:#fff;'><a href='#' onclick='editaReg('".$rowRD['id_actividad']."','".$rowS['id']."');' title='Editar detalle de captura'><img src='../../img/icon_edit.png' border='0' /></a></td>
 			    </tr>";
 			
 			$i+=1;
@@ -147,8 +148,7 @@ class diario {
 			    //echo $rowS["nom_status"]."<br>";
 			    echo "<tr>
 				<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$rowS["nom_status"]."</td>
-				<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$valorStatus[$i]."</td>
-			    </tr>";
+				<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$valorStatus[$i]."</td> </tr>";
 			
 			    $i+=1;
 			    ($color=="#E1E1E1") ? $color="#FFF" : $color="#E1E1E1"; 
@@ -224,7 +224,7 @@ class diario {
 ?>
 	<table align="center" BORDER="0" CELLPADDING="0" width="700" CELLSPACING="0" style="font-size: 12px;">
 	    <tr>
-		    <td colspan="8"><center><strong>EMPLEADOS <?=$opcionB?></strong></center></td>
+		    <td colspan="8"><center><strong>EMPLEADOS</strong></center></td>
 	    </tr>
 	    <tr>
 		<td class="cabeceraTitulosTabla"><strong>N° Empleado</strong></td>
@@ -375,7 +375,7 @@ class diario {
 				$rowNombreStatus=mysql_fetch_array($resNombreStatus);
 				$idTxt="txtStatus".$i;
 				$divVal="divVal".$i;
-?>		
+?>			
 		<tr>
 		    <td><?=$rowNombreStatus['nom_status'];?></td>
 		    <td><input type="text" id="<?=$idTxt;?>" name="<?=$idTxt;?>" onkeyup="verificaTecla('<?=$i;?>',event)" /><span id="<?=$divVal;?>" style="height: 20px;padding: 5px;background: #C3DBFE;color: #ff0000;font-weight: bold;display: none;"></span></td>    
@@ -406,5 +406,40 @@ class diario {
 		Buscar:<input type="text" name="buscar"  id="buscar" onkeypress="buscarEmpleado('<?=$buscadorB;?>');"></i>
 		</form></center><?
 	}
+	public function modReg($idReg){
+		$sqlS="SELECT * FROM ACTIVIDAD_STATUS INNER JOIN SAT_STATUS ON ACTIVIDAD_STATUS.id_status = SAT_STATUS.id_status WHERE ACTIVIDAD_STATUS.id_actividad='".$rowRD["id_actividad"]."'";
+		$resS=mysql_query($sqlS,$this->conectar_matriz());
+		if(mysql_num_rows($resS)==0){
+		    echo "( 0 ) registros encontrados.";
+		}else{
+		    $valorStatus=explode(",",$rowRD["status"]);
+		    $cuantosStatus=mysql_num_rows($resS)+1;
+		    echo "<table width='350' border='0' cellpadding='1' cellspacing='1' style='font-size:10px;'>
+			    <tr>
+				<td width='250' class='cabeceraTitulosTabla'>Status</td>
+				<td width='100' class='cabeceraTitulosTabla'>Registros</td>";
+				$i=0; $color="#E1E1E1";
+		    while($rowS=mysql_fetch_array($resS)){
+				if($valorStatus[$i]=="*"){
+			   	 echo "<tr>
+			    	    	<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$rowS["nom_status"]."</td>
+			   	 			<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'> <font color='red'> No aplica</font></td>
+			    		</tr>";
+					$i+=1;
+					($color=="#E1E1E1") ? $color="#FFF" : $color="#E1E1E1"; 
+				}else{
+			   	    echo "<tr>
+							<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$rowS["nom_status"]."</td>
+							<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$valorStatus[$i]."</td> </tr>";
+				    $i+=1;
+			    	($color=="#E1E1E1") ? $color="#FFF" : $color="#E1E1E1"; 
+				}
+			}
+		    
+		    echo "<tr><td colspan='2'>&nbsp;</td></tr>";
+		    echo "</table>";
+		}
+
+		}
 }
 ?>

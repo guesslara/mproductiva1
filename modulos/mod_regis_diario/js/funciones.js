@@ -87,9 +87,6 @@ function verificaTecla(contador,evento){
 			contador=parseInt(contador+1);
 			var sigTxt="#txtStatus"+contador;
 			$(sigTxt).focus();
-			
-			//alert("Contador: "+contador+"\nOculto: "+hdnContador);
-			
 			if(contador==hdnContador){
 				//alert("entro");
 				$("#btnRegistroDiario").focus();
@@ -137,3 +134,7 @@ function buscarRegistros(){
 	var fecha2=$("#busquedaRegistro2").val();
 	ajaxApp("resultadosBusqueda","controladorredi.php","action=buscarRegistros&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2,"POST");
 }
+function modRegT(idReg){
+	$("#modRegT").show();
+	ajaxApp("modVal","controladorredi.php","action=modReg&idReg="+idReg,"POST");
+}	

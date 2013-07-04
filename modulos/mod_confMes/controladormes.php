@@ -54,5 +54,13 @@
             $mesSelect=$_POST["mesSelect"];
             $uno->consultaPorParametro($numEmpl,$nombreEmpl,$mesSelect);
         break;
+    
+        case "busqueda2":
+            $nuE=$_POST["nuE"];
+            $nomEm=$_POST["nomEm"];
+            $mesRegis=$_POST["mesRegis"];
+            $uno->ModiPorParametro($nuE,$nomEm,$mesRegis);
+        
+        break;
     }
 ?>

@@ -76,3 +76,4 @@ html,body,document{position:absolute;margin:0px;height:100%; width:100%; margin:
 /*.resultadosTablaBusqueda{height: 15px;padding: 5px;background: #FFF;border-bottom: 1px solid #CCC;background: #FFF;}*/
 .resultadosTablaBusqueda:hover{background: #f0f0f0;}
 .resultadosTablaBusqueda1{height: 15px;padding: 5px;background: #FFF;border-bottom: 1px solid #CCC;background: #FFF;}
+.contenedorDiv{border:1px solid #000;background-color:#FFF;height:300px;width:600px;left: 50%;top: 50%;margin-left: -300px;margin-top: -150px;position:absolute;/*sombra*/-webkit-box-shadow:10px 10px 5px #CCC;-moz-box-shadow:10px 10px 5px #CCC;filter: shadow(color=#CCC, direction=135,strength=2);}
