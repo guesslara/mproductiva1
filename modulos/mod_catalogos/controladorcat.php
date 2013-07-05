@@ -27,12 +27,15 @@
 		$obj->catalogo_update($c,$prefijo);
 	    break;
 	    case 'catalogo_actualiza':
+		
 	        $c=$_POST['c'];
 		$prefijo=$_POST['prefijo'];
 		$id=$_POST['id'];
 		$obj->catalogo_actualiza($c,$prefijo,$id);
 	    break;
 	    case 'actualizate':
+		//print_r($_POST);
+		//exit;
 	    	$t=$_POST['tabla'];
 		$cv=$_POST['campo_valor'];
 		$id=$_POST['id'];

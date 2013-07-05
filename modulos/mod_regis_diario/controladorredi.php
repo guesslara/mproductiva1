@@ -54,7 +54,10 @@
 		 	$registroDiario->formBuscador($_POST["opcionB"]);
 		break;
 		case "modReg":
-			$registroDiario->modReg($_POST["idReg"]);
+			$registroDiario->modReg($_POST["idReg"],$_POST["noEmpleado"],$_POST["fecha1"],$_POST["fecha2"]);
+		break;
+		case "actualizaReg":
+			$registroDiario->actualizaReg($_POST["idReg"],$_POST["noEmpleado"],$_POST["fecha1"],$_POST["fecha2"],$_POST["param"]);
 		break;
 	}
 ?>

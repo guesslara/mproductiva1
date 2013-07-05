@@ -361,6 +361,7 @@ class mes{
 	    <tr>
 		<td class="cabeceraTitulosTabla">No_Captura</td>
 		<td class="cabeceraTitulosTabla">N°_empleado</td>
+		<td class="cabeceraTitulosTabla">Nombre Empleado</td>
 		<td class="cabeceraTitulosTabla">Dias Laborables</td>
 		<td class="cabeceraTitulosTabla">Jornada Laboral</td>
 		<td class="cabeceraTitulosTabla">Dias Vacaciones</td>
@@ -380,11 +381,20 @@ class mes{
 	    $horas_lab_li=$lista["horas_la"];
 	    $meta_pro=$lista["meta_pro"];
 	    $mes_pro=$lista["mes"];
+	    
+	    $consulte="select nombres,a_paterno,a_materno from cat_personal where no_empleado='".$id_emp."'";
+	    $consulteEjec=mysql_query($consulte,$this->conectar()) or die(mysql_error());
+	    $files=mysql_fetch_array($consulteEjec);
+	    $nomgs=$files["nombres"];
+	    $apg=$files["a_paterno"];
+	    $amg=$files["a_materno"];
+	    
 	    $mese=array('01'=>"Enero",'02'=>"Febrero",'03'=>"Marzo",'04'=>"Abril",'05'=>"Mayo",'06'=>"Junio",'07'=>"Julio",'08'=>"Agosto",'09'=>"Septiembre",'10'=>"Octubre",'11'=>"Noviembre",'12'=>"Diciembre");
 ?>
 	    <tr>
 		<td class="resultadosTablaBusqueda1"><a href="#" style="color: blue;font-size: 14px;" onclick="formmodi('<?=$id_cap;?>');"><?=$id_cap;?></a></td>
 		<td class="resultadosTablaBusqueda1"><?=$id_emp;?></td>
+		<td class="resultadosTablaBusqueda1"><?=$nomgs;?> <?=$apg;?> <?=$amg;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$diaslab;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$jornada_lab;?></td>
 		<td class="resultadosTablaBusqueda1"><?=$vacaciones_li;?></td>

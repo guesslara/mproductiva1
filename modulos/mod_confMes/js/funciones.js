@@ -171,7 +171,7 @@ function formmodi(idcap){
 }
 
 function ACTUALIZAR(tac,id){
-	//alert(id);exit;
+	//alert("aqui llega");exit;
 	var campos=new Array();
 	var valores=new Array();
 	var sql_valores="";

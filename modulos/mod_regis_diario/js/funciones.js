@@ -33,8 +33,10 @@ function abrir(div,opcion){
 }
 function cerrarVentana(div){
 	$("#"+div).hide();
-	$("#ListarEmpleados").html("");
-	$("#formBusca").html("");
+	if(div=="buscaDiv"){
+		$("#ListarEmpleados").html("");
+		$("#formBusca").html("");
+	}
 }
 function buscarEmpleado(opcionB){
 	var buscar=$("#buscar").val();
@@ -68,6 +70,7 @@ function muestraStatus(){
 }
 function verificaTecla(contador,evento){
 	contador=parseInt(contador);
+	//alert(contador);
 	if(evento.which==13){		
 		hdnContador=$("#hdnContador").val();
 		contadorActual=parseInt(contador);
@@ -134,7 +137,27 @@ function buscarRegistros(){
 	var fecha2=$("#busquedaRegistro2").val();
 	ajaxApp("resultadosBusqueda","controladorredi.php","action=buscarRegistros&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2,"POST");
 }
-function modRegT(idReg){
+function modRegT(idReg,noEmpleado,fecha1,fecha2){
 	$("#modRegT").show();
-	ajaxApp("modVal","controladorredi.php","action=modReg&idReg="+idReg,"POST");
+	alert(idReg);
+	ajaxApp("modVal","controladorredi.php","action=modReg&idReg="+idReg+"&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2,"POST");
 }	
+function ir(noEmpleado,fecha1,fecha2){
+	ajaxApp("resultadosBusqueda","controladorredi.php","action=buscarRegistros&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2,"POST");
+}
+function modificacionReg(idReg,noEmpleado,fecha1,fecha2,toReg){
+	alert("aqui esta");
+	$("#modRegT").hide();
+	var param="";
+	for(var i=0;i<toReg;i++){
+		regVal=$("#valor"+i).val();
+		if(regVal=="No aplica"){
+			regVal="*";
+		}
+		param=param+regVal+",";
+	}
+	paramM=param.length;
+	paramMEn=paramM-1;
+	param=param.substring(0,paramMEn);
+	ajaxApp("resultadosBusqueda","controladorredi.php","action=actualizaReg&idReg="+idReg+"&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2+"&param="+param,"POST");
+}

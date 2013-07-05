@@ -326,17 +326,19 @@ class catalogo{
 	}
 	
 	public function catalogo_actualiza($c,$prefijo,$id){
-
-$ta=str_replace($prefijo,"",$c);
+		
+		$ta=str_replace($prefijo,"",$c);
 		$cuatro="id_".$ta;
 		$recuperaValor="SELECT * FROM $c WHERE $cuatro='$id'";//PARA CADA UNO DE LOS CATALOGOS ES IMPORTANTE COLOCAR EL CAMPO DE ID COMO id_NOMBRE_DE_LA_TABLA
+		//print_r($recuperaValor); exit;
 		$modi= mysql_query($recuperaValor,$this->conectarBd()) or die("No se puede ejecutar la consulta: ".mysql_error());
 		$row=mysql_fetch_array($modi);
 		$sql_orden="";	
 		$Sql2 ="DESCRIBE ".$c;
+		//print_r($Sql2); exit;
 		$result2 = mysql_query($Sql2,$this->conectarBd()) or die("No se puede ejecutar la consulta: ".mysql_error());
-		$uno="select * from SAT_PROYECTO";
-		$dos=mysql_query($uno,$this->conectarBd());
+		//$uno="select * from SAT_PROYECTO";
+		//$dos=mysql_query($uno,$this->conectarBd());
 		
 		?>
 		
@@ -364,7 +366,7 @@ $ta=str_replace($prefijo,"",$c);
 			
 			
 			if($Rs2["Field"]=="status"){?>
-			<td>&nbsp;<label> <?=$Rs2["Field"]?></label></td><td><select id="status" >
+			<td>&nbsp;<label> <?=$Rs2["Field"]?></label></td><td><select id="txt_<?=$Rs2["Field"]?>" >
 			<option value="<?=$row[$i]?>" > <?=$row[$i]?> </option>
 			<option value="Activo">Activo</option>
 			<option value="Inactivo">Inactivo</option>
@@ -375,7 +377,7 @@ $ta=str_replace($prefijo,"",$c);
 			<tr class="campo_vertical,<?=$clase_css?>">
 			<td><?=$Rs2["Field"]?></td> 
 			<td>&nbsp;<label><input type="text" name="txt_<?=$Rs2["Field"]?>" id="txt_<?=$Rs2["Field"]?>" value="<?=$row[$i]?>" <?=$sol?>" class="<?=$clase_obligaria?>"  /></label></td>
-			<input type="hidden" name="campo_<?=$Rs2["Field"]?>" id="campo_<?=$Rs2["Field"]?>" value="<?=$row[$i]?>">
+			<!--<input type="hidden" name="campo_<?=$Rs2["Field"]?>" id="campo_<?=$Rs2["Field"]?>" value="<?=$row[$i]?>">-->
 			</tr>
 			
 			<?
@@ -397,26 +399,36 @@ $ta=str_replace($prefijo,"",$c);
 	}
 	
 	public function actualizate($t,$cv,$id){
+		//print_r($cv); exit;
 		$sql_campos="";
 		$sql_valores="";
 		$prefijo2='SAT_';
 		$tres=str_replace($prefijo2,"",$t);
 		$cuatro="id_".$tres;
+		//print_r($cuatro); exit;
 
 		$separar_campos=explode("@@@",trim($cv));
+		//print_r($separar_campos); exit;
 		foreach ($separar_campos as $cam){
 			$separar_campos2=explode("|||",trim($cam));
+			//print_r($separar_campos2); exit;						
 			$campoX=str_replace("txt_","",trim($separar_campos2[0]));
+			//print_r($campoX); exit;
 			$valorX=trim($separar_campos2[1]);			
-			
+			//print_r($valorX); exit;
 			($sql_campos=="")? $sql_campos=$campoX : $sql_campos.=",".$campoX;
 			($sql_valores=="")? $sql_valores=$valorX : $sql_valores.=",'".$valorX."'";
 		}
+		//print_r($sql_valores); exit;
 		$pruba=explode(',',$sql_campos);
+		//print_r($pruba); exit;
 		$pruba2=explode(',',$sql_valores);
+		//print_r($pruba2); exit;
 		$cuenta=count($pruba);
 		$b= array ();
-		for($j=2;$j<$cuenta-2;$j++){
+		$i=2;
+		$a=0;
+		for($j=0;$j<$cuenta;$j++){
 		$a=$i+$j;
 		if($pruba[$a]==""){
 			unset($b[$i]);
@@ -428,8 +440,10 @@ $ta=str_replace($prefijo,"",$c);
 		}
 		
 		$dos=implode(",",$b);
+		//print_r($dos); exit;
 		//try{
 		$sql_actualizar="UPDATE $t SET $dos where $cuatro=$id";
+		//print_r($sql_actualizar); exit;
 		if (mysql_query($sql_actualizar,$this->conectarBd())){
 			echo "<font style='font-size:14px;'><br><b>&nbsp;Registro Actualizado Correctamente.</b></font>";
 		} else {

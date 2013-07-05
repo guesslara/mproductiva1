@@ -148,9 +148,11 @@ function catalogo_update(c,pre){
        	ajaxApp("mostrar","controladorcat.php","action=catalogo_update&c="+c+"&pre="+pre,"POST");
     }
    function actualiza(c,prefijo,id){
+	
       ajaxApp("mostrar","controladorcat.php","action=catalogo_actualiza&c="+c+"&prefijo="+prefijo+"&id="+id,"POST");
    }
    function actualizate(catalogo,id){
+	//alert(catalogo);
       var campos=new Array();
       var valores=new Array();
       var sql_valores="";
@@ -161,12 +163,14 @@ function catalogo_update(c,pre){
                      campos.push($("form input")[i].id);
                      valores.push($("form input")[i].value);
 	      }
+	      //alert(campos);
+	      //exit;
 	      for(var e=0;e<$("form select").length;e++){
 			campos.push($("form select")[e].id);
 			valores.push($("form select")[e].value);
 			
 		}
-		//alert(valores);
+		//alert(campos);
 		//exit();
 		
               for (var i2=0;i2<campos.length;i2++){
@@ -190,10 +194,14 @@ function catalogo_update(c,pre){
                      }
                      if (sql_valores==""){
                             sql_valores=campos[i2]+"|||"+valores[i2];
+			    //alert(sql_valores); exit;
 		     } else {
                             sql_valores+="@@@"+campos[i2]+"|||"+valores[i2];
+			      //alert(sql_valores); exit;
 		     }	
 	      }
+	      //alert(sql_valores);
+	      //exit;
               if (confirm("¿Desea actualiza el registro?")){
                      ajaxApp("mostrar","controladorcat.php",cadena_valores+'&campo_valor='+sql_valores+'&id='+id,"post");
 	      }

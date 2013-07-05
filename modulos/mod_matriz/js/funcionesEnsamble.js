@@ -70,10 +70,31 @@ function oculver(cual,llego){
 		$("#Pdcl").attr("readonly","readonly");
 		$("#Pte").attr("readonly","readonly");
 		$("#Pmp").attr("readonly","readonly");
-		valores="no_empleado|||"+$("#noemp").val()+"@@@dias_lab|||"+$("#Pdl").val()+"@@@jorna_lab|||"+$("#Pjl").val()+"@@@dias_li|||"+$("#Pdcl").val()+"@@@tiem_ex|||"+$("#Pte").val()+"@@@horas_la|||"+$("#Phlxm").val()+"@@@meta_pro|||"+$("#Pmp").val()+"@@@mes|||"+$("#mess").val();
-		parametros="action=actualizar&tac=CAP_MES&valores="+valores+"&ids="+$("#ids").val();
-		ajaxApp("contesta","controladorEnsamble.php",parametros,"POST");
+		dias_lab=parseFloat($("#Pdl").val());
+		jorna_lab=parseFloat($("#Pjl").val());
+		meta_pro=parseFloat($("#Pmp").val());
+		dias_lic=parseFloat($("#Pdcl").val());
+		tiem_ex=parseFloat($("#Pte").val());
+		if( (dias_lab!=0 && jorna_lab!=0 && meta_pro!=0) && ((!isNaN(jorna_lab)) && (!isNaN(dias_lab)) && (!isNaN(meta_pro))) ){
+			if( (!isNaN(dias_lic)) && (!isNaN(tiem_ex)) ){
+				valores="no_empleado|||"+$("#noemp").val()+"@@@dias_lab|||"+dias_lab+"@@@jorna_lab|||"+jorna_lab+"@@@dias_li|||"+$("#Pdcl").val()+"@@@tiem_ex|||"+$("#Pte").val()+"@@@horas_la|||"+$("#Phlxm").val()+"@@@meta_pro|||"+meta_pro+"@@@mes|||"+$("#mess").val();
+				parametros="action=actualizar&tac=CAP_MES&valores="+valores+"&ids="+$("#ids").val();
+				ajaxApp("contesta","controladorEnsamble.php",parametros,"POST");
+			}else{
+				alert ("Los Dias de Licencia y Tiempo extra Deben ser Numeros \n\t\t\t Error al Actualizar Datos¡¡¡");
+				oculver(1);
+				return 0;
+			}
+		}else{
+			alert("La Meta Productiva, La Jornada y Los Dias Laborales Deben ser NÚMEROS Diferentes a 0 \n\t\t\t\t\t\t Error al Actualizar Datos¡¡¡");
+			oculver(1);
+			return 0;
+		}
+		
+		
+		
 	}
+	return 1;
 }
 function crear(){
 	cont++;

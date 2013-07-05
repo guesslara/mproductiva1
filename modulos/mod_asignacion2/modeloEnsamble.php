@@ -419,7 +419,7 @@
 		public function nuevaActividad($id_proceso,$idUsuario){
 			$sqlProducto="SELECT * FROM SAT_PRODUCTO";
 			$resProducto=mysql_query($sqlProducto,$this->conectarBd());
-			$sqlStatus="SELECT * FROM SAT_STATUS";
+			$sqlStatus="SELECT * FROM SAT_STATUS WHERE status='Activo'";
 			$resStatus=mysql_query($sqlStatus,$this->conectarBd());
 ?>
 				<form name="frmNuevaActividad" id="frmNuevaActividad">

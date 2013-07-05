@@ -124,22 +124,19 @@ class diario {
 		    echo "( 0 ) registros encontrados.";
 		}else{
 		    $valorStatus=explode(",",$rowRD["status"]);
-		    $cuantosStatus=mysql_num_rows($resS);
+		    $cuantosStatus=mysql_num_rows($resS)+1;
 		    echo "<table width='450' border='0' cellpadding='1' cellspacing='1' style='font-size:10px;'>
 			    <tr>
 				<td width='250' class='cabeceraTitulosTabla'>Status</td>
-				<td width='100' class='cabeceraTitulosTabla'>Registros</td>	
-				<td width='100' class='cabeceraTitulosTabla'>Modificaci&oacute;n</td>
-			    </tr>";
+				<td width='100' class='cabeceraTitulosTabla'>Registros</td>"
+				?><td rowspan="<?=$cuantosStatus?>" style="background:<?=$color;?>;text-align:center;" width:"100"><a href="#" onclick="modRegT('<?=$rowRD['id'];?>','<?=$noEmpleado?>','<?=$fecha1?>','<?=$fecha2?>')" title="Edita registro"><img src='../../img/icon_edit.png' border='0' /></a></td><?
+			    echo"</tr>";
 		    $i=0; $color="#E1E1E1";
 		    while($rowS=mysql_fetch_array($resS)){
 			if($valorStatus[$i]=="*"){
 			    echo "<tr>
 			    <td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$rowS["nom_status"]."</td>
-			    <td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'> <font color='red'> No aplica</font></td>
-			    <td rowspan='".$cuantosStatus."'style='text-align:center;background:#fff;'><a href='#' onclick='editaReg('".$rowRD['id_actividad']."','".$rowS['id']."');' title='Editar detalle de captura'><img src='../../img/icon_edit.png' border='0' /></a></td>
-			    </tr>";
-			
+			    <td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'> <font color='red'> No aplica</font></td></tr>";
 			$i+=1;
 			($color=="#E1E1E1") ? $color="#FFF" : $color="#E1E1E1"; 
 			
@@ -148,8 +145,7 @@ class diario {
 			    //echo $rowS["nom_status"]."<br>";
 			    echo "<tr>
 				<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$rowS["nom_status"]."</td>
-				<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$valorStatus[$i]."</td> </tr>";
-			
+				<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$valorStatus[$i]."</td></tr>";
 			    $i+=1;
 			    ($color=="#E1E1E1") ? $color="#FFF" : $color="#E1E1E1"; 
 			}}
@@ -406,39 +402,55 @@ class diario {
 		Buscar:<input type="text" name="buscar"  id="buscar" onkeypress="buscarEmpleado('<?=$buscadorB;?>');"></i>
 		</form></center><?
 	}
-	public function modReg($idReg){
-		$sqlS="SELECT * FROM ACTIVIDAD_STATUS INNER JOIN SAT_STATUS ON ACTIVIDAD_STATUS.id_status = SAT_STATUS.id_status WHERE ACTIVIDAD_STATUS.id_actividad='".$rowRD["id_actividad"]."'";
+	public function modReg($idReg,$noEmpleado,$fecha1,$fecha2){
+		$sqlRD="SELECT * FROM detalle_captura_registro WHERE id='".$idReg."'";
+		$resRD=mysql_query($sqlRD,$this->conectar_matriz());
+		$rowRD=mysql_fetch_array($resRD);
+		$valorStatus=explode(",",$rowRD["status"]);
+		$how=count($valorStatus);
+		$idAct=$rowRD["id_actividad"];
+		$sqlS="SELECT * FROM ACTIVIDAD_STATUS INNER JOIN SAT_STATUS ON ACTIVIDAD_STATUS.id_status = SAT_STATUS.id_status WHERE ACTIVIDAD_STATUS.id_actividad='".$idAct."'";
 		$resS=mysql_query($sqlS,$this->conectar_matriz());
-		if(mysql_num_rows($resS)==0){
-		    echo "( 0 ) registros encontrados.";
-		}else{
-		    $valorStatus=explode(",",$rowRD["status"]);
-		    $cuantosStatus=mysql_num_rows($resS)+1;
-		    echo "<table width='350' border='0' cellpadding='1' cellspacing='1' style='font-size:10px;'>
+
+		    echo "<br><table width='350' border='0' cellpadding='1' cellspacing='1' style='font-size:10px;' align='center'>
 			    <tr>
-				<td width='250' class='cabeceraTitulosTabla'>Status</td>
-				<td width='100' class='cabeceraTitulosTabla'>Registros</td>";
+				<td width='25' class='cabeceraTitulosTabla'>Status</td>
+				<td width='25' class='cabeceraTitulosTabla'>Registros</td>";
 				$i=0; $color="#E1E1E1";
-		    while($rowS=mysql_fetch_array($resS)){
+				while($rowS=mysql_fetch_array($resS)){
+					$nomb="valor".$i;
 				if($valorStatus[$i]=="*"){
 			   	 echo "<tr>
 			    	    	<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$rowS["nom_status"]."</td>
-			   	 			<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'> <font color='red'> No aplica</font></td>
+			   	 			<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'><input type='text' style='width:70px; font-size:10px;text-align:center;color:#ff0000;border:0px;background:transparent;' name='".$nomb."' id='".$nomb."'value='No aplica'/></td>
 			    		</tr>";
 					$i+=1;
 					($color=="#E1E1E1") ? $color="#FFF" : $color="#E1E1E1"; 
 				}else{
 			   	    echo "<tr>
 							<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$rowS["nom_status"]."</td>
-							<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'>".$valorStatus[$i]."</td> </tr>";
+							<td style='background:<?=$color;?>;' class='resultadosTablaBusqueda'><input type='text' style='width:70px; font-size:10px;text-align:center;' name='".$nomb."' id='".$nomb."'value='".$valorStatus[$i]."'/></td> </tr>";
 				    $i+=1;
 			    	($color=="#E1E1E1") ? $color="#FFF" : $color="#E1E1E1"; 
 				}
 			}
 		    
-		    echo "<tr><td colspan='2'>&nbsp;</td></tr>";
+		    ?><tr><td colspan='2'>
+		    <input type='button' name='guardarMod' id='guardar' value='MODIFICAR' onclick="modificacionReg('<?=$idReg?>','<?=$noEmpleado?>','<?=$fecha1?>','<?=$fecha2?>','<?=$how?>')"/>
+		    <input type='button' name='cancel' id='cancel' value='CANCELAR' onclick="cerrarVentana('modRegT');"/>
+		    </td></tr><?
 		    echo "</table>";
+
 		}
+		public function actualizaReg($idReg,$noEmpleado,$fecha1,$fecha2,$valores){
+			$modRegistro="UPDATE detalle_captura_registro SET status='".$valores."'";
+			$exeMod=mysql_query($modRegistro,$this->conectar_matriz());
+			if($exeMod==false){
+				?><script type="text/javascript">alert("Su registro no se ha modificado intente mas tarde");</script><?
+			}else{
+				?><script type="text/javascript">alert("Su registro se ha modificado");ir('<?=$noEmpleado?>','<?=$fecha1?>','<?=$fecha2?>');</script><?
+			}
+
 
 		}
 }
