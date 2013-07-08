@@ -408,14 +408,27 @@ class diario {
 		$rowRD=mysql_fetch_array($resRD);
 		$valorStatus=explode(",",$rowRD["status"]);
 		$how=count($valorStatus);
+		$how2=$how+1;
 		$idAct=$rowRD["id_actividad"];
 		$sqlS="SELECT * FROM ACTIVIDAD_STATUS INNER JOIN SAT_STATUS ON ACTIVIDAD_STATUS.id_status = SAT_STATUS.id_status WHERE ACTIVIDAD_STATUS.id_actividad='".$idAct."'";
 		$resS=mysql_query($sqlS,$this->conectar_matriz());
-
-		    echo "<br><table width='350' border='0' cellpadding='1' cellspacing='1' style='font-size:10px;' align='center'>
+			echo"<div id='tituloTab' style='height:20px; width:98%; background:#CCC; font-weight:bold; font-size:12px; text-align:center;clear:both;margin:5px;'>MODIFICACION DE REGISTRO DIARIO</div>";
+		    echo "<div style='width:98%;height:auto;background:#FFF;margin:5px;'><table width='500' border='0' cellpadding='1' cellspacing='1' style='font-size:10px;' align='center'>
 			    <tr>
-				<td width='25' class='cabeceraTitulosTabla'>Status</td>
-				<td width='25' class='cabeceraTitulosTabla'>Registros</td>";
+			    <td width='200' class='cabeceraTitulosTabla'>Fecha</td>
+				<td width='150' class='cabeceraTitulosTabla'>Status</td>
+				<td width='150' class='cabeceraTitulosTabla'>Registros</td>
+				</tr>
+				<tr><td width='25'rowspan='".$how2."'><input type='text' name='fechRegD' id='fechRegD' readonly value='".$rowRD['fecha']."' style='font-size:10px;width:80px;background:transparent;'/>
+				<input type='button' id='lanzadorAc' name='lanzadorAc' value='...'/>";
+						?><script type="text/javascript">
+                                    Calendar.setup({
+                                    inputField     :    "fechRegD",      // id del campo de texto
+                                    ifFormat       :    "%Y-%m-%d",       // formato de la fecha, cuando se escriba en el campo de texto
+                                    button         :    "lanzadorAc"   // el id del botón que lanzará el calendario
+                                    });
+                          </script><?
+                echo"</td></tr>";
 				$i=0; $color="#E1E1E1";
 				while($rowS=mysql_fetch_array($resS)){
 					$nomb="valor".$i;
@@ -435,15 +448,15 @@ class diario {
 				}
 			}
 		    
-		    ?><tr><td colspan='2'>
+		    ?><tr><td colspan='3' align="center">
 		    <input type='button' name='guardarMod' id='guardar' value='MODIFICAR' onclick="modificacionReg('<?=$idReg?>','<?=$noEmpleado?>','<?=$fecha1?>','<?=$fecha2?>','<?=$how?>')"/>
 		    <input type='button' name='cancel' id='cancel' value='CANCELAR' onclick="cerrarVentana('modRegT');"/>
 		    </td></tr><?
-		    echo "</table>";
+		    echo "</table></div>";
 
 		}
-		public function actualizaReg($idReg,$noEmpleado,$fecha1,$fecha2,$valores){
-			$modRegistro="UPDATE detalle_captura_registro SET status='".$valores."'";
+		public function actualizaReg($idReg,$noEmpleado,$fecha1,$fecha2,$valores,$fechaAc){
+			$modRegistro="UPDATE detalle_captura_registro SET status='".$valores."', fecha='".$fechaAc."' WHERE id='".$idReg."'";
 			$exeMod=mysql_query($modRegistro,$this->conectar_matriz());
 			if($exeMod==false){
 				?><script type="text/javascript">alert("Su registro no se ha modificado intente mas tarde");</script><?

@@ -73,7 +73,8 @@
 <div id="buscarEmpleado" style="border:1px solid #000;background-color:#FFF;height:508px;width:900px;left: 50%;top: 50%;margin-left: -450px;margin-top: -254px;position:absolute;;/*sombra*/-webkit-box-shadow:10px 10px 5px #CCC;-moz-box-shadow:10px 10px 5px #CCC;filter: shadow(color=#CCC, direction=135,strength=2);"  >
 	<div id="barraTituloBuscar" class="barraTitulo1VentanaDialogoValidacion">Seleccionar...<div id="btnCerrarVentanaDialogo"><a href="#" onclick="cerrarVentana('buscaDiv');" title="Cerrar Ventana"><img src="../../img/close.gif" border="0" /></a></div></div>
 	<div id="listadoResultados" style="border:1px solid #CCC; margin:4px; font-size:10px;height:92%; overflow:hidden;">
-		<div id="formBusca" style="border: 0px solid #ff0000;background:#fff; height:70px;width: 99%;font-size:12px;margin:3px;overflow: auto;clear:both;">
+		<div id="formCapAct" style="width:99% height:60px;font-size:12px;margin:3px;overflow: auto;clear:both; display:none;"></div>
+		<div id="formBusca" style="border: 0px solid #ff0000;background:#fff; height:60px;width: 99%;font-size:12px;margin:3px;overflow: auto;clear:both;">
 		</div>
 	<!--	<br>
 		<br>
@@ -82,7 +83,7 @@
 		<form>
 		Buscar:<input type="text" name="buscar"  id="buscar" onkeypress="buscarEmpleado();"></i>
 		</form></center>-->
-		<div id="ListarEmpleados" style="border: 0px solid #ff0000;background:#fff; height: 87%;width: 99%;font-size:12px;margin:3px;overflow: auto;"></div>		
+		<div id="ListarEmpleados" style="border: 0px solid #ff0000;background:#fff; height: 40%;width: 99%;font-size:12px;margin:3px;overflow: auto;"></div>		
 	</div>
 </div>
 </div>

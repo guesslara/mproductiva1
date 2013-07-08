@@ -19,7 +19,8 @@ function ajaxApp(divDestino,url,parametros,metodo){
 }
 
 function captura_actividad(){
-	ajaxApp("muestraasignaciones","controladorredi.php","action=insertar","post");
+	$("#formCapAct").show();
+	ajaxApp("formCapAct","controladorredi.php","action=insertar","post");
 }
 function abrir(div,opcion){	
 	$("#"+div).show("fast");
@@ -27,8 +28,8 @@ function abrir(div,opcion){
 	//alert(opcion);
 	if(div=="buscaDiv"){
 		ajaxApp("formBusca","controladorredi.php","action=formBuscador&opcionB="+opcion,"POST");
-		/*$("#txtOpcionBusqueda").attr("value",opcion);
-		$("#buscar").focus();*/
+		/*$("#txtOpcionBusqueda").attr("value",opcion);*/
+		$("#buscar").focus();
 	}
 }
 function cerrarVentana(div){
@@ -139,15 +140,14 @@ function buscarRegistros(){
 }
 function modRegT(idReg,noEmpleado,fecha1,fecha2){
 	$("#modRegT").show();
-	alert(idReg);
 	ajaxApp("modVal","controladorredi.php","action=modReg&idReg="+idReg+"&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2,"POST");
 }	
 function ir(noEmpleado,fecha1,fecha2){
 	ajaxApp("resultadosBusqueda","controladorredi.php","action=buscarRegistros&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2,"POST");
 }
 function modificacionReg(idReg,noEmpleado,fecha1,fecha2,toReg){
-	alert("aqui esta");
 	$("#modRegT").hide();
+	var fechaAc=$("#fechRegD").val();
 	var param="";
 	for(var i=0;i<toReg;i++){
 		regVal=$("#valor"+i).val();
@@ -159,5 +159,5 @@ function modificacionReg(idReg,noEmpleado,fecha1,fecha2,toReg){
 	paramM=param.length;
 	paramMEn=paramM-1;
 	param=param.substring(0,paramMEn);
-	ajaxApp("resultadosBusqueda","controladorredi.php","action=actualizaReg&idReg="+idReg+"&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2+"&param="+param,"POST");
+	ajaxApp("resultadosBusqueda","controladorredi.php","action=actualizaReg&idReg="+idReg+"&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2+"&param="+param+"&fechaAc="+fechaAc,"POST");
 }

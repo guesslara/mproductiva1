@@ -57,7 +57,7 @@
 			$registroDiario->modReg($_POST["idReg"],$_POST["noEmpleado"],$_POST["fecha1"],$_POST["fecha2"]);
 		break;
 		case "actualizaReg":
-			$registroDiario->actualizaReg($_POST["idReg"],$_POST["noEmpleado"],$_POST["fecha1"],$_POST["fecha2"],$_POST["param"]);
+			$registroDiario->actualizaReg($_POST["idReg"],$_POST["noEmpleado"],$_POST["fecha1"],$_POST["fecha2"],$_POST["param"],$_POST["fechaAc"]);
 		break;
 	}
 ?>
