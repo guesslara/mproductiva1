@@ -202,6 +202,8 @@
 					?>
 				</td>
 			<?}
+			$prueba1=$k;
+			$prueba2=$filas;
 			$cadtodo=substr($cadtodo, 0, -2);
 			$cadtodo=$cadtodo."*";
 			$sumaH=0;?>
@@ -272,6 +274,8 @@
 				<td><input type='text' id='sumc' name='sumc' readonly="" value='' style='width: 60px;' /></td>
 			</tr>
 		</table>
+		<input type="text" name="txtTotalColumnas" id="txtTotalColumnas" value="<?=$prueba1;?>">
+		<input type="text" name="txtFilasTotales" id="txtFilasTotales" value="<?=$prueba2;?>">
 		<?
 	}
 		public function armaDetalleMatriz($noEmpleado,$fecha1,$fecha2,$idActividad){
@@ -762,98 +766,100 @@
 					<input type="hidden" name="txtHdnMetaProd" id="txtHdnMetaProd" value="<?=$rowCapMes["meta_pro"];?>">
 					<input type="hidden" name="mess" id="mess" value="<?=$fecha1x[1]?>">
 					<div style="overflow: hidden;height: auto;width: 99%;">
-						<div style="float: left;border: 1px solid #CCC;margin: 5px;height: auto;width: 350px;">
-							<div id="fac_pasadas" style="width: 90%; height: 25px; margin: 10px 0px 10px 1px; padding: 5px 0px 0px 20px; background: #f0f0f0; border: #000000 1px solid;">
+						<div style="float: left;border: 1px solid #CCC;margin: 5px;height: auto;width: 310px;">
+							<div id="fac_pasadas" style="width: 93%; height: 25px; margin: 5px; padding: 5px; background: #f0f0f0; border: 1px solid #CCC;">
 								<div id="barrita" style="margin: 0px 0px 10px 0px;">
 								<div id="mostra" style="float: left;"><a href="#" onclick="oculver('1','<?=$lokll;?>');">Modificar</a>&nbsp</div>
 								<div id="oculta" style="display: none; float: left;"><a href="#" onclick="oculver('2');">Aplicar Cambios a</a>&nbsp</div>los Datos Principales
 							</div>
 							<div id="verFacPas" style="display: none; width: 100%; height: 85%;"></div>
 						</div>
-							<table border="1" cellpadding="1" cellspacing="1" width="300" style="font-size: 10px;margin: 5px;">
+							<table border="0" cellpadding="1" cellspacing="1" width="300" style="font-size: 10px;margin: 5px;border: 1px solid #CCC;">
 								<tr>
-									<td width="230" style="background: #7DC24B;">Mes</td>
-									<td width="70"><? echo $meses[$fecha1x[1]-1]; ?></td>
+									<td width="230" style="background: #7DC24B;height: 15px;padding: 5px;">Mes</td>
+									<td width="70" style="text-align: center;"><? echo $meses[$fecha1x[1]-1]; ?></td>
 								</tr>
 								<tr>
-									<td>Jornada Laboral</td>
-									<td>&nbsp;<input type="text" id="Pjl" onchange="cambio()" name="Pjl" readonly="" value="<?=$rowCapMes["jorna_lab"];?>" style="width: 60px;" />
+									<td style="background: #7DC24B;height: 15px;padding: 5px;">Jornada Laboral</td>
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pjl" onchange="cambio()" name="Pjl" readonly="" value="<?=$rowCapMes["jorna_lab"];?>" style="width: 50px;" />
 									</td>
 								</tr>
 								<tr>
-									<td style="background: #7DC24B;">Dias Laborables</td>
-									<td>&nbsp;<input type="text" id="Pdl" onchange="cambio()" name="Pdl" readonly="" value="<?=$rowCapMes["dias_lab"];?>" style="width: 60px;" />
+									<td style="background: #7DC24B;height: 15px;padding: 5px;">Dias Laborables</td>
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pdl" onchange="cambio()" name="Pdl" readonly="" value="<?=$rowCapMes["dias_lab"];?>" style="width: 50px;" />
 									</td>
 								</tr>
 								<tr>
-									<td style="background: #7DC24B;">Dias con Licencia</td>
-									<td>&nbsp;<input type="text" id="Pdcl" onchange="cambio()" name="Pdcl" readonly="" value="<?=$rowCapMes["dias_li"];?>" style="width: 60px;" />
+									<td style="background: #7DC24B;height: 15px;padding: 5px;">Dias con Licencia</td>
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pdcl" onchange="cambio()" name="Pdcl" readonly="" value="<?=$rowCapMes["dias_li"];?>" style="width: 50px;" />
 									</td>
 								</tr>
 								<tr>
-									<td style="background: #7DC24B;">TE (Hrs)</td>
-									<td>&nbsp;<input type="text" id="Pte" onchange="cambio()" name="Pte" readonly="" value="<?=$rowCapMes["tiem_ex"];?>" style="width: 60px;" />
+									<td style="background: #7DC24B;height: 15px;padding: 5px;">TE (Hrs)</td>
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pte" onchange="cambio()" name="Pte" readonly="" value="<?=$rowCapMes["tiem_ex"];?>" style="width: 50px;" />
 									</td>
 								</tr>
 								<tr>
-									<td style="background: #7DC24B;">Meta Productiva</td>
-									<td>&nbsp;<input type="text" id="Pmp" name="Pmp" onchange="cambio()" readonly="" value="<?=$rowCapMes["meta_pro"];?>" style="width: 60px;" />
+									<td style="background: #7DC24B;height: 15px;padding: 5px;">Meta Productiva</td>
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pmp" name="Pmp" onchange="cambio()" readonly="" value="<?=$rowCapMes["meta_pro"];?>" style="width: 50px;" />
 									</td>
 								</tr>
 								<tr>
-									<td>Dias Laborados (Admin)</td>
-									<td>&nbsp;<input type="text" id="Pdladmin" name="Pdladmin" readonly="" value="<?=round($diasLaboradorAdmin,2);?>" style="width: 60px;" />
+									<td style="background: #f0f0f0;border: 1px solid #CCC;height: 15px;padding: 5px;">Dias Laborados (Admin)</td>
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pdladmin" name="Pdladmin" readonly="" value="<?=round($diasLaboradorAdmin,2);?>" style="width: 50px;" />
 									</td>
 								</tr>
 								<tr>
-									<td>Dias Laborados Operativamente</td>
-									<td>&nbsp;<input type="text" id="Pdlope" name="Pdlope" readonly="" style="width: 60px;" />
+									<td style="background: #f0f0f0;border: 1px solid #CCC;height: 15px;padding: 5px;">Dias Laborados Operativamente</td>
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pdlope" name="Pdlope" readonly="" style="width: 50px;" />
 									</td>
 								</tr>
 								<tr>
-									<td>Minutos Laborables por Jornada (min)</td>
-									<td>&nbsp;<input type="text" id="Pmlxj" name="Pmlxj" readonly="" value="<?=$minutosLaborablesxJornada;?>" style="width: 60px;" />
+									<td style="background: #f0f0f0;border: 1px solid #CCC;height: 15px;padding: 5px;">Minutos Laborables por Jornada (min)</td>
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pmlxj" name="Pmlxj" readonly="" value="<?=$minutosLaborablesxJornada;?>" style="width: 50px;" />
 									<input type="hidden" name="hdnMinutosLaborablesJornada" id="hdnMinutosLaborablesJornada" value="<?=$minutosLaborablesxJornada?>"></td>
 								</tr>
 								<tr>
-									<td>Horas Laboradas en el Mes al 100 % de Productividad</td>
-									<td>&nbsp;<input type="text" id="Phlxm" name="Phlxm" readonly="" value="<?=$horasLaboradasMes;?>" style="width: 60px;" />
+									<td style="background: #f0f0f0;border: 1px solid #CCC;height: 15px;padding: 5px;">Horas Laboradas en el Mes al 100 % de Productividad</td>
+									<td style="text-align: center;">&nbsp;<input type="text" id="Phlxm" name="Phlxm" readonly="" value="<?=$horasLaboradasMes;?>" style="width: 50px;" />
 									</td>
 								</tr>
 							</table>
 						</div>
-						<div style="float: left;border: 1px solid #CCC;margin: 5px;height: auto;width: 350px;">
-							<table border="1" cellpadding="1" cellspacing="1" width="300" style="font-size: 10px;margin: 5px;">
+						<div style="float: left;border: 1px solid #CCC;margin: 5px;height: auto;width: 310px;">
+							<table border="0" cellpadding="1" cellspacing="1" width="300" style="font-size: 10px;margin: 5px;border: 1px solid #CCC;">
 								<tr>
-									<td style="background: yellow;color: #000;">Cumplimiento</td>
+									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">Cumplimiento</td>
 									<td>&nbsp;<input type="text" id="cumpli" name="cumpli" readonly="" value="" style="width: 60px;" /></td>
 								</tr>
 								<tr>
-									<td style="background: yellow;color: #000;">TE (Hrs)</td>
+									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">TE (Hrs)</td>
 									<td>&nbsp;<input type="text" id="te" name="te" readonly="" value="" style="width: 60px;" /></td>
 								</tr>
 								<tr>
-									<td style="background: yellow;color: #000;">Productividad por Dia</td>
+									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">Productividad por Dia</td>
 									<td>&nbsp;<input type="text" id="pxd" name="pxd" readonly="" value="" style="width: 60px;" /></td>
 								</tr>
 								<tr>
-									<td style="background: yellow;color: #000;">Productividad por Mes</td>
+									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">Productividad por Mes</td>
 									<td>&nbsp;<input type="text" id="pxm" name="pxm" readonly="" value="" style="width: 60px;" /></td>
 								</tr>
 								<tr>
-									<td style="background: yellow;color: #000;">Rendimiento</td>
+									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">Rendimiento</td>
 									<td>&nbsp;<input type="text" id="rendi" name="rendi" readonly="" value="" style="width: 60px;" /></td>
 								</tr>
 								<tr>
-									<td style="background: yellow;color: #000;">% de Scrap en el Mes</td>
+									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">% de Scrap en el Mes</td>
 									<td>&nbsp;<input type="text" id="scrapxr" name="scrapxr" readonly="" value="" style="width: 60px;" /></td>
 								</tr>
 								<tr>
-									<td style="background: yellow;color: #000;">% de Rechazo en el Mes</td>
+									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">% de Rechazo en el Mes</td>
 									<td>&nbsp;<input type="text" id="rechazoxr" name="rechazoxr" readonly="" value="" style="width: 60px;" /></td>
 								</tr>
 							</table>
 						</div>
+						<!--<div id="pruebaGrafica" style="float: left;border: 1px solid #CCC;margin: 5px;height: 300px;;width: 450px;"></div>-->
+						<iframe id="pruebaGrafica" src="grafico1.php" style="float: left;border: 1px solid #CCC;margin: 5px;height: 300px;;width: 450px;"></iframe>
 					</div>					
 <?
 					//se buscan las actividades relacionadas al usuario

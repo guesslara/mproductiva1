@@ -107,8 +107,8 @@ table{
 	empty-cells: hide;
 }
 .cabezas{
-	background: #A7E2FB;
-	color: #6F6FBA;
+	background: #CCC;/*#A7E2FB*/
+	color: #000;/*#6F6FBA*/
 	font-size:11px;
 	font-weight: bold;
 	padding: 6px;
@@ -118,18 +118,18 @@ table{
 	font-family: verdana,arial,helvetica,sans-serif;
 }
 .cabezitas{
-	background: #EAF1F4;
-	color: #6F6FBA;
+	background: #CCC;/*#EAF1F4*/
+	color: #000;/*#6F6FBA*/
 	font-size:11px;
 	font-weight: bold;
 	padding: 6px;
-	border:2px groove #C8C8F2;
+	border:2px groove #CCC;/*#C8C8F2*/
 	line-height: 1.5em;
 	white-space: nowrap;
 	font-family: verdana,arial,helvetica,sans-serif;
 }
 col:nth-child(2n+1) {
-background:  #F5F8FA;
+background:  #F0F0F0;/*#F5F8FA*/
 }
 col:hover:nth-child(2n+1){
 background:  #FFFFFF;
@@ -140,23 +140,23 @@ tr.cabeza:hover {
 }
 tr.cabeza {
 	background: #A7E2FB;
-	color: #0000D9;
+	color: #000;/*#0000d9*/
 	width: 100%;
 	height: 100%;
 	text-decoration: none;	
 }
 tr.enlace:hover {
 	text-decoration: none;
-	background: #77AADD;
+	background: #77AADD;/*#77AADD*/
 }
 tr.enlace {
-	color: #0000D9;
+	color: #000;/*#0000D9*/
 	width: 100%;
 	height: 100%;
 	text-decoration: none;
 }
 .ultimas{
-	background: #6F6FBA;
+	background: #ccc;/*#6F6FBA*/
 	color: #FFFFFF;
 	font-size:11px;
 	font-weight: bold;

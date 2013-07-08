@@ -98,9 +98,10 @@ function oculver(cual,llego){
 }
 function crear(){
 	cont++;
-	var boton="<input type='button' value='calcular' onclick='cambioAj();' />";
-	if(cont<2)
-		$("#btns").append(boton);
+	var boton="<input type='button' value='Calcular' onclick='cambioAj();' />";	
+	if(cont<2){
+		$("#btns").append(boton);		
+	}
 	var noEmpleado=$("#txtBNoEmpleado").val();
 	var fecha1=$("#busquedaRegistro1").val();
 	var fecha2=$("#busquedaRegistro2").val();
@@ -181,7 +182,41 @@ function cambioAj(){
 	$("#pxm").attr("value",Math.round(pxm)+" %");
 	cumpli=(pxm/meta)*100;
 	$("#cumpli").attr("value",Math.round(cumpli)+" %");
+	/*se añade el boton para el grafico*/
+	var boton2="<input type='button' value='Mostrar Gráfico' onclick='mostrarGrafico();' />";
+	$("#btns").append(boton2);
+	/*fin del boton*/
 	return 1;
+}
+function mostrarGrafico(){
+	var mesActual=$("#mess").val();//se recupera el mes
+	var txtTotalColumnas=parseInt($("#txtTotalColumnas").val())-1;
+	var txtFilasTotales=$("#txtFilasTotales").val();
+	var valoresGrafica="";
+	for(var i=0;i<txtFilasTotales;i++){
+		var nombreCaja="#"+i+"res"+txtTotalColumnas;				
+		var valorCaja=$(nombreCaja).val();
+		if(valorCaja==""){
+			valorCaja=0;
+		}
+		var longCad=valorCaja.length;		
+		if(longCad==5){
+			nvoValor=valorCaja.substring(0,3);
+		}else if(longCad==4){
+			nvoValor=valorCaja.substring(0,2);
+		}else if(longCad==3){
+			nvoValor=valorCaja.substring(0,1);
+		}		
+		if(valoresGrafica==""){
+			valoresGrafica=nvoValor;
+		}else{
+			valoresGrafica=valoresGrafica+","+nvoValor;
+		}
+	}
+	//se hace la peticion y se envian los valores al script
+	//ajaxApp("pruebaGrafica","grafico1.php","action=grafico&mes="+mesActual+"&valoresGrafica="+valoresGrafica,"POST");
+	url="grafico1.php?action=grafico&mes="+mesActual+"&valoresGrafica="+valoresGrafica;
+	$("#pruebaGrafica").attr("src",url);
 }
 function abrir(div,opcion){
 	$("#"+div).show("fast");
