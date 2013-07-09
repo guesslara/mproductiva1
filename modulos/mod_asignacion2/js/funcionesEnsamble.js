@@ -83,11 +83,11 @@ function guardarActividad(idUsuario){
 		ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=guardarActividad&id_proceso="+id_proceso+"&nombre="+nombre+"&descripcion="+descripcion+"&producto="+producto+"&status="+status+"&idUsuario="+idUsuario,"POST");
 	}
 }
-function mostrarFormMetrica(ultimoId,id_proceso,idUsuario){
+function mostrarFormMetrica(ultimoId,id_proceso,idUsuario,opEdita){
 	/*codigo provisional ejemplo actividad 9*/
 	$("#formularioOpciones").show();
 	/*---*/
-	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=mostrarFormMetrica&ultimoId="+ultimoId+"&idProceso="+id_proceso+"&idUsuario="+idUsuario,"POST");
+	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=mostrarFormMetrica&ultimoId="+ultimoId+"&idProceso="+id_proceso+"&idUsuario="+idUsuario+"&opEdita="+opEdita,"POST");
 }
 function cerrarVentana(div){
 	$("#"+div).hide();
@@ -223,7 +223,7 @@ function confDelSta(opcion){
 	}
 	if(!confirm("¿Esta seguro que desea Eliminar el Status = "+opcion+"?"))exit();
 }
-function quitarStatus(idActSta,idAct,idProceso,$idUsuario,status){
+function quitarStatus(idActSta,idAct,idProceso,idUsuario,status){
 	ajaxApp("contenidoFormularioOpciones","controladorEnsamble.php","action=quitarStatus&idActSta="+idActSta+"&idAct="+idAct+"&idProceso="+idProceso+"&idUsuario="+idUsuario+"&status="+status,"POST");
 }
 function agregarMS(idAct,idProceso,idUsuario,status){

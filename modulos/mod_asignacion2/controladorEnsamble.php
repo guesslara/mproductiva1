@@ -55,7 +55,7 @@
 			$objAsig->actualizarStatus();
 		break;
 		case "mostrarFormMetrica":
-			$objAsig->mostrarFormMetrica($_POST["ultimoId"],$_POST["idProceso"],$_POST["idUsuario"]);
+			$objAsig->mostrarFormMetrica($_POST["ultimoId"],$_POST["idProceso"],$_POST["idUsuario"],$_POST["opEdita"]);
 		break;
 		case "actualizarActividadStatus":
 			$objAsig->actualizarStatusActividad($_POST["valores"],$_POST["idProceso"],$_POST["idUsuario"]);
@@ -108,6 +108,9 @@
 		case "ActualizarProyecto":
 			$objAsig->ActualizarProyecto($_POST["nombre"],$_POST["descPry"],$_POST["fechaInicio"],$_POST["fechaFin"],$_POST["pais"],$_POST["stat"],$_POST["obsPry"],$_POST["idUsuario"],$_POST["idProyecto"],$_POST["statActual"],$_POST["statusPY"]);
 		break;
+		/*case "mostrarFormMetricaAdd":
+			$objAsig->mostrarFormMetricaAdd($_POST["idAct"],$_POST["idProceso"],$_POST["idUsuario"]);
+		break;*/
 
 	}
 ?>

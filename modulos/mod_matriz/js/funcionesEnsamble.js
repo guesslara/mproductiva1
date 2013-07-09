@@ -183,17 +183,22 @@ function cambioAj(){
 	cumpli=(pxm/meta)*100;
 	$("#cumpli").attr("value",Math.round(cumpli)+" %");
 	/*se añade el boton para el grafico*/
-	var boton2="&nbsp;<input type='button' value='Mostrar Gráfico' onclick='mostrarGrafico();' />";
+	var boton2="&nbsp;<input type='button' value='Mostrar Gráfico Cumplimiento' onclick='mostrarGrafico(\"Cumplimiento\");' />";
+	var boton3="&nbsp;<input type='button' value='Mostrar Gráfico Cumplimiento / Productividad' onclick='mostrarGrafico(\"CumplimientoProd\");' />";
 	$("#btns").append(boton2);
+	$("#btns").append(boton3);
 	/*fin del boton*/
 	return 1;
 }
-function mostrarGrafico(){
+function mostrarGrafico(opcion){
 	$("#pruebaGrafica").show();
 	var mesActual=$("#mess").val();//se recupera el mes
 	var txtTotalColumnas=parseInt($("#txtTotalColumnas").val())-1;
+	var txtTotalColumnas1=parseInt($("#txtTotalColumnas").val())-2;
 	var txtFilasTotales=$("#txtFilasTotales").val();
+	var metaProductiva=$("#Pmp").val();//se recupera la meta productiva
 	var valoresGrafica="";
+	var valoresProductividad="";
 	for(var i=0;i<txtFilasTotales;i++){
 		var nombreCaja="#"+i+"res"+txtTotalColumnas;				
 		var valorCaja=$(nombreCaja).val();
@@ -214,9 +219,35 @@ function mostrarGrafico(){
 			valoresGrafica=valoresGrafica+","+nvoValor;
 		}
 	}
+	//se recuperan los porcentajes de productividad
+	for(var i=0;i<txtFilasTotales;i++){
+		var nombreCaja="#"+i+"res"+txtTotalColumnas1;				
+		var valorCaja=$(nombreCaja).val();
+		if(valorCaja==""){
+			valorCaja=0;
+		}
+		var longCad=valorCaja.length;		
+		if(longCad==5){
+			nvoValor=valorCaja.substring(0,3);
+		}else if(longCad==4){
+			nvoValor=valorCaja.substring(0,2);
+		}else if(longCad==3){
+			nvoValor=valorCaja.substring(0,1);
+		}		
+		if(valoresProductividad==""){
+			valoresProductividad=nvoValor;
+		}else{
+			valoresProductividad=valoresProductividad+","+nvoValor;
+		}
+	}
 	//se hace la peticion y se envian los valores al script
 	//ajaxApp("pruebaGrafica","grafico1.php","action=grafico&mes="+mesActual+"&valoresGrafica="+valoresGrafica,"POST");
-	url="grafico1.php?action=grafico&mes="+mesActual+"&valoresGrafica="+valoresGrafica;
+	if(opcion=="Cumplimiento"){
+		url="grafico1.php?action=grafico&mes="+mesActual+"&valoresGrafica="+valoresGrafica+"&metaProductiva="+metaProductiva;
+	}else if(opcion=="CumplimientoProd"){
+		url="grafico2.php?action=grafico&mes="+mesActual+"&valoresGrafica="+valoresGrafica+"&metaProductiva="+metaProductiva+"&valoresProductividad="+valoresProductividad;
+	}
+	//url="grafico1.php?action=grafico&mes="+mesActual+"&valoresGrafica="+valoresGrafica+"&metaProductiva="+metaProductiva;
 	$("#pruebaGrafica").attr("src",url);
 }
 function abrir(div,opcion){

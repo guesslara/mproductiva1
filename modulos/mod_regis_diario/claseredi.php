@@ -374,7 +374,7 @@ class diario {
 ?>			
 		<tr>
 		    <td><?=$rowNombreStatus['nom_status'];?></td>
-		    <td><input type="text" id="<?=$idTxt;?>" name="<?=$idTxt;?>" onkeyup="verificaTecla('<?=$i;?>',event)" /><span id="<?=$divVal;?>" style="height: 20px;padding: 5px;background: #C3DBFE;color: #ff0000;font-weight: bold;display: none;"></span></td>    
+		    <td><input type="text" id="<?=$idTxt;?>" name="<?=$idTxt;?>"   onkeyup="verificaTecla('<?=$i;?>',event)" /><span id="<?=$divVal;?>" style="height: 20px;padding: 5px;background: #C3DBFE;color: #ff0000;font-weight: bold;display: none;"></span></td>    
 		</tr>
 <?
 			    $i+=1;

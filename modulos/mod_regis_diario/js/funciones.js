@@ -71,14 +71,13 @@ function muestraStatus(){
 }
 function verificaTecla(contador,evento){
 	contador=parseInt(contador);
-	//alert(contador);
-	if(evento.which==13){		
+	//alert(evento.which);
+	if(evento.which==13 || evento.which==9){		
 		hdnContador=$("#hdnContador").val();
 		contadorActual=parseInt(contador);
 		cajaActual="#txtStatus"+contadorActual;
 		divActual="#divVal"+contadorActual;
 		if($(cajaActual).val()==""){
-			
 			$(divActual).show();
 			$(divActual).html("Error no deje espacios en blanco");
 			$(cajaActual).css("background","yellow");
@@ -114,14 +113,27 @@ function guardarDatosRegistro(){
 		var horaReg=$("#hora").val();
 		//se procede a recuperar los status
 		var nroRepeticiones=$("#hdnContador").val();
+		//alert(nroRepeticiones);
+		//exit;
 		for(var i=0;i<nroRepeticiones;i++){
 			var nombreCaja="#txtStatus"+i;
+			//alert(nombreCaja);
+			//exit;
+			
 			if(valorStatus==""){
 				valorStatus=$(nombreCaja).val();
+				//alert("Debe ingresar valores a los status");
+				//return false;
+				//alert(valorStatus);
+				//exit;
 			}else{
 				valorStatus=valorStatus+","+$(nombreCaja).val();
+				//alert(valorStatus);
+				//exit;
 			}
 		}
+		//alert(nombreCaja);
+		//exit;
 		parametros="action=guardaRegistroDiario&idEmpleado="+idEmpleado+"&idStatus="+idStatus+"&fechaReg="+fechaReg+"&horaReg="+horaReg+"&valorStatus="+primer+valorStatus;
 		//alert(parametros);
 		//se envian los datos al servidor
@@ -167,4 +179,12 @@ function ocultaC(){
 }
 function limpia(div){
 	$("#"+div).html("");
+}
+function paraValidacion(campo){
+	alert(campo);
+	exit;
+	if(campo.value==""){
+		
+		
+	}
 }

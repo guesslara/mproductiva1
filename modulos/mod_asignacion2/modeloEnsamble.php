@@ -101,11 +101,16 @@
 			echo "<br><br><div style='text-align:center;height:15px;padding:5px;'>Presione el boton Cerrar Ventana para Finalizar la Actualizaci&oacute;n</div><br><br>";
 			echo "<div style='text-align:center;height:15px;padding:5px;'><a href='#' onclick=\"cerrarVentana('formularioOpciones');listarActividades('".$idProceso."','consulta','".$idUsuario."','Activo')\" title='Cerrar ventana'>Cerrar Ventana</a></div>";
 		}		
-		public function mostrarFormMetrica($ultimoId,$id_proceso,$idUsuario){
+		public function mostrarFormMetrica($ultimoId,$id_proceso,$idUsuario,$opEdita){
+			//print($opEdita);
 			$sqlNAct="SELECT * FROM SAT_ACTIVIDAD WHERE id_actividad='".$ultimoId."'";
 			$resNAct=mysql_query($sqlNAct,$this->conectarBd());
 			$rowNAct=mysql_fetch_array($resNAct);
+			if($opEdita=="todos"){
 			$sqlStatus="SELECT * FROM ACTIVIDAD_STATUS INNER JOIN SAT_STATUS ON ACTIVIDAD_STATUS.id_status = SAT_STATUS.id_status WHERE id_actividad='".$ultimoId."'";
+			}else{
+			$sqlStatus="SELECT * FROM ACTIVIDAD_STATUS INNER JOIN SAT_STATUS ON ACTIVIDAD_STATUS.id_status = SAT_STATUS.id_status WHERE id_act_status IN (".$opEdita.")";	
+			}
 			$resStatus=mysql_query($sqlStatus,$this->conectarBd());
 			$CuentaStatus=mysql_num_rows($resStatus);
 			if($CuentaStatus==0){
@@ -157,7 +162,7 @@
 						</tr>
 <?
 					}
-				}else{print("Aqui esta");}
+				}/*else{print("Aqui esta");}*/
 				$i+=1;
 			}
 ?>
@@ -404,7 +409,7 @@
 				for($i=0;$i<count($status);$i++){
 					$sqlActStatus="INSERT INTO ACTIVIDAD_STATUS (id_actividad,id_status) VALUES ('".$rowUltimoId["ultimoId"]."','".$status[$i]."')";//se ejecuta la consulta sql
 					$resActStatus=mysql_query($sqlActStatus,$this->conectarBd());
-					echo "<script type='text/javascript'> mostrarFormMetrica('".$rowUltimoId["ultimoId"]."','".$id_proceso."','".$idUsuario."'); </script>";//se manda llamar al siguiente formulario
+					echo "<script type='text/javascript'> mostrarFormMetrica('".$rowUltimoId["ultimoId"]."','".$id_proceso."','".$idUsuario."','todos'); </script>";//se manda llamar al siguiente formulario
 					if($resActStatus==false){
 						echo "<script type='text/javascript'> alert('Ocurrio un error al guardar el status con la Actividad');</script>";	
 					}
@@ -863,6 +868,7 @@
 		}
 
 	public function formActuaAct($idAct,$idProceso,$idUsuario,$status){
+		/*print($status);*/
 				$sqlResp1="SELECT * FROM ACTIVIDAD_STATUS INNER JOIN SAT_STATUS ON ACTIVIDAD_STATUS.id_status = SAT_STATUS.id_status WHERE id_actividad='".$idAct."'";
 				$resResp1E=mysql_query($sqlResp1,$this->conectarBd());
 				$sqlSat="SELECT * FROM SAT_ACTIVIDAD WHERE id_actividad='".$idAct."'";
@@ -971,7 +977,7 @@
 										?><div id="<?=$bSaCa;?>" style="heigth:auto; width:auto; background:<?=$color;?>;float:left;padding:5px;display:none;"><input type="button" name="acept" id="acept" value="Modificar" onclick="guardarMod('<?=$rowStaSe["nom_status"]?>','<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>')"/><input type="button" name="cancl" id="cancl" value="Cancelar" onclick="canclMo('<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>');modAct('<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>')"/></div><?
 									}
 								}else{
-									?><div id="<?=$bSaCa;?>" style="heigth:auto; width:auto; background:<?=$color;?>;float:left;padding:5px;display:none;"><input type="button" name="acept" id="acept" value="Modificar" onclick="guardarMod('<?=$rowStaSe["nom_status"]?>','<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>','<?=$status?>')"/><input type="button" name="cancl" id="cancl" value="Cancelar" onclick="canclMo('<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>')"/></div><?
+									?><div id="<?=$bSaCa;?>" style="heigth:auto; width:auto; background:<?=$color;?>;float:left;padding:5px;display:none;"><input type="button" name="acept" id="acept" value="Modificar" onclick="guardarMod('<?=$rowStaSe["nom_status"]?>','<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>','<?=$idUsuario?>','<?=$status?>')"/><input type="button" name="cancl" id="cancl" value="Cancelar" onclick="canclMo('<?=$rowStaSe['id_act_status']?>','<?=$idAct?>','<?=$idProceso?>')"/></div><?
 								}?>
 								
 
@@ -1045,19 +1051,26 @@
 		
 		}
 		public function guardarNSA($idAct,$status,$idProceso,$idUsuario,$statusAC){
-			$status=explode(",",$status);						
+			$statuN=$status;
+			$status=explode(",",$status);	
+			$actStat=array();					
 				//se recupera el ultimo id insertado en la actividad				
 				for($i=0;$i<count($status);$i++){
 					$sqlActStatus="INSERT INTO ACTIVIDAD_STATUS (id_actividad,id_status) VALUES ('".$idAct."','".$status[$i]."')";//se ejecuta la consulta sql
 					$resActStatus=mysql_query($sqlActStatus,$this->conectarBd());
 					if($resActStatus==true){
-					echo "<script type='text/javascript'> mostrarFormMetrica('".$idAct."','".$idProceso."','".$idUsuario."'); </script>";//se manda llamar al siguiente formulario
+							array_push($actStat, mysql_insert_id());
+					echo "<script type='text/javascript'>listarActividades('".$idProceso."','modifica','".$idUsuario."','".$statusAC."');</script>";//se manda llamar al siguiente formulario
 					}
 					if($resActStatus==false){
 						echo "<script type='text/javascript'> alert('Ocurrio un error al guardar el status con la Actividad');</script>";	
 					}
 				}
-				echo "<script type='text/javascript'> alert('status Agregado'); cerrarVentana('transparenciaGeneralSt');modAct('".$idAct."','".$idProceso."','".$idUsuario."','".$statusAC."');</script>";	
+				$ids=implode(",",$actStat);
+				print($ids);
+				/*mostrarFormMetrica('".$idAct."','".$idProceso."','".$idUsuario."','".$statusN."');*/
+				/*cerrarVentana('transparenciaGeneralSt');modAct('".$idAct."','".$idProceso."','".$idUsuario."','".$statusAC."');*/
+				echo "<script type='text/javascript'> alert('status Agregado');cerrarVentana('transparenciaGeneralSt');mostrarFormMetrica('".$idAct."','".$idProceso."','".$idUsuario."','".$ids."');</script>";	
 			
 		}
 		public function quitarStatus($idActSta,$idAct,$idProceso,$idUsuario,$status){

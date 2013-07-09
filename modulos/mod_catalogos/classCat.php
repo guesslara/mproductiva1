@@ -404,6 +404,7 @@ class catalogo{
 		$sql_valores="";
 		$prefijo2='SAT_';
 		$tres=str_replace($prefijo2,"",$t);
+		//print_r($tres); exit;
 		$cuatro="id_".$tres;
 		//print_r($cuatro); exit;
 
@@ -425,19 +426,22 @@ class catalogo{
 		$pruba2=explode(',',$sql_valores);
 		//print_r($pruba2); exit;
 		$cuenta=count($pruba);
+		//echo $cuenta; exit;
 		$b= array ();
-		$i=2;
-		$a=0;
-		for($j=0;$j<$cuenta;$j++){
-		$a=$i+$j;
-		if($pruba[$a]==""){
-			unset($b[$i]);
-		}
-		else{
-		$b[$i]=$pruba[$a]."=".$pruba2[$a];
-		}
+		$i=1;
+		//$a=0;
+		for($j=1;$j<$cuenta;$j++){
+		//$a=$i+$j;
+		//echo $a; exit;
+		//if($pruba[$a]==""){
+			//unset($b[$i]);
+		//}
+		//else{
+		$b[$i]=$pruba[$j]."=".$pruba2[$j];
+		//}
 		$i++;
 		}
+		//print_r($b); exit;	
 		
 		$dos=implode(",",$b);
 		//print_r($dos); exit;
