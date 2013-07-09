@@ -50,7 +50,7 @@ function insertarempleado(id_empleado,nombre,a_paterno,a_materno){
 	if((fecha=="")||(fecha=="undefined")||(fecha==null)){
 		alert("Debe seleccionar una Fecha para continuar");
 	}else{
-	ajaxApp("resultadosEvaluadores","controladorredi.php","action=insertarempleado&fecha="+fecha+"&id_empleado="+id_empleado+"&nombre="+nombre+"&a_paterno="+a_paterno+"&a_materno="+a_materno,"POST");
+	ajaxApp("muestraasignaciones","controladorredi.php","action=insertarempleado&fecha="+fecha+"&id_empleado="+id_empleado+"&nombre="+nombre+"&a_paterno="+a_paterno+"&a_materno="+a_materno,"POST");
 	}
 }
 function ponerDAtosEmpleado2(no_empleado,nombre,apaterno,amaterno){	
@@ -160,4 +160,11 @@ function modificacionReg(idReg,noEmpleado,fecha1,fecha2,toReg){
 	paramMEn=paramM-1;
 	param=param.substring(0,paramMEn);
 	ajaxApp("resultadosBusqueda","controladorredi.php","action=actualizaReg&idReg="+idReg+"&noEmpleado="+noEmpleado+"&fecha1="+fecha1+"&fecha2="+fecha2+"&param="+param+"&fechaAc="+fechaAc,"POST");
+}
+function ocultaC(){
+	$("#formCapAct").hide();
+	$("#formCapAct").html("");
+}
+function limpia(div){
+	$("#"+div).html("");
 }

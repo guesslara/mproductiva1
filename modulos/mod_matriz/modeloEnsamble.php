@@ -859,7 +859,8 @@
 							</table>
 						</div>
 						<!--<div id="pruebaGrafica" style="float: left;border: 1px solid #CCC;margin: 5px;height: 300px;;width: 450px;"></div>-->
-						<iframe id="pruebaGrafica" src="grafico1.php" style="float: left;border: 1px solid #CCC;margin: 5px;height: 300px;;width: 450px;"></iframe>
+						<div style="clear: both;">&nbsp;</div>
+						<iframe id="pruebaGrafica" src="grafico1.php" style="display: none;border: 0px solid #CCC;margin: 5px;" scrolling="no" width="850" height="350"></iframe>
 					</div>					
 <?
 					//se buscan las actividades relacionadas al usuario

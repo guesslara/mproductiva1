@@ -48,7 +48,7 @@ class diario {
 	    </tr>
 	    <tr>
 		<td width="100" class="cabeceraTitulosTabla">No Empleado</td>
-		<td width="500"><input type="text" readonly="readonly" name="txtBNoEmpleado" id="txtBNoEmpleado"><input type="button" value="Buscar" onclick="abrir('buscaDiv','busqueda')" ></td>
+		<td width="500"><input type="text" readonly="readonly" name="txtBNoEmpleado" id="txtBNoEmpleado"><input type="button" value="Buscar" onclick="ocultaC();abrir('buscaDiv','busqueda')" ></td>
 	    </tr>
 	    <tr>
 		<td width="100" class="cabeceraTitulosTabla">Nombre</td>
@@ -179,7 +179,7 @@ class diario {
 	$hoy = date('H:i:s ',time());
 ?>
 	<form id="asi_diario">
-	    <table border="0" cellpadding="1" cellspacing="1" width="500" style="font-size: 12px;border: 1px solid #666;margin: 5px;" >
+	    <table border="0" cellpadding="1" cellspacing="1" width="98%" align="center" style="font-size: 12px;border: 1px solid #666;margin: 5px;">
 		<tr>
 		    <td  style="border: 1px solid #CCC;background: #f0f0f0;height: 15px;padding: 5px;">		
 		    <p align="right">
@@ -197,12 +197,12 @@ class diario {
 		    </p>
 		    </td>
 		</tr>
-		<tr>
+		<!--<tr>
 		    <td style="height: 15px;padding: 5px;text-align: right;"><a href="#" onclick="abrir('buscaDiv','N/A')"> Buscar Empleado a Evaluar</a></td>
-		</tr>
+		</tr>-->
 	    </table>
 	</form>
-	<div id="resultadosEvaluadores"></div>   
+	<!--<div id="resultadosEvaluadores"></div>   -->
 <?
     }
     public function buscarempleado($empleado,$opcionB){
@@ -319,7 +319,7 @@ class diario {
 	    </tr>
         </table><br>
 	<div id="status_act"></div>                                
-	<div id="msgGuardado" style="border:1px solid #ff0000;"></div>
+	<div id="msgGuardado" style="border:0px solid #fff;"></div>
 	<script type="application/javascript">
 	    ponerdatos('<?=$id_empleado?>','<?=$nombre?>','<?=$a_paterno?>','<?=$a_materno?>','<?=$rowMuestraDatos['horas_la'];?>','<?=$rowMuestraDatos['meta_pro'];?>');
 	</script>
@@ -400,7 +400,8 @@ class diario {
 		<!--<input type="hidden" name="txtOpcionBusqueda" id="txtOpcionBusqueda" value="<?=$buscadorB;?>">-->
 		<form>
 		Buscar:<input type="text" name="buscar"  id="buscar" onkeypress="buscarEmpleado('<?=$buscadorB;?>');"></i>
-		</form></center><?
+		</form></center>
+		<script type="text/javascript">$("#buscar").focus();</script><?
 	}
 	public function modReg($idReg,$noEmpleado,$fecha1,$fecha2){
 		$sqlRD="SELECT * FROM detalle_captura_registro WHERE id='".$idReg."'";

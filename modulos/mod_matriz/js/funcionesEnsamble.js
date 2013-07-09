@@ -183,12 +183,13 @@ function cambioAj(){
 	cumpli=(pxm/meta)*100;
 	$("#cumpli").attr("value",Math.round(cumpli)+" %");
 	/*se añade el boton para el grafico*/
-	var boton2="<input type='button' value='Mostrar Gráfico' onclick='mostrarGrafico();' />";
+	var boton2="&nbsp;<input type='button' value='Mostrar Gráfico' onclick='mostrarGrafico();' />";
 	$("#btns").append(boton2);
 	/*fin del boton*/
 	return 1;
 }
 function mostrarGrafico(){
+	$("#pruebaGrafica").show();
 	var mesActual=$("#mess").val();//se recupera el mes
 	var txtTotalColumnas=parseInt($("#txtTotalColumnas").val())-1;
 	var txtFilasTotales=$("#txtFilasTotales").val();
