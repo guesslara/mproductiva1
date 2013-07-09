@@ -67,7 +67,7 @@
  $myPicture->setGraphArea(60,40,785,298);
 
  /* Draw the scale */
- $scaleSettings = array("XMargin"=>10,"YMargin"=>10,"Floating"=>TRUE,"GridR"=>200,"GridG"=>200,"GridB"=>200,"DrawSubTicks"=>TRUE,"CycleBackground"=>TRUE);
+ $scaleSettings = array("XMargin"=>10,"YMargin"=>10,"Floating"=>TRUE,"GridR"=>134,"GridG"=>103,"GridB"=>103,"DrawSubTicks"=>TRUE,"CycleBackground"=>TRUE);
  $myPicture->drawScale($scaleSettings);
 
  /* Turn on Antialiasing */
@@ -78,10 +78,10 @@
 
  /* Draw the line chart */
  $myPicture->drawLineChart();
- $myPicture->drawPlotChart(array("DisplayValues"=>TRUE,"PlotBorder"=>TRUE,"BorderSize"=>2,"Surrounding"=>-60,"BorderAlpha"=>80));
+ $myPicture->drawPlotChart(array("DisplayValues"=>FALSE,"PlotBorder"=>TRUE,"BorderSize"=>2,"Surrounding"=>-60,"BorderAlpha"=>30));
 
  /* Write the chart legend */
- $myPicture->drawLegend(590,9,array("Style"=>LEGEND_NOBORDER,"Mode"=>LEGEND_HORIZONTAL,"FontR"=>0,"FontG"=>0,"FontB"=>0));
+ $myPicture->drawLegend(550,9,array("Style"=>LEGEND_NOBORDER,"Mode"=>LEGEND_HORIZONTAL,"FontR"=>0,"FontG"=>0,"FontB"=>0));
 
  /* Render the picture (choose the best way) */
  $myPicture->autoOutput("pictures/example.drawLineChart.plots.png");

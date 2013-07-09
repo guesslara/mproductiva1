@@ -732,12 +732,17 @@
 				$resCapMes=@mysql_query($sqlCapMes,$this->conectarBd())or die(mysql_error());
 				echo "<div id='barraOpcionesEnsamble'>
 					<a href='index.php' target='_blank' class='opcionesEnsamble' style='text-decoration:none;color:#000;'>Nueva Consulta</a>
+					<div class='opcionesEnsamble' onclick='guardarMatriz()'>Guardar</div>
 				      </div>";
 				echo"<div id='contesta'></div>";
 				if(mysql_num_rows($resCapMes)==0){
 					echo "<div style='border-top:2px solid blue;border-bottom:2px solid blue;background:skyblue;height:20px;padding:8px;color:#000;font-weight:bold;'>No existen datos configurados para el mes seleccionado.</div>";
 				}else{					
 					try{
+						$sqlNombreM="SELECT nombres,a_paterno,a_materno FROM cat_personal WHERE no_empleado='".$noEmpleado."'";
+						$resNombreM=mysql_query($sqlNombreM,$this->conectar_cat_personal());
+						$rowNombreM=mysql_fetch_array($resNombreM);
+						
 						$rowCapMes=mysql_fetch_array($resCapMes);				
 						
 						$meses=array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
@@ -766,6 +771,10 @@
 					<input type="hidden" name="txtHdnMetaProd" id="txtHdnMetaProd" value="<?=$rowCapMes["meta_pro"];?>">
 					<input type="hidden" name="mess" id="mess" value="<?=$fecha1x[1]?>">
 					<div style="overflow: hidden;height: auto;width: 99%;">
+						<div id="divNombre" style="margin: 5px;width: 700px;float: left;border: 0px solid #CCC;height: 15px;padding: 5px;font-weight: bold;font-size: 14px;text-align: left;">
+							<?=$rowNombreM["nombres"]." ".$rowNombreM["a_paterno"]." ".$rowNombreM["a_materno"];?>
+						</div>
+						<div style="clear: both;"></div>
 						<div style="float: left;border: 1px solid #CCC;margin: 5px;height: auto;width: 310px;">
 							<div id="fac_pasadas" style="width: 93%; height: 25px; margin: 5px; padding: 5px; background: #f0f0f0; border: 1px solid #CCC;">
 								<div id="barrita" style="margin: 0px 0px 10px 0px;">
@@ -781,47 +790,47 @@
 								</tr>
 								<tr>
 									<td style="background: #7DC24B;height: 15px;padding: 5px;">Jornada Laboral</td>
-									<td style="text-align: center;">&nbsp;<input type="text" id="Pjl" onchange="cambio()" name="Pjl" readonly="" value="<?=$rowCapMes["jorna_lab"];?>" style="width: 50px;" />
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pjl" onchange="cambio()" name="Pjl" readonly="" value="<?=$rowCapMes["jorna_lab"];?>" style="width: 50px;background:#FFF;color: #000;" />
 									</td>
 								</tr>
 								<tr>
 									<td style="background: #7DC24B;height: 15px;padding: 5px;">Dias Laborables</td>
-									<td style="text-align: center;">&nbsp;<input type="text" id="Pdl" onchange="cambio()" name="Pdl" readonly="" value="<?=$rowCapMes["dias_lab"];?>" style="width: 50px;" />
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pdl" onchange="cambio()" name="Pdl" readonly="" value="<?=$rowCapMes["dias_lab"];?>" style="width: 50px;background:#FFF;color: #000;" />
 									</td>
 								</tr>
 								<tr>
 									<td style="background: #7DC24B;height: 15px;padding: 5px;">Dias con Licencia</td>
-									<td style="text-align: center;">&nbsp;<input type="text" id="Pdcl" onchange="cambio()" name="Pdcl" readonly="" value="<?=$rowCapMes["dias_li"];?>" style="width: 50px;" />
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pdcl" onchange="cambio()" name="Pdcl" readonly="" value="<?=$rowCapMes["dias_li"];?>" style="width: 50px;background:#FFF;color: #000;" />
 									</td>
 								</tr>
 								<tr>
 									<td style="background: #7DC24B;height: 15px;padding: 5px;">TE (Hrs)</td>
-									<td style="text-align: center;">&nbsp;<input type="text" id="Pte" onchange="cambio()" name="Pte" readonly="" value="<?=$rowCapMes["tiem_ex"];?>" style="width: 50px;" />
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pte" onchange="cambio()" name="Pte" readonly="" value="<?=$rowCapMes["tiem_ex"];?>" style="width: 50px;background:#FFF;color: #000;" />
 									</td>
 								</tr>
 								<tr>
 									<td style="background: #7DC24B;height: 15px;padding: 5px;">Meta Productiva</td>
-									<td style="text-align: center;">&nbsp;<input type="text" id="Pmp" name="Pmp" onchange="cambio()" readonly="" value="<?=$rowCapMes["meta_pro"];?>" style="width: 50px;" />
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pmp" name="Pmp" onchange="cambio()" readonly="" value="<?=$rowCapMes["meta_pro"];?>" style="width: 50px;background:#FFF;color: #000;" />
 									</td>
 								</tr>
 								<tr>
 									<td style="background: #f0f0f0;border: 1px solid #CCC;height: 15px;padding: 5px;">Dias Laborados (Admin)</td>
-									<td style="text-align: center;">&nbsp;<input type="text" id="Pdladmin" name="Pdladmin" readonly="" value="<?=round($diasLaboradorAdmin,2);?>" style="width: 50px;" />
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pdladmin" name="Pdladmin" readonly="" value="<?=round($diasLaboradorAdmin,2);?>" style="width: 50px;background:#FFF;color: #000;" />
 									</td>
 								</tr>
 								<tr>
 									<td style="background: #f0f0f0;border: 1px solid #CCC;height: 15px;padding: 5px;">Dias Laborados Operativamente</td>
-									<td style="text-align: center;">&nbsp;<input type="text" id="Pdlope" name="Pdlope" readonly="" style="width: 50px;" />
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pdlope" name="Pdlope" readonly="" style="width: 50px;background:#FFF;color: #000;" />
 									</td>
 								</tr>
 								<tr>
 									<td style="background: #f0f0f0;border: 1px solid #CCC;height: 15px;padding: 5px;">Minutos Laborables por Jornada (min)</td>
-									<td style="text-align: center;">&nbsp;<input type="text" id="Pmlxj" name="Pmlxj" readonly="" value="<?=$minutosLaborablesxJornada;?>" style="width: 50px;" />
+									<td style="text-align: center;">&nbsp;<input type="text" id="Pmlxj" name="Pmlxj" readonly="" value="<?=$minutosLaborablesxJornada;?>" style="width: 50px;background:#FFF;color: #000;" />
 									<input type="hidden" name="hdnMinutosLaborablesJornada" id="hdnMinutosLaborablesJornada" value="<?=$minutosLaborablesxJornada?>"></td>
 								</tr>
 								<tr>
 									<td style="background: #f0f0f0;border: 1px solid #CCC;height: 15px;padding: 5px;">Horas Laboradas en el Mes al 100 % de Productividad</td>
-									<td style="text-align: center;">&nbsp;<input type="text" id="Phlxm" name="Phlxm" readonly="" value="<?=$horasLaboradasMes;?>" style="width: 50px;" />
+									<td style="text-align: center;">&nbsp;<input type="text" id="Phlxm" name="Phlxm" readonly="" value="<?=$horasLaboradasMes;?>" style="width: 50px;background:#FFF;color: #000;" />
 									</td>
 								</tr>
 							</table>
@@ -830,31 +839,31 @@
 							<table border="0" cellpadding="1" cellspacing="1" width="300" style="font-size: 10px;margin: 5px;border: 1px solid #CCC;">
 								<tr>
 									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">Cumplimiento</td>
-									<td>&nbsp;<input type="text" id="cumpli" name="cumpli" readonly="" value="" style="width: 60px;" /></td>
+									<td>&nbsp;<input type="text" id="cumpli" name="cumpli" readonly="" value="" style="width: 60px;background:#FFF;color: #FF0000font-weight:bold;" /></td>
 								</tr>
 								<tr>
 									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">TE (Hrs)</td>
-									<td>&nbsp;<input type="text" id="te" name="te" readonly="" value="" style="width: 60px;" /></td>
+									<td>&nbsp;<input type="text" id="te" name="te" readonly="" value="" style="width: 60px;background:#FFF;color: #FF0000font-weight:bold;" /></td>
 								</tr>
 								<tr>
 									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">Productividad por Dia</td>
-									<td>&nbsp;<input type="text" id="pxd" name="pxd" readonly="" value="" style="width: 60px;" /></td>
+									<td>&nbsp;<input type="text" id="pxd" name="pxd" readonly="" value="" style="width: 60px;background:#FFF;color: #FF0000font-weight:bold;" /></td>
 								</tr>
 								<tr>
 									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">Productividad por Mes</td>
-									<td>&nbsp;<input type="text" id="pxm" name="pxm" readonly="" value="" style="width: 60px;" /></td>
+									<td>&nbsp;<input type="text" id="pxm" name="pxm" readonly="" value="" style="width: 60px;background:#FFF;color: #FF0000font-weight:bold;" /></td>
 								</tr>
 								<tr>
 									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">Rendimiento</td>
-									<td>&nbsp;<input type="text" id="rendi" name="rendi" readonly="" value="" style="width: 60px;" /></td>
+									<td>&nbsp;<input type="text" id="rendi" name="rendi" readonly="" value="" style="width: 60px;background:#FFF;color: #FF0000font-weight:bold;" /></td>
 								</tr>
 								<tr>
 									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">% de Scrap en el Mes</td>
-									<td>&nbsp;<input type="text" id="scrapxr" name="scrapxr" readonly="" value="" style="width: 60px;" /></td>
+									<td>&nbsp;<input type="text" id="scrapxr" name="scrapxr" readonly="" value="" style="width: 60px;background:#FFF;color: #FF0000font-weight:bold;" /></td>
 								</tr>
 								<tr>
 									<td style="background: #F4FA58;color: #000;height: 15px;padding: 5px;">% de Rechazo en el Mes</td>
-									<td>&nbsp;<input type="text" id="rechazoxr" name="rechazoxr" readonly="" value="" style="width: 60px;" /></td>
+									<td>&nbsp;<input type="text" id="rechazoxr" name="rechazoxr" readonly="" value="" style="width: 60px;background:#FFF;color: #FF0000font-weight:bold;" /></td>
 								</tr>
 							</table>
 						</div>

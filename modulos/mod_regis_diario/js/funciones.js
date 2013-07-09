@@ -71,12 +71,19 @@ function muestraStatus(){
 }
 function verificaTecla(contador,evento){
 	contador=parseInt(contador);
+	var caracteres = "abcdefghijklmnopqrstuvwxyzñ1234567890ü ABCDEFGHIJKLMNOPQRSTUVWXYZÑáéíóúÁÉÍÓÚÜ/-()&.:-,_";
 	//alert(evento.which);
 	if(evento.which==13 || evento.which==9){		
 		hdnContador=$("#hdnContador").val();
 		contadorActual=parseInt(contador);
 		cajaActual="#txtStatus"+contadorActual;
 		divActual="#divVal"+contadorActual;
+		//if(isNaN(cajaActual.value)){
+		alert("Error: el campo s" +'\u00f3'+"lo acepta n"+'\u00fa'+"meros");
+		///$("#txtStatus"+contadorActual).val("");
+		//$("#id_prod").focus();
+		//return 0;
+		//}
 		if($(cajaActual).val()==""){
 			$(divActual).show();
 			$(divActual).html("Error no deje espacios en blanco");
@@ -179,12 +186,4 @@ function ocultaC(){
 }
 function limpia(div){
 	$("#"+div).html("");
-}
-function paraValidacion(campo){
-	alert(campo);
-	exit;
-	if(campo.value==""){
-		
-		
-	}
 }

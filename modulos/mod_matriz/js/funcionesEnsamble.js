@@ -183,10 +183,14 @@ function cambioAj(){
 	cumpli=(pxm/meta)*100;
 	$("#cumpli").attr("value",Math.round(cumpli)+" %");
 	/*se añade el boton para el grafico*/
-	var boton2="&nbsp;<input type='button' value='Mostrar Gráfico Cumplimiento' onclick='mostrarGrafico(\"Cumplimiento\");' />";
-	var boton3="&nbsp;<input type='button' value='Mostrar Gráfico Cumplimiento / Productividad' onclick='mostrarGrafico(\"CumplimientoProd\");' />";
-	$("#btns").append(boton2);
-	$("#btns").append(boton3);
+	if(! $("#btnGrafico1").length){
+		var boton2="&nbsp;<input id='btnGrafico1' type='button' value='Mostrar Grafico Cumplimiento' onclick='mostrarGrafico(\"Cumplimiento\");' />";
+		$("#btns").append(boton2);
+	}
+	if(! $("#btnGrafico2").length){
+		var boton3="&nbsp;<input id='btnGrafico2' type='button' value='Mostrar Grafico Cumplimiento / Productividad' onclick='mostrarGrafico(\"CumplimientoProd\");' />";
+		$("#btns").append(boton3);
+	}
 	/*fin del boton*/
 	return 1;
 }
@@ -431,4 +435,8 @@ function calcularDatosMatriz(){
 }
 function calcularDatos2(){
 	
+}
+function guardarMatriz(){
+	var contenido = document.getElementById("infoEnsamble3").innerHTML;
+	alert(contenido);
 }

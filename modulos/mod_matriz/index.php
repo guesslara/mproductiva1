@@ -80,7 +80,7 @@
 			<tr>
 				<td width="100">#:</td>
 				<td width="475">
-					<input type="text" readonly="readonly" value="2441" style="width: 65px;" name="txtBNoEmpleado" id="txtBNoEmpleado">
+					<input type="text" readonly="readonly" value="" style="width: 65px;" name="txtBNoEmpleado" id="txtBNoEmpleado">
 					<input type="button" value="..." onclick="abrir('buscarEmpleado','busqueda')" >
 				</td>
 			</tr>
@@ -91,7 +91,7 @@
 			<tr>
 				<td>Fecha 1</td>
 				<td>
-					<input type="text" name="busquedaRegistro1" id="busquedaRegistro1" style="width: 150px;" value="2013-05-01" >
+					<input type="text" name="busquedaRegistro1" id="busquedaRegistro1" style="width: 150px;" value="" readonly="readonly">
 					<input type="button" id="lanzadorB1"  value="..." />
 					<!-- script que define y configura el calendario-->
 					<script type="text/javascript">
@@ -101,7 +101,7 @@
 						button         :    "lanzadorB1"   // el id del botón que lanzará el calendario
 					    });
 					</script>&nbsp;y&nbsp;
-					Fecha 2&nbsp;<input type="text" name="busquedaRegistro2" id="busquedaRegistro2" style="width: 150px;" value="2013-05-31" >
+					Fecha 2&nbsp;<input type="text" name="busquedaRegistro2" id="busquedaRegistro2" style="width: 150px;" value="" readonly="readonly">
 					<input type="button" id="lanzadorB2"  value="..." />
 					<!-- script que define y configura el calendario-->
 					<script type="text/javascript">
