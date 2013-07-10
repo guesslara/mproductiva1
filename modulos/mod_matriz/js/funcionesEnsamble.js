@@ -437,6 +437,15 @@ function calcularDatos2(){
 	
 }
 function guardarMatriz(){
-	var contenido = document.getElementById("infoEnsamble3").innerHTML;
-	alert(contenido);
+	var nombreArchivo=prompt("Escriba el nombre con el que desea guardar el Archivo?");
+	var idUsuario=$("#txtIdUsuarioMatriz").val();
+	alert(idUsuario);
+	if(nombreArchivo != null || nombreArchivo != undefined){
+		var contenido = document.getElementById("infoEnsamble3").innerHTML;
+		//alert(contenido);
+		$("#transparenciaGeneral").show();
+		var parametros="action=guardarMatriz&nombreArchivo="+nombreArchivo+"idUsuario="+idUsuario+"&contenido="+contenido;
+		ajaxApp("divGuardadoMatriz","controladorEnsamble.php",parametros,"POST");	
+	}
+	
 }

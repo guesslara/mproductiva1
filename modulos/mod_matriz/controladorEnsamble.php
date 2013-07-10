@@ -1,5 +1,6 @@
 <?
 	include("modeloEnsamble.php");
+	include("guardaMatriz.php");
 	$objMatriz=new modeloEnsamble();
 	switch($_POST['action']){
 		case "buscarempleado":
@@ -29,6 +30,11 @@
 			//print_r($_POST);
 			$objAct= new mes();
 			$objAct->actualiza($_POST["tac"],$_POST["valores"],$_POST["ids"]);
+		break;
+		case "guardarMatriz":
+			//print_r($_POST);
+			$objGuarda=new guardarArchivoMatriz();
+			$objGuarda->guardarMatriz($_POST["nombreArchivo"],$_POST["idUsuario"],$_POST["contenido"]);
 		break;
 	}
 ?>

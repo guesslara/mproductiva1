@@ -1,5 +1,5 @@
 <?      
-	/*session_start();
+	session_start();
 	session_regenerate_id(true);
 	include("../../includes/txtApp.php");
 	include("../../clases/regLog.php");
@@ -8,7 +8,7 @@
 	if(!isset($_SESSION[$txtApp['session']['idUsuario']])){
 		echo "<script type='text/javascript'> alert('Su sesion ha terminado por inactividad'); window.location.href='../mod_login/index.php'; </script>";
 		exit;
-	}*/
+	}
 ?>
 <link rel="stylesheet" type="text/css" href="css/estilosEmpaque.css" />
 <script type="text/javascript" src="js/funcionesEnsamble.js"></script>
@@ -65,7 +65,7 @@
 <!--<div id="cargadorEmpaque" class="cargadorEmpaque">Cargando...</div>-->
 <input type="hidden" name="txtProcesoEmpaque" id="txtProcesoEmpaque" value="<?=$proceso;?>" />
 <input type="hidden" name="txtProcesoEmpaqueEnvio" id="txtProcesoEmpaqueEnvio" value="<?=$proceso1;?>" />
-<input type="hidden" name="txtIdUsuarioEmpaque" id="txtIdUsuarioEmpaque" value="<?=$_SESSION['id_usuario_nx'];?>" />
+<input type="hidden" name="txtIdUsuarioEmpaque" id="txtIdUsuarioMatriz" value="<?=$_SESSION[$txtApp['session']['idUsuario']];?>" />
 <div id="contenedorEnsamble">
 	<div id="contenedorEnsamble3">		
 		<div id="infoEnsamble3" style="overflow: auto;">
@@ -139,12 +139,14 @@
 </div>
 
 <div id="transparenciaGeneral" style="display:none;">	
-		<div id="capturaCaja" class="ventanaDialogo">
-    		<div id="barraTitulo1VentanaDialogo">Captura de Equipos</div><br />
-		<div></div>
-		</div>
+	<div id="divGuardadoMatriz" class="ventanaDialogo" style="height: 150px;">
+    		<div id="barraTitulo1VentanaDialogo">Informaci&oacute;n</div>
+		<div style="height: 120px;border: 0px solid #FF0000;overflow: auto;"></div>		
 	</div>
 </div>
+
+
+
 
 <div id="formularioOpciones" class="transparenciaGeneral" style="display:none;">	
 	<div id="capturaCaja" class="ventanaDialogoCapturaFinal">
@@ -191,30 +193,6 @@
 		<div id="listadoEmpaqueFinalizacion" style="border:1px solid #CCC; margin:4px; font-size:10px;height:87%; overflow:auto;"></div>
 	</div>
 </div>
-<div id="opcionFormFlex" style="display:none;position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(../../img/desv.png) repeat;">
-	<div id="msgFlexCaptura">
-		<div id="advertencia">Advertencia...</div>
-		<div style="height:118px;width:99.5%;padding:5px;text-align:center;font-size:12px;">
-			<br><br>¿Desea capturar los Equipos con Flex Nuevo?<br><br>		
-			<input type="button" id="btnFormFlexSi" value="S&iacute;" onclick="colocaValorFlex('nuevo')">
-			<input type="button" id="btnFormFlexNo" value="No" onclick="colocaValorFlex('procesado')">	
-		</div>
-	</div>
-</div>
-
-<!--<div id="contenido1" style="float: left;border:1px solid #e1e1e1;background:#fff; height:95%;width:32%;font-size:12px;margin:3px;">
-	<div class="tituloDivNuevo">Proyectos <div style="float: right;margin-right: 3px;margin-top: 3px;">Nuevo Proyecto</div></div>
-	<div id="contenido11" style="overflow: auto;"></div>
-</div>
-<div id="contenido2" style="float: left;border:1px solid #e1e1e1;background:#fff; height:95%;width:32%;font-size:12px;margin:3px;">
-	<div class="tituloDivNuevo">Procesos</div>
-	<div id="contenido12" style="overflow: auto;"></div>
-</div>
-<div id="contenido3" style="float: left;border:1px solid #e1e1e1;background:#fff; height:95%;width:32%;font-size:12px;margin:3px;">
-	<div class="tituloDivNuevo">Actividades</div>
-	<div id="contenido13" style="overflow: auto;"></div>
-</div>-->			
-
 <?
 include ("../../includes/pie.php");
 ?>
