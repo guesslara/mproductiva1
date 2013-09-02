@@ -176,6 +176,7 @@ function cambioAj(){
 		$("#sump").attr("value",(Math.round(sump/cont))+" %");
 		$("#pxd").attr("value",(Math.round(sump/cont))+" %");
 		$("#cont").attr("value",cont);
+		$("#txtFilasTotales").attr("value",cont);
 	}
 	var labxMes=parseInt($("#txtHlabxMes").val());
 	pxm=(sumt/labxMes)*100;

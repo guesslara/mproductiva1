@@ -135,18 +135,31 @@
 				$cadtxs=$cadtxs.",".$tresmas['Tiempo x Status'][$k];
 			}
 		}
-		$cont=0;$i=0;$si=0;
+		$i=0;$si=0;
 		foreach($columnas as $nombre => $valor){
 			$colspan[$i]=count($columnas[$nombre]);
 			$i++;
-		}$i=0;$cadtodo="";$ttxs=array();
-		/*echo"<pre>";
-		print_r($date);
-		echo"</pre>";*/
+		}
+
+		$cadtodo="";$ttxs=array();
 		for($q=0;$q<$filas;$q++){
 			$dia=date("w", mktime(0,0,0,$fecha1[1],$fecha1[2]+$q,$fecha1[0]));
 			$date[$q][0]=$dias[$dia].", ".date("Y-m-d", mktime(0,0,0,$fecha1[1],$fecha1[2]+$q,$fecha1[0]));
+			if($dias[$dia]=="Sabado" || $dias[$dia]=="Domingo"){
+				for($io=0;$io<$k;$io++){
+					if($date[$q][($io+1)]!=null)
+						$si++;
+				}
+				if($si==0){
+					/*akiAñade*/$date[$q][0]=null;
+				}
+				$si=0;
+			}
 		}
+		$i=0;/*
+		echo"<pre>";
+		print_r($date);
+		echo"</pre>";*/
 		?>
 		<input type="hidden" name="cadtxs" id="cadtxs" value="<?=$cadtxs?>">
 		<table id="mytabla" class="tablita" cellspacing="1" cellpadding="1" border="0" style="font-size: 10px;margin: 5px; text-align: center;border: 1px solid #000;">
@@ -186,29 +199,34 @@
 				}?>
 			</tr>
 		<?for($j=0;$j<$filas;$j++){
-			$dpc=explode(",",$date[$j][0]);?>
-			<tr <?if($dpc[0]=="Sabado" || $dpc[0]=="Domingo"){echo"class='cabeza'";}else{echo"class='enlace'";}?>>
-			<?for($k=0;$k<($cont+3);$k++){?>
-				<td>
-					<?if($date[$j][$k]==null && $k<$cont){
-						echo($date[$j][$k]=0);
-					}else{
-						echo$date[$j][$k];
-					}
-					$cadtodo=$cadtodo."".$date[$j][$k].",";
-					if($k>=$cont){
-						echo"<input type='text' id='".$j."res".$k."' name='".$j."res".$k."' readonly='' value='' style='width: 60px;' />";
-					}
-					?>
-				</td>
-			<?}
-			$prueba1=$k;
-			$prueba2=$filas;
-			$cadtodo=substr($cadtodo, 0, -2);
-			$cadtodo=$cadtodo."*";
-			$sumaH=0;?>
-			</tr>
-		<?}
+			$dpc=explode(",",$date[$j][0]);
+			/*akiAñade*/if($dpc[0]==null){
+				
+			}else{
+			?>
+				<tr <?if($dpc[0]=="Sabado" || $dpc[0]=="Domingo"){echo"class='cabeza'";}else{echo"class='enlace'";}?>>
+				<?for($k=0;$k<($cont+3);$k++){?>
+					<td>
+						<?if($date[$j][$k]==null && $k<$cont){
+							echo($date[$j][$k]=0);
+						}else{
+							echo$date[$j][$k];
+						}
+						$cadtodo=$cadtodo."".$date[$j][$k].",";
+						if($k>=$cont){
+							echo"<input type='text' id='".$sumaH."res".$k."' name='".$sumaH."res".$k."' readonly='' value='' style='width: 60px;' />";
+						}
+						?>
+					</td>
+				<?}
+				$sumaH++;
+				$prueba1=$k;
+				$prueba2=$filas;
+				$cadtodo=substr($cadtodo, 0, -2);
+				$cadtodo=$cadtodo."*";?>
+				</tr>
+		<?	/*akiAñade*/}
+		}
 		$cadctxs="";$smas=0;$smenos=0;$sscrap=0;$masttxs=0;
 		for($k=1;$k<$cont;$k++){
 			for($j=0;$j<$filas;$j++){
@@ -275,7 +293,7 @@
 			</tr>
 		</table>
 		<input type="text" name="txtTotalColumnas" id="txtTotalColumnas" value="<?=$prueba1;?>">
-		<input type="text" name="txtFilasTotales" id="txtFilasTotales" value="<?=$prueba2;?>">
+		<input type="text" name="txtFilasTotales" id="txtFilasTotales">
 		<?
 	}
 		public function armaDetalleMatriz($noEmpleado,$fecha1,$fecha2,$idActividad){

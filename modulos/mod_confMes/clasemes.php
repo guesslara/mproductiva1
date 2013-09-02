@@ -249,7 +249,7 @@ class mes{
     public function consultar_mes(){    
 	$seleccion="select * from CAP_MES";
 	$ejesele=mysql_query($seleccion,$this->conectarBd()) or die(mysql_error());	
-?>	<div id="Buscar" style="border:1px solid #000000; width: 800px; height: 50px;margin: 10px auto 10px auto;"><table><tr>
+?>	<div id="Buscar" style="border:1px solid #BDBDBD; width: 800px; height: 50px;margin: 10px auto 10px auto;"><table><tr>
 	<td>Nº Empleado:<input type="text" name="noempleado" id="noempleado" size="5" /></td><td><label>Nombres</label><input type="text" name="nombres" size="15" id="nombres";/></td><td><label>Mes:</label> <select  name="mes" id="mes" >
                     <option value="undefined">Seleccione un Mes</option>
                     <option value="01">Enero</option>

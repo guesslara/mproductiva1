@@ -104,9 +104,9 @@ html,document,body{margin:0;height:100%; width:100%;position:absolute;}
         	</div>
             <br />
             <div id="titulosPerfil">
-            	<div class="enlacesPerfil" onclick="verPerfil('<?=$_SESSION['id_usuario_nx'];?>')">Ver informaci&oacute;n &raquo;</div>
-	        	<!--<div class="enlacesPerfil" onclick="cambiarImagen('<?=$_SESSION['id_usuario_req'];?>')">Cambiar mi Imagen</div>-->
-				<div class="enlacesPerfil" onclick="cambiarPass('<?=$_SESSION['id_usuario_nx'];?>')">Cambiar contrase&ntilde;a &raquo;</div>
+            	<div class="enlacesPerfil" onclick="verPerfil('<?=$_SESSION[$txtApp['session']['idUsuario']];?>')">Ver informaci&oacute;n &raquo;</div>
+	        	<!--<div class="enlacesPerfil" onclick="cambiarImagen('<?=$_SESSION[$txtApp['session']['idUsuario']];?>')">Cambiar mi Imagen</div>-->
+				<div class="enlacesPerfil" onclick="cambiarPass('<?=$_SESSION[$txtApp['session']['idUsuario']];?>')">Cambiar contrase&ntilde;a &raquo;</div>
         	</div>
             <br /><hr color="#CCC" /><br />
             <div id="titulosPerfil">

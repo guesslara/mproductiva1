@@ -194,7 +194,8 @@ function catalogo_update(c,pre){
                      }
                      if (sql_valores==""){
                             sql_valores=campos[i2]+"|||"+valores[i2];
-			    //alert(sql_valores); exit;
+			   // alert(sql_valores); exit;
+		
 		     } else {
                             sql_valores+="@@@"+campos[i2]+"|||"+valores[i2];
 			      //alert(sql_valores); exit;
